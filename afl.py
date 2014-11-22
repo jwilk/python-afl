@@ -40,7 +40,7 @@ def trace(frame, event, arg):
     global prev_location
     path = frame.f_code.co_filename
     if MAP_SIZE is None:
-        # Destructor? Oh well.
+        # Module cleanup? Oh well.
         return
     location = hash((path, frame.f_lineno)) % MAP_SIZE
     offset = location ^ prev_location
