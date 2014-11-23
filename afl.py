@@ -18,13 +18,12 @@
 American fuzzy lop instrumentation for Python
 '''
 
+import ctypes
 import os
 import signal
 import struct
 import sys
 import warnings
-
-import sysv_ipc
 
 # These constants must be kept in sync with afl-fuzz:
 SHM_ENV_VAR = '__AFL_SHM_ID'
@@ -32,6 +31,10 @@ EXEC_FAIL = 0x55
 FORKSRV_FD = 198
 MAP_SIZE_POW2 = 14
 MAP_SIZE = 1 << MAP_SIZE_POW2
+
+shmat = ctypes.CDLL(None).shmat
+shmat.argtypes = [ctypes.c_int, ctypes.c_void_p, ctypes.c_int]
+shmat.restype = ctypes.POINTER(ctypes.c_ubyte)
 
 class AflError(Exception):
     pass
@@ -44,10 +47,7 @@ def trace(frame, event, arg):
         return
     location = hash((path, frame.f_lineno)) % MAP_SIZE
     offset = location ^ prev_location
-    b = afl_area.read(1, offset)
-    b = bytes([(ord(b) + 1) & 0xFF])
-    afl_area.write(b, offset)
-    prev_location = location
+    afl_area[offset] += 1
     if event == 'call' and (path.startswith('<') or path.startswith('/usr/lib/python')):
         # Skip globally-installed Python modules.
         # Instrumenting everything would make fuzzing awfully slow.
@@ -68,7 +68,7 @@ def start():
     if os.getenv('PYTHONHASHSEED', '') != '0':
         raise RuntimeError('PYTHONHASHSEED != 0')
     afl_shm_id = int(afl_shm_id)
-    afl_area = sysv_ipc.attach(afl_shm_id)
+    afl_area = shmat(afl_shm_id, None, 0)
     os.write(FORKSRV_FD + 1, b'\0\0\0\0')
     while 1:
         if not os.read(FORKSRV_FD, 4):
