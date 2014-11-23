@@ -14,7 +14,7 @@ HOWTO
 
       $ export PYTHONHASHSEED=0
 
-* ``afl-fuzz`` doesn't like fuzzing scripts, so you have to use::
+* *afl-fuzz* doesn't like fuzzing scripts, so you have to use::
 
       afl-fuzz [options] -- python /path/to/script
 
