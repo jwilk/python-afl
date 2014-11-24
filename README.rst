@@ -16,11 +16,11 @@ HOWTO
 
 * *afl-fuzz* doesn't like fuzzing scripts, so you have to use::
 
-      afl-fuzz [options] -- python /path/to/script
+      $ afl-fuzz [options] -- python /path/to/script
 
   instead of::
 
-      afl-fuzz [options] -- /path/to/script
+      $ afl-fuzz [options] -- /path/to/script
 
 .. _American fuzzy lop: http://lcamtuf.coredump.cx/afl/
 
