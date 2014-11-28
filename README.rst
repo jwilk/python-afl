@@ -1,5 +1,5 @@
-This is experimental code that enables
-`American fuzzy lop`_ instrumentation of Python modules.
+This is experimental module that enables
+`American fuzzy lop`_ instrumentation of Python code.
 
 HOWTO
 -----
