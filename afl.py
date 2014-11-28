@@ -27,7 +27,6 @@ import warnings
 
 # These constants must be kept in sync with afl-fuzz:
 SHM_ENV_VAR = '__AFL_SHM_ID'
-EXEC_FAIL = 0x55
 FORKSRV_FD = 198
 MAP_SIZE_POW2 = 14
 MAP_SIZE = 1 << MAP_SIZE_POW2
