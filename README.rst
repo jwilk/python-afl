@@ -20,7 +20,7 @@ HOWTO
 
 * Run *afl-fuzz* as usual::
 
-      $ afl-fuzz [options] -- /path/to/python/script
+      $ afl-fuzz [options] -- /path/to/fuzzed/python/script [...]
 
 .. _American fuzzy lop: http://lcamtuf.coredump.cx/afl/
 
