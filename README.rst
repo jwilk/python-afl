@@ -14,13 +14,13 @@ HOWTO
 
       $ export PYTHONHASHSEED=0
 
-* *afl-fuzz* doesn't like fuzzing scripts, so you have to use::
+* Disable checks to detect instrumented binaries::
 
-      $ afl-fuzz [options] -- python /path/to/script
+      $ export AFL_SKIP_CHECKS=1
 
-  instead of::
+* Run *afl-fuzz* as usual::
 
-      $ afl-fuzz [options] -- /path/to/script
+      $ afl-fuzz [options] -- /path/to/python/script
 
 .. _American fuzzy lop: http://lcamtuf.coredump.cx/afl/
 
