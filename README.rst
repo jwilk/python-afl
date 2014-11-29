@@ -10,7 +10,7 @@ HOWTO
       import afl
       afl.start()
 
-* Disable has randomization::
+* Disable hash randomization::
 
       $ export PYTHONHASHSEED=0
 
