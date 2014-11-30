@@ -18,7 +18,6 @@
 American fuzzy lop instrumentation for Python
 '''
 
-import ctypes
 import os
 import signal
 import struct
@@ -26,25 +25,26 @@ import sys
 import warnings
 
 # These constants must be kept in sync with afl-fuzz:
-SHM_ENV_VAR = '__AFL_SHM_ID'
-FORKSRV_FD = 198
-MAP_SIZE_POW2 = 15
-MAP_SIZE = 1 << MAP_SIZE_POW2
+DEF SHM_ENV_VAR = '__AFL_SHM_ID'
+DEF FORKSRV_FD = 198
+DEF MAP_SIZE_POW2 = 15
+DEF MAP_SIZE = 1 << MAP_SIZE_POW2
 
-shmat = ctypes.CDLL(None).shmat
-shmat.argtypes = [ctypes.c_int, ctypes.c_void_p, ctypes.c_int]
-shmat.restype = ctypes.POINTER(ctypes.c_ubyte)
+cdef extern from 'sys/shm.h':
+    unsigned char *shmat(int shmid, void *shmaddr, int shmflg)
+
+cdef unsigned char *afl_area = NULL
+cdef unsigned long prev_location = 0
 
 class AflError(Exception):
     pass
 
 def trace(frame, event, arg):
     global prev_location
+    cdef unsigned long location, offset
     path = frame.f_code.co_filename
-    if MAP_SIZE is None:
-        # Module cleanup? Oh well.
-        return
-    location = hash((path, frame.f_lineno)) % MAP_SIZE
+    location = hash((path, frame.f_lineno))
+    location %= MAP_SIZE
     offset = location ^ prev_location
     prev_location = location
     afl_area[offset] += 1
@@ -68,7 +68,7 @@ def start():
     if os.getenv('PYTHONHASHSEED', '') != '0':
         raise RuntimeError('PYTHONHASHSEED != 0')
     afl_shm_id = int(afl_shm_id)
-    afl_area = shmat(afl_shm_id, None, 0)
+    afl_area = shmat(afl_shm_id, NULL, 0)
     os.write(FORKSRV_FD + 1, b'\0\0\0\0')
     while 1:
         if not os.read(FORKSRV_FD, 4):
@@ -83,8 +83,6 @@ def start():
         os.write(FORKSRV_FD + 1, struct.pack('I', status))
     os.close(FORKSRV_FD)
     os.close(FORKSRV_FD + 1)
-    global prev_location
-    prev_location = 0
     sys.excepthook = excepthook
     sys.settrace(trace)
 
