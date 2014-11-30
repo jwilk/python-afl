@@ -1,0 +1,4 @@
+#!/bin/sh
+export PYTHONHASHSEED=0
+export AFL_SKIP_CHECKS=1
+exec afl-fuzz "$@"

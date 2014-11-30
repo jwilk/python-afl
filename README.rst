@@ -10,17 +10,9 @@ HOWTO
       import afl
       afl.start()
 
-* Disable hash randomization::
+* Use *py-afl-fuzz* instead of *afl-fuzz*::
 
-      $ export PYTHONHASHSEED=0
-
-* Disable checks to detect instrumented binaries::
-
-      $ export AFL_SKIP_CHECKS=1
-
-* Run *afl-fuzz* as usual::
-
-      $ afl-fuzz [options] -- /path/to/fuzzed/python/script [...]
+      $ py-afl-fuzz [options] -- /path/to/fuzzed/python/script [...]
 
 .. _American fuzzy lop: http://lcamtuf.coredump.cx/afl/
 
