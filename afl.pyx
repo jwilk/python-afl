@@ -84,7 +84,8 @@ def start():
     os.close(FORKSRV_FD)
     os.close(FORKSRV_FD + 1)
     sys.excepthook = excepthook
-    sys.settrace(trace)
+    if not os.getenv('PYTHON_AFL_DUMB'):
+        sys.settrace(trace)
 
 __all__ = ['start']
 

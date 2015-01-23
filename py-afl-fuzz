@@ -2,5 +2,11 @@
 export PYTHONHASHSEED=0
 export AFL_SKIP_CHECKS=1 # AFL << 1.20b
 export AFL_SKIP_BIN_CHECK=1 # AFL >= 1.20b
-export AFL_DUMB_FORKSRV=1
+if [ -n "$PYTHON_AFL_DUMB" ]
+then
+    export AFL_DUMB_FORKSRV=1
+    set -- -n "$@"	
+fi
 exec afl-fuzz "$@"
+
+# vim:ts=4 sts=4 sw=4 et
