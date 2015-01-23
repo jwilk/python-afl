@@ -1,5 +1,5 @@
 This is experimental module that enables
-`American fuzzy lop`_ instrumentation of Python code.
+`American fuzzy lop`_ fork server and instrumentation for Python code.
 
 HOWTO
 -----
