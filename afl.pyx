@@ -84,7 +84,7 @@ def start():
         warnings.warn('no AFL environment')
         return
     if os.getenv('PYTHONHASHSEED', '') != '0':
-        raise RuntimeError('PYTHONHASHSEED != 0')
+        raise AflError('PYTHONHASHSEED != 0')
     afl_shm_id = int(afl_shm_id)
     afl_area = shmat(afl_shm_id, NULL, 0)
     try:
@@ -113,6 +113,6 @@ def start():
     if not os.getenv('PYTHON_AFL_DUMB'):
         sys.settrace(trace)
 
-__all__ = ['start']
+__all__ = ['start', 'AflError']
 
 # vim:ts=4 sts=4 sw=4 et
