@@ -65,14 +65,13 @@ def trace(frame, event, arg):
 
 cdef int except_signal_id = 0
 cdef object except_signal_name
-except_signal_name = os.getenv('PYTHON_AFL_SIGNAL', 'SIGUSR1')
-if except_signal_name:
-    if except_signal_name.isdigit():
-        except_signal_id = int(except_signal_name)
-    else:
-        if except_signal_name[:3] != 'SIG':
-            except_signal_name = 'SIG' + except_signal_name
-        except_signal_id = getattr(signal, except_signal_name)
+except_signal_name = os.getenv('PYTHON_AFL_SIGNAL', 'SIGUSR1') or '0'
+if except_signal_name.isdigit():
+    except_signal_id = int(except_signal_name)
+else:
+    if except_signal_name[:3] != 'SIG':
+        except_signal_name = 'SIG' + except_signal_name
+    except_signal_id = getattr(signal, except_signal_name)
 
 def excepthook(tp, value, traceback):
     os.kill(os.getpid(), except_signal_id)
