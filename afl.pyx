@@ -30,6 +30,8 @@ DEF FORKSRV_FD = 198
 DEF MAP_SIZE_POW2 = 15
 DEF MAP_SIZE = 1 << MAP_SIZE_POW2
 
+from libc cimport errno
+
 cdef extern from 'sys/shm.h':
     unsigned char *shmat(int shmid, void *shmaddr, int shmflg)
 
@@ -60,6 +62,7 @@ def excepthook(tp, value, traceback):
     os.kill(os.getpid(), signal.SIGUSR1)
 
 def start():
+    cdef int use_forkserver = 1
     global afl_area
     afl_shm_id = os.getenv(SHM_ENV_VAR)
     if afl_shm_id is None:
@@ -69,8 +72,14 @@ def start():
         raise RuntimeError('PYTHONHASHSEED != 0')
     afl_shm_id = int(afl_shm_id)
     afl_area = shmat(afl_shm_id, NULL, 0)
-    os.write(FORKSRV_FD + 1, b'\0\0\0\0')
-    while 1:
+    try:
+        os.write(FORKSRV_FD + 1, b'\0\0\0\0')
+    except OSError as exc:
+        if exc.errno == errno.EBADF:
+            use_forkserver = 0
+        else:
+            raise
+    while use_forkserver:
         if not os.read(FORKSRV_FD, 4):
             sys.exit()
         pid = os.fork()
@@ -81,8 +90,9 @@ def start():
         os.write(FORKSRV_FD + 1, struct.pack('I', pid))
         (pid, status) = os.waitpid(pid, os.WUNTRACED)
         os.write(FORKSRV_FD + 1, struct.pack('I', status))
-    os.close(FORKSRV_FD)
-    os.close(FORKSRV_FD + 1)
+    if use_forkserver:
+        os.close(FORKSRV_FD)
+        os.close(FORKSRV_FD + 1)
     sys.excepthook = excepthook
     if not os.getenv('PYTHON_AFL_DUMB'):
         sys.settrace(trace)
