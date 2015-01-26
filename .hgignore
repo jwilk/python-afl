@@ -1,3 +1,6 @@
 syntax: glob
+*.c
+*.o
 *.pyc
+*.so
 secret/
