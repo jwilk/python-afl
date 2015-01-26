@@ -57,9 +57,19 @@ def trace(frame, event, arg):
         return
     return trace
 
+cdef int except_signal_id = 0
+cdef object except_signal_name
+except_signal_name = os.getenv('PYTHON_AFL_SIGNAL', 'SIGUSR1')
+if except_signal_name:
+    if except_signal_name.isdigit():
+        except_signal_id = int(except_signal_name)
+    else:
+        if except_signal_name[:3] != 'SIG':
+            except_signal_name = 'SIG' + except_signal_name
+        except_signal_id = getattr(signal, except_signal_name)
+
 def excepthook(tp, value, traceback):
-    # TODO: Make the signal configurable.
-    os.kill(os.getpid(), signal.SIGUSR1)
+    os.kill(os.getpid(), except_signal_id)
 
 def start():
     cdef int use_forkserver = 1
@@ -93,7 +103,8 @@ def start():
     if use_forkserver:
         os.close(FORKSRV_FD)
         os.close(FORKSRV_FD + 1)
-    sys.excepthook = excepthook
+    if except_signal_id != 0:
+        sys.excepthook = excepthook
     if not os.getenv('PYTHON_AFL_DUMB'):
         sys.settrace(trace)
 
