@@ -54,7 +54,7 @@ def trace(frame, event, arg):
     location = hash((path, frame.f_lineno))
     location %= MAP_SIZE
     offset = location ^ prev_location
-    prev_location = location
+    prev_location = location // 2
     afl_area[offset] += 1
     if event == 'call' and (path.startswith('<') or path.startswith('/usr/lib/python')):
         # Skip globally-installed Python modules.
