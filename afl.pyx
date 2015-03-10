@@ -36,6 +36,7 @@ DEF FORKSRV_FD = 198
 DEF MAP_SIZE_POW2 = 16
 DEF MAP_SIZE = 1 << MAP_SIZE_POW2
 
+from cpython.exc cimport PyErr_SetFromErrno
 from libc cimport errno
 
 cdef extern from 'sys/shm.h':
@@ -83,6 +84,8 @@ def start():
         raise AflError('PYTHONHASHSEED != 0')
     afl_shm_id = int(afl_shm_id)
     afl_area = shmat(afl_shm_id, NULL, 0)
+    if afl_area == <void*> -1:
+        PyErr_SetFromErrno(OSError)
     try:
         os.write(FORKSRV_FD + 1, b'\0\0\0\0')
     except OSError as exc:
