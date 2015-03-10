@@ -19,7 +19,7 @@ HOWTO
 Environment variables
 ---------------------
 
-The following environment variables affect the *afl* module's behavior:
+The following environment variables affect *python-afl* behavior:
 
 ``PYTHON_AFL_SIGNAL``
 
