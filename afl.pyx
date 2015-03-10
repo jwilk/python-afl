@@ -56,11 +56,7 @@ def trace(frame, event, arg):
     offset = location ^ prev_location
     prev_location = location // 2
     afl_area[offset] += 1
-    if event == 'call' and (path.startswith('<') or path.startswith('/usr/lib/python')):
-        # Skip globally-installed Python modules.
-        # Instrumenting everything would make fuzzing awfully slow.
-        # TODO: Make it configurable which modules are instrumented, and which are not.
-        return
+    # TODO: make it configurable which modules are instrumented, and which are not
     return trace
 
 cdef int except_signal_id = 0
