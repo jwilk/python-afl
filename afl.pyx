@@ -51,8 +51,7 @@ class AflError(Exception):
 def trace(frame, event, arg):
     global prev_location
     cdef unsigned long location, offset
-    path = frame.f_code.co_filename
-    location = hash((path, frame.f_lineno))
+    location = hash((frame.f_code.co_filename, frame.f_lineno))
     location %= MAP_SIZE
     offset = location ^ prev_location
     prev_location = location // 2
