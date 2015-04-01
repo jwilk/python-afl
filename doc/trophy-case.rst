@@ -22,3 +22,22 @@ PyPDF2_
  | https://github.com/mstamy2/PyPDF2/issues/184
 
 .. _PyPDF2: https://mstamy2.github.io/PyPDF2/
+
+enzyme_
+-------
+ | https://github.com/Diaoul/enzyme/issues/9
+ | https://github.com/Diaoul/enzyme/issues/10
+ | https://github.com/Diaoul/enzyme/issues/11
+ | https://github.com/Diaoul/enzyme/issues/12
+ | https://github.com/Diaoul/enzyme/issues/13
+ | https://github.com/Diaoul/enzyme/issues/14
+ | https://github.com/Diaoul/enzyme/issues/15
+ | https://github.com/Diaoul/enzyme/issues/16
+ | https://github.com/Diaoul/enzyme/issues/17
+ | https://github.com/Diaoul/enzyme/issues/18
+ | https://github.com/Diaoul/enzyme/issues/19
+ | https://github.com/Diaoul/enzyme/issues/20
+ | https://github.com/Diaoul/enzyme/issues/21
+ | https://github.com/Diaoul/enzyme/issues/22
+
+.. _enzyme: https://github.com/Diaoul/enzyme
