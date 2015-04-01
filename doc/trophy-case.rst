@@ -3,8 +3,8 @@ The bug-o-rama trophy case
 
 The following bugs were found with help of *python-afl*:
 
-i18nspector
------------
+i18nspector_
+------------
 Multiple bugs in the plural expression parser:
 
  | https://bitbucket.org/jwilk/i18nspector/commits/9bc2165dcd95
@@ -15,6 +15,10 @@ Multiple bugs in the plural expression parser:
  | https://bitbucket.org/jwilk/i18nspector/commits/8e5f3709da8d
  | https://bitbucket.org/jwilk/i18nspector/commits/18f9b9e29c7a
 
-PyPDF2
-------
+.. _i18nspector: http://jwilk.net/software/i18nspector
+
+PyPDF2_
+-------
  | https://github.com/mstamy2/PyPDF2/issues/184
+
+.. _PyPDF2: https://mstamy2.github.io/PyPDF2/
