@@ -3,6 +3,7 @@ import Cython.Build as cython_build
 
 distutils_core.setup(
     name='python-afl',
+    version='0.1',
     ext_modules=cython_build.cythonize('afl.pyx'),
 )
 
