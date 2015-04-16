@@ -4,4 +4,5 @@ syntax: glob
 *.pyc
 *.so
 MANIFEST
+dist/
 secret/
