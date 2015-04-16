@@ -1,5 +1,5 @@
-python-afl (0.1) UNRELEASED; urgency=low
+python-afl (0.1) unstable; urgency=low
 
   * Initial release.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Sun, 11 Nov 2012 16:22:46 +0100
+ -- Jakub Wilk <jwilk@jwilk.net>  Fri, 17 Apr 2015 00:15:16 +0200
