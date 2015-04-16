@@ -1,6 +1,8 @@
 This is experimental module that enables
 `American fuzzy lop`_ fork server and instrumentation for Python code.
 
+.. _American fuzzy lop: http://lcamtuf.coredump.cx/afl/
+
 HOWTO
 -----
 
@@ -13,8 +15,6 @@ HOWTO
 * Use *py-afl-fuzz* instead of *afl-fuzz*::
 
       $ py-afl-fuzz [options] -- /path/to/fuzzed/python/script [...]
-
-.. _American fuzzy lop: http://lcamtuf.coredump.cx/afl/
 
 Environment variables
 ---------------------
