@@ -1,0 +1,7 @@
+exclude *.c
+include *.pyx
+include MANIFEST.in
+include README.rst
+include doc/*
+include py-afl-*
+include test.py
