@@ -12,6 +12,13 @@ HOWTO
       import afl
       afl.start()
 
+* Optionally, add this code at the end of the target program::
+
+      os._exit(0)
+
+  This should speed up fuzzing considerably,
+  at the risk of not catching bugs that could happen during normal exit.
+
 * Use *py-afl-fuzz* instead of *afl-fuzz*::
 
       $ py-afl-fuzz [options] -- /path/to/fuzzed/python/script [...]
