@@ -1,4 +1,4 @@
-python-afl (0.2) UNRELEASED; urgency=low
+python-afl (0.2) unstable; urgency=low
 
   * Automatically disable instrumentation when the -n option is provided.
     Setting the PYTHON_AFL_DUMB environment variable is no longer needed.
@@ -6,7 +6,7 @@ python-afl (0.2) UNRELEASED; urgency=low
   * Update the module description to stress that it's dedicated for
     pure-Python code.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Mon, 27 Apr 2015 19:23:24 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Mon, 27 Apr 2015 19:31:08 +0200
 
 python-afl (0.1) unstable; urgency=low
 
