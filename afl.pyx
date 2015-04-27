@@ -75,16 +75,8 @@ def excepthook(tp, value, traceback):
 def start():
     cdef int use_forkserver = 1
     global afl_area
-    afl_shm_id = os.getenv(SHM_ENV_VAR)
-    if afl_shm_id is None:
-        warnings.warn('no AFL environment')
-        return
     if os.getenv('PYTHONHASHSEED', '') != '0':
         raise AflError('PYTHONHASHSEED != 0')
-    afl_shm_id = int(afl_shm_id)
-    afl_area = shmat(afl_shm_id, NULL, 0)
-    if afl_area == <void*> -1:
-        PyErr_SetFromErrno(OSError)
     try:
         os.write(FORKSRV_FD + 1, b'\0\0\0\0')
     except OSError as exc:
@@ -108,8 +100,14 @@ def start():
         os.close(FORKSRV_FD + 1)
     if except_signal_id != 0:
         sys.excepthook = excepthook
-    if not os.getenv('PYTHON_AFL_DUMB'):
-        sys.settrace(trace)
+    afl_shm_id = os.getenv(SHM_ENV_VAR)
+    if afl_shm_id is None:
+        return
+    afl_shm_id = int(afl_shm_id)
+    afl_area = shmat(afl_shm_id, NULL, 0)
+    if afl_area == <void*> -1:
+        PyErr_SetFromErrno(OSError)
+    sys.settrace(trace)
 
 __all__ = ['start', 'AflError']
 
