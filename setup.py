@@ -22,7 +22,7 @@
 
 '''
 *python-afl* is an experimental module that enables
-`American fuzzy lop`_ fork server and instrumentation for Python code.
+`American fuzzy lop`_ fork server and instrumentation for pure-Python code.
 
 .. _American fuzzy lop: http://lcamtuf.coredump.cx/afl/
 '''
@@ -51,7 +51,7 @@ distutils_core.setup(
     name='python-afl',
     version=get_version(),
     license='MIT',
-    description='American fuzzy lop fork server and instrumentation for Python code',
+    description='American fuzzy lop fork server and instrumentation for pure-Python code',
     long_description=__doc__.strip(),
     classifiers=classifiers,
     url='http://jwilk.net/software/python-afl',

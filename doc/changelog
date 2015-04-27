@@ -3,8 +3,10 @@ python-afl (0.2) UNRELEASED; urgency=low
   * Automatically disable instrumentation when the -n option is provided.
     Setting the PYTHON_AFL_DUMB environment variable is no longer needed.
     Thanks to Michal Zalewski for the hint how to implement this feature.
+  * Update the module description to stress that it's dedicated for
+    pure-Python code.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Mon, 27 Apr 2015 18:24:22 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Mon, 27 Apr 2015 19:23:24 +0200
 
 python-afl (0.1) unstable; urgency=low
 

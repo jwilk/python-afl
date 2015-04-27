@@ -21,7 +21,7 @@
 # SOFTWARE.
 
 '''
-American fuzzy lop instrumentation for Python
+American fuzzy lop fork server and instrumentation for pure-Python code
 '''
 
 import os
