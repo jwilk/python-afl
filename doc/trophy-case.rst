@@ -48,3 +48,10 @@ PyASN.1_
  | https://github.com/pyca/cryptography/issues/1838
 
 .. _PyASN.1: http://pyasn1.sourceforge.net/
+
+gunicorn_
+---------
+
+ | https://github.com/benoitc/gunicorn/issues/1023
+
+.. _gunicorn: http://gunicorn.org/
