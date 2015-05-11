@@ -55,3 +55,10 @@ gunicorn_
  | https://github.com/benoitc/gunicorn/issues/1023
 
 .. _gunicorn: http://gunicorn.org/
+
+dateutil_
+---------
+
+ | https://github.com/dateutil/dateutil/issues/82
+
+.. _dateutil: https://pypi.python.org/pypi/python-dateutil/
