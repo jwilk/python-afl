@@ -1,18 +1,20 @@
 language: python
 python:
- - "2.6"
- - "2.7"
- - "3.2"
- - "3.3"
- - "3.4"
+- "2.6"
+- "2.7"
+- "3.2"
+- "3.3"
+- "3.4"
 before_install:
- - echo 'deb http://httpredir.debian.org/debian unstable main' | sudo tee -a /etc/apt/sources.list
- - sudo apt-get update
- - sudo apt-get install --no-install-recommends --allow-unauthenticated afl
+- echo 'deb http://httpredir.debian.org/debian unstable main' | sudo tee -a /etc/apt/sources.list
+- sudo apt-get update
+- sudo apt-get install --no-install-recommends --allow-unauthenticated afl
 install:
- - pip install cython
+- pip install cython
 script:
- - python setup.py build_ext --inplace
- - echo 0 | ./py-afl-showmap -q -o out0 python test.py
- - echo 1 | ./py-afl-showmap -q -o out1 python test.py
- - '! diff -u out0 out1'
+- python setup.py build_ext --inplace
+- echo 0 | ./py-afl-showmap -q -o out0 python test.py
+- echo 1 | ./py-afl-showmap -q -o out1 python test.py
+- '! diff -u out0 out1'
+
+# vim:ts=2 sts=2 sw=2 et
