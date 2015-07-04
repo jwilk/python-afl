@@ -3,8 +3,8 @@ The bug-o-rama trophy case
 
 The following bugs were found with help of *python-afl*:
 
-i18nspector_
-------------
+i18nspector__
+-------------
 Multiple bugs in the plural expression parser:
 
  | https://bitbucket.org/jwilk/i18nspector/commits/9bc2165dcd95
@@ -15,16 +15,16 @@ Multiple bugs in the plural expression parser:
  | https://bitbucket.org/jwilk/i18nspector/commits/8e5f3709da8d
  | https://bitbucket.org/jwilk/i18nspector/commits/18f9b9e29c7a
 
-.. _i18nspector: http://jwilk.net/software/i18nspector
+.. __: http://jwilk.net/software/i18nspector
 
-PyPDF2_
--------
+PyPDF2__
+--------
  | https://github.com/mstamy2/PyPDF2/issues/184
 
-.. _PyPDF2: https://mstamy2.github.io/PyPDF2/
+.. __: https://mstamy2.github.io/PyPDF2/
 
-enzyme_
--------
+enzyme__
+--------
  | https://github.com/Diaoul/enzyme/issues/9
  | https://github.com/Diaoul/enzyme/issues/10
  | https://github.com/Diaoul/enzyme/issues/11
@@ -40,25 +40,25 @@ enzyme_
  | https://github.com/Diaoul/enzyme/issues/21
  | https://github.com/Diaoul/enzyme/issues/22
 
-.. _enzyme: https://github.com/Diaoul/enzyme
+.. __: https://github.com/Diaoul/enzyme
 
-PyASN.1_
---------
+PyASN.1__
+---------
 
  | https://github.com/pyca/cryptography/issues/1838
 
-.. _PyASN.1: http://pyasn1.sourceforge.net/
+.. __: http://pyasn1.sourceforge.net/
 
-gunicorn_
----------
+gunicorn__
+----------
 
  | https://github.com/benoitc/gunicorn/issues/1023
 
-.. _gunicorn: http://gunicorn.org/
+.. __: http://gunicorn.org/
 
-dateutil_
----------
+dateutil__
+----------
 
  | https://github.com/dateutil/dateutil/issues/82
 
-.. _dateutil: https://pypi.python.org/pypi/python-dateutil/
+.. __: https://pypi.python.org/pypi/python-dateutil/
