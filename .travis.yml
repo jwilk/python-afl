@@ -11,10 +11,12 @@ before_install:
 - sudo apt-get install --no-install-recommends --allow-unauthenticated afl
 install:
 - pip install cython
+- pip install docutils
 script:
 - python setup.py build_ext --inplace
 - echo 0 | ./py-afl-showmap -q -o out0 python test.py
 - echo 1 | ./py-afl-showmap -q -o out1 python test.py
 - '! diff -u out0 out1'
+- find -name "*.rst" -print -exec rst2pseudoxml.py --strict {} /dev/null ";"
 
 # vim:ts=2 sts=2 sw=2 et
