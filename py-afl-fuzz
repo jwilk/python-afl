@@ -6,7 +6,7 @@ export AFL_DUMB_FORKSRV=1
 if [ -n "$PYTHON_AFL_DUMB" ]
 then
     printf '%s: $PYTHON_AFL_DUMB is deprecated; use -n instead\n' "$(basename "$0")" >&2
-    set -- -n "$@"	
+    set -- -n "$@"
 fi
 exec afl-fuzz "$@"
 
