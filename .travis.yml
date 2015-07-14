@@ -13,9 +13,9 @@ install:
 - pip install cython
 - pip install docutils
 script:
-- python setup.py build_ext --inplace
-- echo 0 | ./py-afl-showmap -q -o out0 python test.py
-- echo 1 | ./py-afl-showmap -q -o out1 python test.py
+- python setup.py install
+- echo 0 | py-afl-showmap -q -o out0 python test.py
+- echo 1 | py-afl-showmap -q -o out1 python test.py
 - '! diff -u out0 out1'
 - find -name "*.rst" | xargs -L1 -t -I{} rst2xml.py --strict {} /dev/null
 
