@@ -5,15 +5,16 @@ python:
 - "3.2"
 - "3.3"
 - "3.4"
-before_install:
-- echo 'deb http://httpredir.debian.org/debian unstable main' | sudo tee -a /etc/apt/sources.list
-- sudo apt-get update
-- sudo apt-get install --no-install-recommends --allow-unauthenticated afl
 install:
+- mkdir deps
+- wget http://lcamtuf.coredump.cx/afl/releases/afl-latest.tgz -O deps/afl.tar.gz
+- tar -xvzf deps/afl.tar.gz -C deps/
+- make -C deps/afl-*/ install PREFIX="$PWD/deps"
 - pip install cython
 - pip install docutils
 script:
 - python setup.py install
+- export PATH="$PWD/deps/bin:$PATH"
 - echo 0 | py-afl-showmap -q -o out0 python test.py
 - echo 1 | py-afl-showmap -q -o out1 python test.py
 - '! diff -u out0 out1'
