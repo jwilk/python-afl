@@ -1,3 +1,9 @@
+python-afl (0.2.2) UNRELEASED; urgency=low
+
+  * 
+
+ -- Jakub Wilk <jwilk@jwilk.net>  Tue, 14 Jul 2015 20:25:06 +0200
+
 python-afl (0.2.1) unstable; urgency=low
 
   * Make the setup script install the py-afl-fuzz and py-afl-showmap binaries.
