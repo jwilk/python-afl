@@ -45,9 +45,6 @@ cdef extern from 'sys/shm.h':
 cdef unsigned char *afl_area = NULL
 cdef unsigned long prev_location = 0
 
-class AflError(Exception):
-    pass
-
 def trace(frame, event, arg):
     global prev_location
     cdef unsigned long location, offset
@@ -77,8 +74,6 @@ cdef bint persistent_mode = os.getenv('AFL_PERSISTENT')
 def start():
     cdef int use_forkserver = 1
     global afl_area
-    if os.getenv('PYTHONHASHSEED', '') != '0':
-        raise AflError('PYTHONHASHSEED != 0')
     try:
         os.write(FORKSRV_FD + 1, b'\0\0\0\0')
     except OSError as exc:
@@ -136,6 +131,6 @@ def persistent(max=None):
     finally:
         persistent_counter += 1
 
-__all__ = ['start', 'persistent', 'AflError']
+__all__ = ['start', 'persistent']
 
 # vim:ts=4 sts=4 sw=4 et
