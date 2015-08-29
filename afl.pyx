@@ -72,6 +72,14 @@ def excepthook(tp, value, traceback):
 cdef bint persistent_mode = os.getenv('AFL_PERSISTENT')
 
 def start():
+    '''
+    start()
+
+    Start the fork server and enable instrumentation.
+
+    This function should be called as late as possible, but before the input is
+    read, and before any threads are started.
+    '''
     cdef int use_forkserver = 1
     global afl_area
     try:
@@ -118,6 +126,12 @@ def start():
 cdef unsigned long persistent_counter = 0
 
 def persistent(max=None):
+    '''
+    while persistent([max]):
+        ...
+
+    Run the code inside the loop body in persistent mode.
+    '''
     global persistent_counter
     if not persistent_mode:
         max = 1
