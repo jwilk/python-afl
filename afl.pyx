@@ -18,6 +18,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+#cython: autotestdict=False
+
 '''
 American fuzzy lop fork server and instrumentation for pure-Python code
 '''
