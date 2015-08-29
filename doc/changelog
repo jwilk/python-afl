@@ -1,8 +1,8 @@
 python-afl (0.2.2) UNRELEASED; urgency=low
 
-  * 
+  * Implement persistent mode.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Tue, 14 Jul 2015 20:25:06 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Sat, 29 Aug 2015 12:51:33 +0200
 
 python-afl (0.2.1) unstable; urgency=low
 

@@ -72,6 +72,8 @@ else:
 def excepthook(tp, value, traceback):
     os.kill(os.getpid(), except_signal_id)
 
+cdef bint persistent_mode = os.getenv('AFL_PERSISTENT')
+
 def start():
     cdef int use_forkserver = 1
     global afl_area
@@ -84,16 +86,25 @@ def start():
             use_forkserver = 0
         else:
             raise
+    child_stopped = False
     while use_forkserver:
-        if not os.read(FORKSRV_FD, 4):
-            sys.exit()
-        pid = os.fork()
-        if not pid:
-            # child:
-            break
+        [child_killed] = struct.unpack('I', os.read(FORKSRV_FD, 4))
+        if child_stopped and child_killed:
+            if child_killed:
+                os.waitpid(child_pid, 0)
+            child_stopped = False
+        if child_stopped:
+            os.kill(child_pid, signal.SIGCONT)
+            child_stopped = False
+        else:
+            child_pid = os.fork()
+            if not child_pid:
+                # child:
+                break
         # parent:
-        os.write(FORKSRV_FD + 1, struct.pack('I', pid))
-        (pid, status) = os.waitpid(pid, os.WUNTRACED)
+        os.write(FORKSRV_FD + 1, struct.pack('I', child_pid))
+        (child_pid, status) = os.waitpid(child_pid, os.WUNTRACED if persistent_mode else 0)
+        child_stopped = os.WIFSTOPPED(status)
         os.write(FORKSRV_FD + 1, struct.pack('I', status))
     if use_forkserver:
         os.close(FORKSRV_FD)
@@ -109,6 +120,22 @@ def start():
         PyErr_SetFromErrno(OSError)
     sys.settrace(trace)
 
-__all__ = ['start', 'AflError']
+cdef unsigned long persistent_counter = 0
+
+def persistent(max=None):
+    global persistent_counter
+    if not persistent_mode:
+        max = 1
+    elif persistent_counter > 0:
+        os.kill(os.getpid(), signal.SIGSTOP)
+    try:
+        return (
+            max is None or
+            persistent_counter < max
+        )
+    finally:
+        persistent_counter += 1
+
+__all__ = ['start', 'persistent', 'AflError']
 
 # vim:ts=4 sts=4 sw=4 et
