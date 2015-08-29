@@ -1,4 +1,4 @@
-python-afl (0.2.2) UNRELEASED; urgency=low
+python-afl (0.3) UNRELEASED; urgency=low
 
   * Implement persistent mode.
   * Don't verify the value of PYTHONHASHSEED.
@@ -7,7 +7,7 @@ python-afl (0.2.2) UNRELEASED; urgency=low
   * Remove the AflError class. It was only used for PYTHONHASHSEED check.
   * Run Cython only in those setup.py commands that actually build extensions.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Sat, 29 Aug 2015 16:55:46 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Sat, 29 Aug 2015 23:41:49 +0200
 
 python-afl (0.2.1) unstable; urgency=low
 
