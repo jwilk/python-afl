@@ -38,6 +38,20 @@ def get_version():
     with f:
         return f.readline().split()[1].strip('()')
 
+class lazylist(list):
+
+    def __init__(self, obj):
+        self._obj = obj
+
+    def __len__(self):
+        return len(self._obj)
+
+    def __getitem__(self, n):
+        return self._obj[n]
+
+    def __iter__(self):
+        return iter(self._obj)
+
 classifiers = '''
 Development Status :: 2 - Pre-Alpha
 Intended Audience :: Developers
@@ -57,7 +71,7 @@ distutils_core.setup(
     url='http://jwilk.net/software/python-afl',
     author='Jakub Wilk',
     author_email='jwilk@jwilk.net',
-    ext_modules=cython_build.cythonize('afl.pyx'),
+    ext_modules=lazylist(cython_build.cythonize('afl.pyx')),
     scripts=['py-afl-fuzz', 'py-afl-showmap'],
 )
 
