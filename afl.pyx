@@ -19,6 +19,7 @@
 # SOFTWARE.
 
 #cython: autotestdict=False
+#cython: c_string_encoding=default
 
 '''
 American fuzzy lop fork server and instrumentation for pure-Python code
@@ -38,6 +39,9 @@ DEF MAP_SIZE = 1 << MAP_SIZE_POW2
 
 from cpython.exc cimport PyErr_SetFromErrno
 from libc cimport errno
+from libc.string cimport strlen
+from libc.stdint cimport uint32_t
+from libc.stddef cimport size_t
 
 cdef extern from 'sys/shm.h':
     unsigned char *shmat(int shmid, void *shmaddr, int shmflg)
@@ -45,10 +49,28 @@ cdef extern from 'sys/shm.h':
 cdef unsigned char *afl_area = NULL
 cdef unsigned long prev_location = 0
 
+DEF FNV32_INIT = 0x811C9DC5U
+DEF FNV32_PRIME = 0x01000193U
+
+cdef inline uint32_t fnv32a(const char *key, size_t len, size_t offset):
+    # 32-bit Fowler–Noll–Vo hash function
+    cdef uint32_t h = FNV32_INIT
+    while len > 0:
+        h ^= <unsigned char> key[0];
+        h *= FNV32_PRIME
+        len -= 1
+        key += 1
+    while offset > 0:
+        h ^= <unsigned char> offset;
+        h *= FNV32_PRIME
+        offset >>= 8
+    return h
+
 def trace(frame, event, arg):
     global prev_location
     cdef unsigned long location, offset
-    location = hash((frame.f_code.co_filename, frame.f_lineno))
+    cdef const char * filename = frame.f_code.co_filename
+    location = fnv32a(filename, strlen(filename), frame.f_lineno)
     location %= MAP_SIZE
     offset = location ^ prev_location
     prev_location = location // 2

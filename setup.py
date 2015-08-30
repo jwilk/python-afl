@@ -72,7 +72,7 @@ distutils_core.setup(
     author='Jakub Wilk',
     author_email='jwilk@jwilk.net',
     ext_modules=lazylist(cython_build.cythonize('afl.pyx')),
-    scripts=['py-afl-fuzz', 'py-afl-showmap'],
+    scripts=['py-afl-fuzz'],
 )
 
 # vim:ts=4 sts=4 sw=4 et

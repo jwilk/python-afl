@@ -1,13 +1,15 @@
 python-afl (0.3) UNRELEASED; urgency=low
 
   * Implement persistent mode.
-  * Don't verify the value of PYTHONHASHSEED.
-    Having it set is not strictly necessary, although the py-afl-* tools still
-    set it to 0.
-  * Remove the AflError class. It was only used for PYTHONHASHSEED check.
+  * Don't rely on the Python hash() function for computing code location
+    identifiers.
+  * Don't set PYTHONHASHSEED in py-afl-fuzz.
+  * Remove the py-afl-showmap command.
+    afl-showmap proper can be now used for Python code.
+  * Remove the AflError class. It was only used for checking PYTHONHASHSEED.
   * Run Cython only in those setup.py commands that actually build extensions.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Sat, 29 Aug 2015 23:41:49 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Sun, 30 Aug 2015 18:48:52 +0200
 
 python-afl (0.2.1) unstable; urgency=low
 
