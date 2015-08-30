@@ -27,8 +27,8 @@
 .. _American fuzzy lop: http://lcamtuf.coredump.cx/afl/
 '''
 
-import distutils.core as distutils_core
-import Cython.Build as cython_build
+import distutils.core
+import Cython.Build
 
 def get_version():
     try:
@@ -61,7 +61,7 @@ Topic :: Software Development :: Quality Assurance
 Topic :: Software Development :: Testing
 '''.strip().splitlines()
 
-distutils_core.setup(
+distutils.core.setup(
     name='python-afl',
     version=get_version(),
     license='MIT',
@@ -71,7 +71,7 @@ distutils_core.setup(
     url='http://jwilk.net/software/python-afl',
     author='Jakub Wilk',
     author_email='jwilk@jwilk.net',
-    ext_modules=lazylist(cython_build.cythonize('afl.pyx')),
+    ext_modules=lazylist(Cython.Build.cythonize('afl.pyx')),
     scripts=['py-afl-fuzz'],
 )
 
