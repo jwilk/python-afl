@@ -24,9 +24,7 @@ install:
 script:
 - python setup.py install
 - export PATH="$PWD/deps/bin:$PATH"
-- echo 0 | afl-showmap -q -o out0 python test.py
-- echo 1 | afl-showmap -q -o out1 python test.py
-- '! diff -u out0 out1'
+- nosetests --verbose
 - find -name "*.rst" | xargs -L1 -t -I{} rst2xml.py --strict {} /dev/null
 
 # vim:ts=2 sts=2 sw=2 et

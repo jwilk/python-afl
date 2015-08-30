@@ -7,6 +7,7 @@ def main():
     if len(s) < 1:
         print('Hum?')
         sys.exit(1)
+    s.encode('ASCII')
     if s[0] == '0':
         print('Looks like a zero to me!')
     else:
