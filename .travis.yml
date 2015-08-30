@@ -6,8 +6,12 @@ python:
 - "3.3"
 - "3.4"
 - nightly
+env:
+- CYTHON_VERSION=0.19
+- CYTHON_VERSION=
 cache:
   directories:
+  - $HOME/.cache/pip
   - $HOME/.cache
 install:
 - mkdir deps
@@ -15,7 +19,7 @@ install:
 - tar -xvzf deps/afl.tar.gz -C deps/
 - make -C deps/afl-*/ install PREFIX="$PWD/deps"
 - pip install --upgrade pip
-- pip install --verbose cython
+- pip install --verbose cython${CYTHON_VERSION:+==$CYTHON_VERSION}
 - pip install docutils
 script:
 - python setup.py install
