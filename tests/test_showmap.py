@@ -50,7 +50,7 @@ def run(cmd, stdin='', expected_exit_status=0):
     return (stdout, stderr)
 
 def run_afl_showmap(stdin, expected_stdout=None, expected_exit_status=0):
-    tmpdir = tempfile.mkdtemp()
+    tmpdir = tempfile.mkdtemp(prefix='python-afl.')
     outpath = os.path.join(tmpdir, 'out')
     try:
         (stdout, stderr) = run(
