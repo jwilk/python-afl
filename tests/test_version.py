@@ -27,7 +27,7 @@ from nose.tools import assert_equal
 import afl
 
 here = os.path.dirname(__file__)
-docdir = os.path.join(here, os.pardir, 'doc')
+docdir = here + '/../doc'
 
 def uopen(path):
     if str != bytes:
@@ -36,7 +36,7 @@ def uopen(path):
         return open(path, 'rt')
 
 def test_changelog():
-    path = os.path.join(docdir, 'changelog')
+    path = docdir + '/changelog'
     with uopen(path) as file:
         line = file.readline()
     changelog_version = line.split()[1].strip('()')

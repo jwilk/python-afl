@@ -32,7 +32,7 @@ from nose.tools import (
 )
 
 here = os.path.dirname(__file__)
-target = os.path.join(here, 'target.py')
+target = here + '/target.py'
 
 def run(cmd, stdin='', expected_exit_status=0):
     child = ipc.Popen(
@@ -51,7 +51,7 @@ def run(cmd, stdin='', expected_exit_status=0):
 
 def run_afl_showmap(stdin, expected_stdout=None, expected_exit_status=0):
     tmpdir = tempfile.mkdtemp(prefix='python-afl.')
-    outpath = os.path.join(tmpdir, 'out')
+    outpath = tmpdir + '/out'
     try:
         (stdout, stderr) = run(
             ['afl-showmap', '-o', outpath, sys.executable, target],
