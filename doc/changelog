@@ -2,6 +2,7 @@ python-afl (0.3) UNRELEASED; urgency=low
 
   * Implement persistent mode.
   * Add docstrings for the exported functions.
+  * Add __version__.
   * Don't rely on the Python hash() function for computing code location
     identifiers.
     + Don't set PYTHONHASHSEED in py-afl-fuzz.
@@ -13,7 +14,7 @@ python-afl (0.3) UNRELEASED; urgency=low
     + Check Cython version.
   * Implement a small test suite.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Sun, 30 Aug 2015 22:19:13 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Sun, 30 Aug 2015 22:42:40 +0200
 
 python-afl (0.2.1) unstable; urgency=low
 

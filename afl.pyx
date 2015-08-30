@@ -25,6 +25,8 @@
 American fuzzy lop fork server and instrumentation for pure-Python code
 '''
 
+__version__ = '0.3'
+
 cdef object os, signal, struct, sys, warnings
 import os
 import signal
