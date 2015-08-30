@@ -55,12 +55,13 @@ def _test_fuzz(workdir):
     queue_dir = output_dir + '/queue'
     have_crash = False
     have_paths = False
-    with open('/dev/null', 'r+b') as devnull:
-        afl = ipc.Popen(
-            ['py-afl-fuzz', '-i', input_dir, '-o', output_dir, '--', sys.executable, target],
-            stdin=devnull,
-            stdout=devnull,
-        )
+    with open('/dev/null', 'wb') as devnull:
+        with open(workdir + '/stdout', 'wb') as stdout:
+            afl = ipc.Popen(
+                ['py-afl-fuzz', '-i', input_dir, '-o', output_dir, '--', sys.executable, target],
+                stdout=stdout,
+                stdin=devnull,
+            )
     try:
         timeout = 10
         while timeout > 0:
@@ -74,6 +75,11 @@ def _test_fuzz(workdir):
     except:
         afl.kill()
         raise
+    with open(workdir + '/stdout', 'rb') as file:
+        stdout = file.read()
+        if str != bytes:
+            stdout = stdout.decode('ASCII', 'replace')
+        print(stdout)
     assert_true(have_crash, "target program didn't crash")
     assert_true(have_paths, "target program didn't produce two distinct paths")
 
