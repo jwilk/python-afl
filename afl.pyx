@@ -25,6 +25,7 @@
 American fuzzy lop fork server and instrumentation for pure-Python code
 '''
 
+cdef object os, signal, struct, sys, warnings
 import os
 import signal
 import struct
@@ -65,6 +66,7 @@ cdef inline uint32_t fnv32a(const char *key, size_t len, size_t offset):
         offset >>= 8
     return h
 
+cdef object trace
 def trace(frame, event, arg):
     global prev_location
     cdef unsigned long location, offset
@@ -87,6 +89,7 @@ else:
         except_signal_name = 'SIG' + except_signal_name
     except_signal_id = getattr(signal, except_signal_name)
 
+cdef object excepthook
 def excepthook(tp, value, traceback):
     os.kill(os.getpid(), except_signal_id)
 
