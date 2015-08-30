@@ -28,7 +28,16 @@
 '''
 
 import distutils.core
+import distutils.version
 import Cython.Build
+
+try:
+    cython_version = Cython.__version__
+except AttributeError:
+    cython_version = '0'
+cython_version = distutils.version.LooseVersion(cython_version)
+if cython_version < '0.19':
+    raise RuntimeError('Cython >= 0.19 is required')
 
 def get_version():
     try:
