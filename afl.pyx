@@ -49,12 +49,11 @@ cdef extern from 'sys/shm.h':
 cdef unsigned char *afl_area = NULL
 cdef unsigned long prev_location = 0
 
-DEF FNV32_INIT = 0x811C9DC5U
 DEF FNV32_PRIME = 0x01000193U
 
 cdef inline uint32_t fnv32a(const char *key, size_t len, size_t offset):
     # 32-bit Fowler–Noll–Vo hash function
-    cdef uint32_t h = FNV32_INIT
+    cdef uint32_t h = 0x811C9DC5U
     while len > 0:
         h ^= <unsigned char> key[0];
         h *= FNV32_PRIME
