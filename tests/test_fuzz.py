@@ -28,6 +28,7 @@ import sys
 import tempfile
 import time
 
+from nose import SkipTest
 from nose.tools import assert_true
 
 here = os.path.dirname(__file__)
@@ -44,7 +45,22 @@ def sleep(n):
     time.sleep(n)
     return n
 
+def check_core_pattern():
+    if not sys.platform.startswith('linux'):
+        return
+    try:
+        file = open('/proc/sys/kernel/core_pattern', 'rb')
+    except OSError:
+        return
+    with file:
+        pattern = file.read()
+        if str != bytes:
+            pattern = pattern.decode('ASCII', 'replace')
+        if pattern.startswith('|'):
+            raise SkipTest('/proc/sys/kernel/core_pattern = ' + pattern)
+
 def _test_fuzz(workdir):
+    check_core_pattern()
     input_dir = workdir + '/in'
     output_dir = workdir + '/out'
     os.mkdir(input_dir)
