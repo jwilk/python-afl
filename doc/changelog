@@ -1,16 +1,19 @@
 python-afl (0.3) UNRELEASED; urgency=low
 
   * Implement persistent mode.
+  * Add docstrings for the exported functions.
   * Don't rely on the Python hash() function for computing code location
     identifiers.
-  * Don't set PYTHONHASHSEED in py-afl-fuzz.
-  * Remove the py-afl-showmap command.
-    afl-showmap proper can be now used for Python code.
-  * Remove the AflError class. It was only used for checking PYTHONHASHSEED.
-  * Run Cython only in those setup.py commands that actually build extensions.
+    + Don't set PYTHONHASHSEED in py-afl-fuzz.
+    + Remove the py-afl-showmap command.
+      afl-showmap proper can be now used for Python code.
+    + Remove the AflError class. It was only used for checking PYTHONHASHSEED.
+  * Improve the setup script:
+    + Run Cython only in those setup.py commands that actually build extensions.
+    + Check Cython version.
   * Implement a small test suite.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Sun, 30 Aug 2015 21:46:26 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Sun, 30 Aug 2015 22:19:13 +0200
 
 python-afl (0.2.1) unstable; urgency=low
 
