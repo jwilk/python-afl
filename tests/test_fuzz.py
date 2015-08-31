@@ -71,12 +71,15 @@ def _test_fuzz(workdir):
     queue_dir = output_dir + '/queue'
     have_crash = False
     have_paths = False
+    def setup_env():
+        os.environ['AFL_SKIP_CPUFREQ'] = '1'
     with open('/dev/null', 'wb') as devnull:
         with open(workdir + '/stdout', 'wb') as stdout:
             afl = ipc.Popen(
                 ['py-afl-fuzz', '-i', input_dir, '-o', output_dir, '--', sys.executable, target],
                 stdout=stdout,
                 stdin=devnull,
+                preexec_fn=setup_env,
             )
     try:
         timeout = 10
