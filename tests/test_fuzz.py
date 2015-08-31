@@ -84,13 +84,16 @@ def _test_fuzz(workdir):
     try:
         timeout = 10
         while timeout > 0:
+            if afl.poll() is not None:
+                break
             have_crash = len(glob.glob(crash_dir + '/id:*')) >= 1
             have_paths = len(glob.glob(queue_dir + '/id:*')) >= 2
             if have_crash and have_paths:
                 break
             timeout -= sleep(0.1)
-        afl.terminate()
-        afl.wait()
+        if afl.returncode is None:
+            afl.terminate()
+            afl.wait()
     except:
         afl.kill()
         raise
