@@ -118,6 +118,7 @@ def start():
         else:
             raise
     child_stopped = False
+    child_pid = 0
     while use_forkserver:
         [child_killed] = struct.unpack('I', os.read(FORKSRV_FD, 4))
         if child_stopped and child_killed:
