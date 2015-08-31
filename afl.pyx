@@ -96,7 +96,7 @@ def excepthook(tp, value, traceback):
     os.kill(os.getpid(), except_signal_id)
 
 cdef bint is_persistent_mode_enabled():
-    return os.getenv('AFL_PERSISTENT')
+    return os.getenv('AFL_PERSISTENT') is not None
 
 def start():
     '''

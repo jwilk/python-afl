@@ -52,6 +52,9 @@ def test_persistent():
         _test_persistent(1, max=1)
         _test_persistent(42, 42)
         _test_persistent(42, max=42)
+        os.environ['AFL_PERSISTENT'] = ''
+        # empty string should enable persistent mode, too
+        _test_persistent(None)
     finally:
         os.environ.pop('AFL_PERSISTENT', None)
 
