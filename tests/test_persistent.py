@@ -74,10 +74,8 @@ def _test_persistent(n, *args, **kwargs):
         if x == n_max:
             break
     if n is None:
-        assert_equal(x, n_max)
-        assert_equal(k[0], n_max - 1)
-    else:
-        assert_equal(x, n)
-        assert_equal(k[0], n)
+        n = n_max
+    assert_equal(x, n)
+    assert_equal(k[0], n - 1)
 
 # vim:ts=4 sts=4 sw=4 et

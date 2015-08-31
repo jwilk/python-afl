@@ -168,15 +168,14 @@ def persistent(max=None):
     global persistent_counter
     if not is_persistent_mode_enabled():
         max = 1
-    elif persistent_counter > 0:
+    cont = (
+        max is None or
+        persistent_counter < max
+    )
+    if cont and persistent_counter > 0:
         os.kill(os.getpid(), signal.SIGSTOP)
-    try:
-        return (
-            max is None or
-            persistent_counter < max
-        )
-    finally:
-        persistent_counter += 1
+    persistent_counter += 1
+    return cont
 
 __all__ = ['start', 'persistent']
 
