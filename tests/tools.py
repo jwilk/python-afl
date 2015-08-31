@@ -56,14 +56,18 @@ def fork_isolation(f):
             try:
                 f(*args, **kwargs)
             except nose.SkipTest as exc:
-                s = str(exc).encode('UTF-8')
+                s = str(exc)
+                if not isinstance(s, bytes):
+                    s = s.encode('UTF-8')
                 with os.fdopen(writefd, 'wb') as fp:
                     fp.write(s)
                 exit(EXIT_SKIP_TEST)
             except Exception:
                 exctp, exc, tb = sys.exc_info()
                 s = traceback.format_exception(exctp, exc, tb, _n_relevant_tb_levels(tb))
-                s = ''.join(s).encode('UTF-8')
+                s = ''.join(s)
+                if not isinstance(s, bytes):
+                    s = s.encode('UTF-8')
                 del tb
                 with os.fdopen(writefd, 'wb') as fp:
                     fp.write(s)
@@ -74,7 +78,10 @@ def fork_isolation(f):
             os.close(writefd)
             with os.fdopen(readfd, 'rb') as fp:
                 msg = fp.read()
-            msg = msg.decode('UTF-8').rstrip('\n')
+            msg = msg
+            if not isinstance(msg, str):
+                msg = msg.decode('UTF-8')
+            msg = msg.rstrip('\n')
             pid, status = os.waitpid(pid, 0)
             if status == (EXIT_EXCEPTION << 8):
                 raise IsolatedError('\n\n' + msg)
