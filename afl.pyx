@@ -50,31 +50,31 @@ cdef extern from 'sys/shm.h':
     unsigned char *shmat(int shmid, void *shmaddr, int shmflg)
 
 cdef unsigned char *afl_area = NULL
-cdef unsigned long prev_location = 0
+cdef unsigned int prev_location = 0
 
-DEF FNV32_PRIME = 0x01000193
-
-cdef inline uint32_t fnv32a(const char *key, size_t len, size_t offset):
+cdef inline unsigned int lhash(const char *key, size_t offset):
     # 32-bit Fowler–Noll–Vo hash function
+    cdef size_t len = strlen(key)
     cdef uint32_t h = 0x811C9DC5
     while len > 0:
         h ^= <unsigned char> key[0];
-        h *= FNV32_PRIME
+        h *= 0x01000193
         len -= 1
         key += 1
     while offset > 0:
         h ^= <unsigned char> offset;
-        h *= FNV32_PRIME
+        h *= 0x01000193
         offset >>= 8
     return h
 
 cdef object trace
 def trace(frame, event, arg):
     global prev_location
-    cdef unsigned long location, offset
-    cdef const char * filename = frame.f_code.co_filename
-    location = fnv32a(filename, strlen(filename), frame.f_lineno)
-    location %= MAP_SIZE
+    cdef unsigned int location, offset
+    location = (
+        lhash(frame.f_code.co_filename, frame.f_lineno)
+        % MAP_SIZE
+    )
     offset = location ^ prev_location
     prev_location = location // 2
     afl_area[offset] += 1
