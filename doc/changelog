@@ -1,4 +1,4 @@
-python-afl (0.3) UNRELEASED; urgency=low
+python-afl (0.3) unstable; urgency=low
 
   * Implement persistent mode.
   * Add docstrings for the exported functions.
@@ -14,7 +14,7 @@ python-afl (0.3) UNRELEASED; urgency=low
     + Check Cython version.
   * Implement a small test suite.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Sun, 30 Aug 2015 22:42:40 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Mon, 31 Aug 2015 16:56:12 +0200
 
 python-afl (0.2.1) unstable; urgency=low
 
