@@ -107,14 +107,14 @@ def start():
     This function should be called as late as possible, but before the input is
     read, and before any threads are started.
     '''
-    cdef int use_forkserver = 1
+    use_forkserver = True
     persistent_mode = is_persistent_mode_enabled()
     global afl_area
     try:
         os.write(FORKSRV_FD + 1, b'\0\0\0\0')
     except OSError as exc:
         if exc.errno == errno.EBADF:
-            use_forkserver = 0
+            use_forkserver = False
         else:
             raise
     child_stopped = False
