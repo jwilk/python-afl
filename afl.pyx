@@ -95,7 +95,8 @@ cdef object excepthook
 def excepthook(tp, value, traceback):
     os.kill(os.getpid(), except_signal_id)
 
-cdef bint persistent_mode = os.getenv('AFL_PERSISTENT')
+cdef bint is_persistent_mode_enabled():
+    return os.getenv('AFL_PERSISTENT')
 
 def start():
     '''
@@ -107,6 +108,7 @@ def start():
     read, and before any threads are started.
     '''
     cdef int use_forkserver = 1
+    persistent_mode = is_persistent_mode_enabled()
     global afl_area
     try:
         os.write(FORKSRV_FD + 1, b'\0\0\0\0')
@@ -159,7 +161,7 @@ def persistent(max=None):
     Run the code inside the loop body in persistent mode.
     '''
     global persistent_counter
-    if not persistent_mode:
+    if not is_persistent_mode_enabled():
         max = 1
     elif persistent_counter > 0:
         os.kill(os.getpid(), signal.SIGSTOP)
