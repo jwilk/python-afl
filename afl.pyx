@@ -67,7 +67,7 @@ cdef inline unsigned int lhash(const char *key, size_t offset):
         offset >>= 8
     return h
 
-def _lhash(key, offset):
+def _hash(key, offset):
     # This function is not a part of public API.
     # It is provided only to facilitate testing.
     return lhash(key, offset)

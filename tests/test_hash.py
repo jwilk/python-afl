@@ -24,8 +24,8 @@ import afl
 
 from nose.tools import assert_equal
 
-def test_lhash():
-    h = afl._lhash
+def test_hash():
+    h = afl._hash
     assert_equal(h('', 0), 2166136261)
     assert_equal(h('', 42), 789356349)
     assert_equal(h('moo', 23), 3934561083)
