@@ -25,8 +25,8 @@ import signal
 
 from nose.tools import assert_equal
 from .tools import (
-    fork_isolation,
     assert_raises_regex,
+    fork_isolation,
 )
 
 import afl
