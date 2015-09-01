@@ -2,6 +2,8 @@
 
 import sys
 
+import afl
+
 def main():
     s = sys.stdin.read()
     if len(s) < 1:
@@ -14,7 +16,6 @@ def main():
         print('A non-zero value? How quaint!')
 
 if __name__ == '__main__':
-    import afl
     afl.init()
     main()
 

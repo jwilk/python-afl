@@ -1,7 +1,8 @@
 #!/usr/bin/python
 
-import afl
 import sys
+
+import afl
 
 def main():
     s = sys.stdin.read()
