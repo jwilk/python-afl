@@ -1,7 +1,6 @@
 exclude *.c
 include *.pyx
 include MANIFEST.in
-include README.rst
 include doc/*
 include private/*
 include py-afl-*
