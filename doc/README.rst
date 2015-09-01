@@ -10,7 +10,7 @@ HOWTO
   the target program::
 
       import afl
-      afl.start()
+      afl.init()
 
 * Optionally, add this code at the end of the target program::
 
