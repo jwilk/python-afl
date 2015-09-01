@@ -14,6 +14,7 @@ Multiple bugs in the plural expression parser:
  | https://bitbucket.org/jwilk/i18nspector/commits/2b68fb57404d
  | https://bitbucket.org/jwilk/i18nspector/commits/8e5f3709da8d
  | https://bitbucket.org/jwilk/i18nspector/commits/18f9b9e29c7a
+ | https://bitbucket.org/jwilk/i18nspector/commits/0da379394722
 
 .. __: http://jwilk.net/software/i18nspector
 
