@@ -48,6 +48,7 @@ def check_core_pattern():
         pattern = file.read()
         if str != bytes:
             pattern = pattern.decode('ASCII', 'replace')
+        pattern = pattern.rstrip('\n')
         if pattern.startswith('|'):
             raise SkipTest('/proc/sys/kernel/core_pattern = ' + pattern)
 
