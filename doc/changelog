@@ -1,3 +1,9 @@
+python-afl (0.4.1) UNRELEASED; urgency=low
+
+  * 
+
+ -- Jakub Wilk <jwilk@jwilk.net>  Tue, 01 Sep 2015 17:35:49 +0200
+
 python-afl (0.4) unstable; urgency=low
 
   * Rename afl.start() as afl.init(), for consistency with AFL >= 1.89b.
