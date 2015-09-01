@@ -1,4 +1,4 @@
-python-afl (0.4) UNRELEASED; urgency=low
+python-afl (0.4) unstable; urgency=low
 
   * Rename afl.start() as afl.init(), for consistency with AFL >= 1.89b.
     The old name is still available, but it's deprecated.
@@ -6,7 +6,7 @@ python-afl (0.4) UNRELEASED; urgency=low
     Remove the old interface, afl.persistent().
   * Improve the test suite.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Tue, 01 Sep 2015 16:24:22 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Tue, 01 Sep 2015 16:28:06 +0200
 
 python-afl (0.3) unstable; urgency=low
 
