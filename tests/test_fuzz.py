@@ -38,13 +38,7 @@ def sleep(n):
     return n
 
 def check_core_pattern():
-    if not sys.platform.startswith('linux'):
-        return
-    try:
-        file = open('/proc/sys/kernel/core_pattern', 'rb')
-    except OSError:
-        return
-    with file:
+    with open('/proc/sys/kernel/core_pattern', 'rb') as file:
         pattern = file.read()
         if str != bytes:
             pattern = pattern.decode('ASCII', 'replace')
@@ -53,7 +47,6 @@ def check_core_pattern():
             raise SkipTest('/proc/sys/kernel/core_pattern = ' + pattern)
 
 def _test_fuzz(workdir, target):
-    check_core_pattern()
     input_dir = workdir + '/in'
     output_dir = workdir + '/out'
     os.mkdir(input_dir)
@@ -66,6 +59,7 @@ def _test_fuzz(workdir, target):
     have_paths = False
     def setup_env():
         os.environ['AFL_SKIP_CPUFREQ'] = '1'
+        os.environ['AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES'] = '1'
     with open('/dev/null', 'wb') as devnull:
         with open(workdir + '/stdout', 'wb') as stdout:
             afl = ipc.Popen(
@@ -95,6 +89,8 @@ def _test_fuzz(workdir, target):
         if str != bytes:
             stdout = stdout.decode('ASCII', 'replace')
         print(stdout)
+    if not have_crash and '/proc/sys/kernel/core_pattern' in stdout:
+        check_core_pattern()
     assert_true(have_crash, "target program didn't crash")
     assert_true(have_paths, "target program didn't produce two distinct paths")
 
