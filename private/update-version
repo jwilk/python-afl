@@ -1,0 +1,6 @@
+#!/bin/sh
+version=${1:?"no version number provided"}
+set -e
+set -x
+dch -m -v "$version" -u low -c doc/changelog
+sed -i -r -e "s/^(__version__) = '[0-9.]+'$/\1 = '$version'/" afl.pyx
