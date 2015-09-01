@@ -102,8 +102,8 @@ def excepthook(tp, value, traceback):
 cdef bint init_done = False
 
 cdef int _init(bint persistent_mode) except -1:
+    global afl_area, init_done
     use_forkserver = True
-    global afl_area
     try:
         os.write(FORKSRV_FD + 1, b'\0\0\0\0')
     except OSError as exc:
@@ -111,7 +111,6 @@ cdef int _init(bint persistent_mode) except -1:
             use_forkserver = False
         else:
             raise
-    global init_done
     if init_done:
         raise RuntimeError('AFL already initialized')
     init_done = True
