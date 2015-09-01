@@ -28,8 +28,10 @@ import sys
 import tempfile
 import time
 
-from nose import SkipTest
-from nose.tools import assert_true
+from .tools import (
+    SkipTest,
+    assert_true,
+)
 
 here = os.path.dirname(__file__)
 

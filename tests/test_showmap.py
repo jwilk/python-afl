@@ -26,7 +26,7 @@ import subprocess as ipc
 import sys
 import tempfile
 
-from nose.tools import (
+from .tools import (
     assert_equal,
     assert_not_equal,
 )

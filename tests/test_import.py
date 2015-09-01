@@ -20,7 +20,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from nose.tools import assert_equal
+from .tools import (
+    assert_equal,
+)
 
 import afl
 

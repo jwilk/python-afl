@@ -22,7 +22,9 @@
 
 import afl
 
-from nose.tools import assert_equal
+from .tools import (
+    assert_equal,
+)
 
 def test_hash():
     h = afl._hash

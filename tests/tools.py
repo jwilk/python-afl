@@ -27,8 +27,13 @@ import re
 import sys
 import traceback
 
-import nose
+from nose import SkipTest
 
+from nose.tools import (
+    assert_equal,
+    assert_not_equal,
+    assert_true,
+)
 if sys.version_info >= (2, 7):
     from nose.tools import (
         assert_raises,
@@ -101,7 +106,7 @@ def fork_isolation(f):
             os.close(readfd)
             try:
                 f(*args, **kwargs)
-            except nose.SkipTest as exc:
+            except SkipTest as exc:
                 s = str(exc)
                 if not isinstance(s, bytes):
                     s = s.encode('UTF-8')
@@ -132,7 +137,7 @@ def fork_isolation(f):
             if status == (EXIT_EXCEPTION << 8):
                 raise IsolatedError('\n\n' + msg)
             elif status == (EXIT_SKIP_TEST << 8):
-                raise nose.SkipTest(msg)
+                raise SkipTest(msg)
             elif status == 0 and msg == '':
                 pass
             else:
@@ -141,9 +146,13 @@ def fork_isolation(f):
     return wrapper
 
 __all__ = [
+    'SkipTest',
+    'assert_equal',
+    'assert_not_equal',
     'assert_raises',
     'assert_raises_regex',
     'assert_regex',
+    'assert_true',
     'fork_isolation',
 ]
 

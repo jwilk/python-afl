@@ -23,8 +23,8 @@
 import os
 import signal
 
-from nose.tools import assert_equal
 from .tools import (
+    assert_equal,
     assert_raises_regex,
     fork_isolation,
 )
