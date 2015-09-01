@@ -141,10 +141,10 @@ def fork_isolation(f):
     return wrapper
 
 __all__ = [
-    'fork_isolation',
     'assert_raises',
     'assert_raises_regex',
     'assert_regex',
+    'fork_isolation',
 ]
 
 # vim:ts=4 sts=4 sw=4 et
