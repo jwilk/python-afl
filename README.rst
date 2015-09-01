@@ -28,6 +28,8 @@ HOWTO
 
   You shouldn't call ``afl.init()`` in this case.
 
+  afl-fuzz ≥ 1.82b is required for this feature.
+
 * Use *py-afl-fuzz* instead of *afl-fuzz*::
 
       $ py-afl-fuzz [options] -- /path/to/fuzzed/python/script [...]

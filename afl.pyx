@@ -176,6 +176,8 @@ def loop(max=None):
 
     Start the fork server and enable instrumentation,
     then run the code inside the loop body in persistent mode.
+
+    afl-fuzz >= 1.82b is required for this feature.
     '''
     global persistent_counter
     if persistent_counter == 0:
