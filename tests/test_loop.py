@@ -31,15 +31,15 @@ from .tools import (
 
 import afl
 
-def test_persistent():
-    _test_persistent(None)
-    _test_persistent(1, 1)
-    _test_persistent(1, max=1)
-    _test_persistent(42, 42)
-    _test_persistent(42, max=42)
+def test_loop():
+    _test_loop(None)
+    _test_loop(1, 1)
+    _test_loop(1, max=1)
+    _test_loop(42, 42)
+    _test_loop(42, max=42)
 
 @fork_isolation
-def _test_persistent(n, *args, **kwargs):
+def _test_loop(n, *args, **kwargs):
     n_max = 1000
     k = [0]
     def kill(pid, sig):
