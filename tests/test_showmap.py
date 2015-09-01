@@ -34,7 +34,7 @@ from .tools import (
 here = os.path.dirname(__file__)
 target = here + '/target.py'
 
-def run(cmd, stdin='', env={}, expected_exit_status=0):
+def run(cmd, stdin='', env={}, xstatus=0):
     print(repr(env))
     child = ipc.Popen(
         list(cmd),
@@ -44,14 +44,14 @@ def run(cmd, stdin='', env={}, expected_exit_status=0):
         env=dict(os.environ, **env),
     )
     (stdout, stderr) = child.communicate(stdin)
-    if child.returncode != expected_exit_status:
+    if child.returncode != xstatus:
         if str != bytes:
             stderr = stderr.decode('ASCII', 'replace')
         print(stderr)
         raise ipc.CalledProcessError(child.returncode, cmd[0])
     return (stdout, stderr)
 
-def run_afl_showmap(stdin, env={}, expected_stdout=None, expected_exit_status=0):
+def run_afl_showmap(stdin, env={}, xstdout=None, xstatus=0):
     tmpdir = tempfile.mkdtemp(prefix='python-afl.')
     outpath = tmpdir + '/out'
     try:
@@ -59,24 +59,24 @@ def run_afl_showmap(stdin, env={}, expected_stdout=None, expected_exit_status=0)
             ['afl-showmap', '-o', outpath, sys.executable, target],
             stdin=stdin,
             env=env,
-            expected_exit_status=expected_exit_status,
+            xstatus=xstatus,
         )
-        if expected_stdout is not None:
-            assert_equal(stdout, expected_stdout)
+        if xstdout is not None:
+            assert_equal(stdout, xstdout)
         with open(outpath, 'r') as file:
             return file.read()
     finally:
         shutil.rmtree(tmpdir)
 
 def test_diff():
-    out1 = run_afl_showmap(b'0', expected_stdout=b'Looks like a zero to me!\n')
-    out2 = run_afl_showmap(b'1', expected_stdout=b'A non-zero value? How quaint!\n')
+    out1 = run_afl_showmap(b'0', xstdout=b'Looks like a zero to me!\n')
+    out2 = run_afl_showmap(b'1', xstdout=b'A non-zero value? How quaint!\n')
     assert_not_equal(out1, out2)
 
 def test_exception():
     out = run_afl_showmap(b'\xff',
         env=dict(PYTHON_AFL_SIGNAL='SIGUSR1'),
-        expected_exit_status=2,
+        xstatus=2,
     )
     assert_not_equal(out, b'')
 
