@@ -7,20 +7,27 @@ HOWTO
 -----
 
 * Add this code (ideally, after all other modules are already imported) to
-  the target program::
+  the target program:
+
+  .. code:: python
 
       import afl
       afl.init()
 
-* Optionally, add this code at the end of the target program::
+* Optionally, add this code at the end of the target program:
+
+  .. code:: python
 
       os._exit(0)
 
   This should speed up fuzzing considerably,
   at the risk of not catching bugs that could happen during normal exit.
 
-* For persistent mode, wrap the tested code in this loop::
+* For persistent mode, wrap the tested code in this loop:
 
+  .. code:: python
+
+      os._exit(0)
       while afl.loop(N):
          ...
 
