@@ -99,20 +99,10 @@ cdef object excepthook
 def excepthook(tp, value, traceback):
     os.kill(os.getpid(), except_signal_id)
 
-cdef bint is_persistent_mode_enabled():
-    return os.getenv('AFL_PERSISTENT') is not None
+cdef bint init_done = False
 
-def start():
-    '''
-    start()
-
-    Start the fork server and enable instrumentation.
-
-    This function should be called as late as possible, but before the input is
-    read, and before any threads are started.
-    '''
+cdef int _init(bint persistent_mode) except -1:
     use_forkserver = True
-    persistent_mode = is_persistent_mode_enabled()
     global afl_area
     try:
         os.write(FORKSRV_FD + 1, b'\0\0\0\0')
@@ -121,6 +111,10 @@ def start():
             use_forkserver = False
         else:
             raise
+    global init_done
+    if init_done:
+        raise RuntimeError('AFL already initialized')
+    init_done = True
     child_stopped = False
     child_pid = 0
     while use_forkserver:
@@ -149,25 +143,44 @@ def start():
         sys.excepthook = excepthook
     afl_shm_id = os.getenv(SHM_ENV_VAR)
     if afl_shm_id is None:
-        return
+        return 0
     afl_shm_id = int(afl_shm_id)
     afl_area = shmat(afl_shm_id, NULL, 0)
     if afl_area == <void*> -1:
         PyErr_SetFromErrno(OSError)
     sys.settrace(trace)
+    return 0
+
+def init():
+    '''
+    init()
+
+    Start the fork server and enable instrumentation.
+
+    This function should be called as late as possible, but before the input is
+    read, and before any threads are started.
+    '''
+    _init(persistent_mode=False)
+
+def start():
+    '''
+    deprecated alias for afl.init()
+    '''
+    _init(persistent_mode=False)
 
 cdef unsigned long persistent_counter = 0
 
-def persistent(max=None):
+def loop(max=None):
     '''
     while persistent([max]):
         ...
 
-    Run the code inside the loop body in persistent mode.
+    Start the fork server and enable instrumentation,
+    then run the code inside the loop body in persistent mode.
     '''
     global persistent_counter
-    if not is_persistent_mode_enabled():
-        max = 1
+    if persistent_counter == 0:
+        _init(persistent_mode=True)
     cont = (
         max is None or
         persistent_counter < max
@@ -177,6 +190,9 @@ def persistent(max=None):
     persistent_counter += 1
     return cont
 
-__all__ = ['start', 'persistent']
+__all__ = [
+    'init',
+    'loop',
+]
 
 # vim:ts=4 sts=4 sw=4 et

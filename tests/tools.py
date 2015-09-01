@@ -20,12 +20,58 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import contextlib
 import functools
-import traceback
-import sys
 import os
+import re
+import sys
+import traceback
 
 import nose
+
+if sys.version_info >= (2, 7):
+    from nose.tools import (
+        assert_raises,
+    )
+    if sys.version_info >= (3, 2):
+        from nose.tools import assert_raises_regex
+        from nose.tools import assert_regex
+    else:
+        from nose.tools import assert_raises_regexp as assert_raises_regex
+        from nose.tools import assert_regexp_matches as assert_regex
+else:
+    class assert_raises(object):
+        def __init__(self, exc_type):
+            self._exc_type = exc_type
+            self.exception = None
+        def __enter__(self):
+            return self
+        def __exit__(self, exc_type, exc_value, tb):
+            if exc_type is None:
+                assert_true(False, '{0} not raised'.format(self._exc_type.__name__))
+            if not issubclass(exc_type, self._exc_type):
+                return False
+            if isinstance(exc_value, exc_type):
+                pass
+                # This branch is not always taken in Python 2.6:
+                # https://bugs.python.org/issue7853
+            elif isinstance(exc_value, tuple):
+                exc_value = exc_type(*exc_value)
+            else:
+                exc_value = exc_type(exc_value)
+            self.exception = exc_value
+            return True
+    @contextlib.contextmanager
+    def assert_raises_regex(exc_type, regex):
+        with assert_raises(exc_type) as ecm:
+            yield
+        assert_regex(str(ecm.exception), regex)
+    def assert_regex(text, regex):
+        if isinstance(regex, basestring):
+            regex = re.compile(regex)
+        if not regex.search(text):
+            message = "Regex didn't match: {0!r} not found in {1!r}".format(regex.pattern, text)
+            assert_true(False, msg=message)
 
 class IsolatedError(Exception):
     pass
@@ -94,6 +140,11 @@ def fork_isolation(f):
 
     return wrapper
 
-__all__ = ['fork_isolation']
+__all__ = [
+    'fork_isolation',
+    'assert_raises',
+    'assert_raises_regex',
+    'assert_regex',
+]
 
 # vim:ts=4 sts=4 sw=4 et

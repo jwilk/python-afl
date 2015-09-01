@@ -24,43 +24,22 @@ import os
 import signal
 
 from nose.tools import assert_equal
-from . import tools
+from .tools import (
+    fork_isolation,
+    assert_raises_regex,
+)
 
 import afl
 
-def test_non_persistent():
-    os.environ.pop('AFL_PERSISTENT', None)
-    _test_non_persistent()
-    _test_non_persistent(1)
-    _test_non_persistent(max=1)
-    _test_non_persistent(42)
-    _test_non_persistent(max=42)
-
-@tools.fork_isolation
-def _test_non_persistent(*args, **kwargs):
-    assert os.getenv('AFL_PERSISTENT') is None
-    x = 0
-    while afl.persistent(*args, **kwargs):
-        x += 1
-    assert_equal(x, 1)
-
 def test_persistent():
-    try:
-        os.environ['AFL_PERSISTENT'] = '1'
-        _test_persistent(None)
-        _test_persistent(1, 1)
-        _test_persistent(1, max=1)
-        _test_persistent(42, 42)
-        _test_persistent(42, max=42)
-        os.environ['AFL_PERSISTENT'] = ''
-        # empty string should enable persistent mode, too
-        _test_persistent(None)
-    finally:
-        os.environ.pop('AFL_PERSISTENT', None)
+    _test_persistent(None)
+    _test_persistent(1, 1)
+    _test_persistent(1, max=1)
+    _test_persistent(42, 42)
+    _test_persistent(42, max=42)
 
-@tools.fork_isolation
+@fork_isolation
 def _test_persistent(n, *args, **kwargs):
-    assert os.getenv('AFL_PERSISTENT') is not None
     n_max = 1000
     k = [0]
     def kill(pid, sig):
@@ -69,7 +48,7 @@ def _test_persistent(n, *args, **kwargs):
         k[0] += 1
     os.kill = kill
     x = 0
-    while afl.persistent(*args, **kwargs):
+    while afl.loop(*args, **kwargs):
         x += 1
         if x == n_max:
             break
@@ -77,5 +56,12 @@ def _test_persistent(n, *args, **kwargs):
         n = n_max
     assert_equal(x, n)
     assert_equal(k[0], n - 1)
+
+@fork_isolation
+def test_double_init():
+    afl.init()
+    with assert_raises_regex(RuntimeError, '^AFL already initialized$'):
+        while afl.loop():
+            pass
 
 # vim:ts=4 sts=4 sw=4 et

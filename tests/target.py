@@ -15,7 +15,7 @@ def main():
 
 if __name__ == '__main__':
     import afl
-    afl.start()
+    afl.init()
     main()
 
 # vim:ts=4 sts=4 sw=4 et

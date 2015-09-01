@@ -25,7 +25,11 @@ from nose.tools import assert_equal
 import afl
 
 exports = [
-    'persistent',
+    'init',
+    'loop',
+]
+
+deprecated = [
     'start',
 ]
 
@@ -44,7 +48,7 @@ def test_wildcard_import():
 def test_dir():
     assert_equal(
         sorted(o for o in dir(afl) if not o.startswith('_')),
-        sorted(exports)
+        sorted(exports + deprecated)
     )
 
 # vim:ts=4 sts=4 sw=4 et
