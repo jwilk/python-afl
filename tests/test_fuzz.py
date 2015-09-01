@@ -32,14 +32,6 @@ from nose import SkipTest
 from nose.tools import assert_true
 
 here = os.path.dirname(__file__)
-target = here + '/target.py'
-
-def test_fuzz():
-    tmpdir = tempfile.mkdtemp(prefix='python-afl.')
-    try:
-        _test_fuzz(tmpdir)
-    finally:
-        shutil.rmtree(tmpdir)
 
 def sleep(n):
     time.sleep(n)
@@ -59,7 +51,7 @@ def check_core_pattern():
         if pattern.startswith('|'):
             raise SkipTest('/proc/sys/kernel/core_pattern = ' + pattern)
 
-def _test_fuzz(workdir):
+def _test_fuzz(workdir, target):
     check_core_pattern()
     input_dir = workdir + '/in'
     output_dir = workdir + '/out'
@@ -104,5 +96,18 @@ def _test_fuzz(workdir):
         print(stdout)
     assert_true(have_crash, "target program didn't crash")
     assert_true(have_paths, "target program didn't produce two distinct paths")
+
+def test_fuzz():
+    def t(target):
+        tmpdir = tempfile.mkdtemp(prefix='python-afl.')
+        try:
+            _test_fuzz(
+                workdir=tmpdir,
+                target=os.path.join(here, target)
+            )
+        finally:
+            shutil.rmtree(tmpdir)
+    yield t, 'target.py'
+    yield t, 'target_persistent.py'
 
 # vim:ts=4 sts=4 sw=4 et
