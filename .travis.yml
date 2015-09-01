@@ -26,6 +26,6 @@ script:
 - python setup.py install
 - export PATH="$PWD/deps/bin:$PATH"
 - nosetests --verbose
-- find -name "*.rst" | xargs -L1 -t -I{} rst2xml.py --strict {} /dev/null
+- \[ "$TRAVIS_PYTHON_VERSION" = "3.2" ] || find -name "*.rst" | xargs -L1 -t -I{} rst2xml.py --strict {} /dev/null
 
 # vim:ts=2 sts=2 sw=2 et
