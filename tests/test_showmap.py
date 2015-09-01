@@ -34,12 +34,14 @@ from .tools import (
 here = os.path.dirname(__file__)
 target = here + '/target.py'
 
-def run(cmd, stdin='', expected_exit_status=0):
+def run(cmd, stdin='', env={}, expected_exit_status=0):
+    print(repr(env))
     child = ipc.Popen(
         list(cmd),
         stdin=ipc.PIPE,
         stdout=ipc.PIPE,
-        stderr=ipc.PIPE
+        stderr=ipc.PIPE,
+        env=dict(os.environ, **env),
     )
     (stdout, stderr) = child.communicate(stdin)
     if child.returncode != expected_exit_status:
@@ -49,13 +51,14 @@ def run(cmd, stdin='', expected_exit_status=0):
         raise ipc.CalledProcessError(child.returncode, cmd[0])
     return (stdout, stderr)
 
-def run_afl_showmap(stdin, expected_stdout=None, expected_exit_status=0):
+def run_afl_showmap(stdin, env={}, expected_stdout=None, expected_exit_status=0):
     tmpdir = tempfile.mkdtemp(prefix='python-afl.')
     outpath = tmpdir + '/out'
     try:
         (stdout, stderr) = run(
             ['afl-showmap', '-o', outpath, sys.executable, target],
             stdin=stdin,
+            env=env,
             expected_exit_status=expected_exit_status,
         )
         if expected_stdout is not None:
@@ -66,12 +69,15 @@ def run_afl_showmap(stdin, expected_stdout=None, expected_exit_status=0):
         shutil.rmtree(tmpdir)
 
 def test_diff():
-    out1 = run_afl_showmap(b'0', b'Looks like a zero to me!\n')
-    out2 = run_afl_showmap(b'1', b'A non-zero value? How quaint!\n')
+    out1 = run_afl_showmap(b'0', expected_stdout=b'Looks like a zero to me!\n')
+    out2 = run_afl_showmap(b'1', expected_stdout=b'A non-zero value? How quaint!\n')
     assert_not_equal(out1, out2)
 
 def test_exception():
-    out = run_afl_showmap(b'\xff', expected_exit_status=2)
+    out = run_afl_showmap(b'\xff',
+        env=dict(PYTHON_AFL_SIGNAL='SIGUSR1'),
+        expected_exit_status=2,
+    )
     assert_not_equal(out, b'')
 
 # vim:ts=4 sts=4 sw=4 et

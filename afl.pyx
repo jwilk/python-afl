@@ -87,7 +87,7 @@ def trace(frame, event, arg):
     return trace
 
 cdef int except_signal_id = 0
-cdef object except_signal_name = os.getenv('PYTHON_AFL_SIGNAL', 'SIGUSR1') or '0'
+cdef object except_signal_name = os.getenv('PYTHON_AFL_SIGNAL') or '0'
 if except_signal_name.isdigit():
     except_signal_id = int(except_signal_name)
 else:
