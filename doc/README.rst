@@ -27,7 +27,6 @@ HOWTO
 
   .. code:: python
 
-      os._exit(0)
       while afl.loop(N):
          ...
 
