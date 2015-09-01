@@ -1,8 +1,9 @@
 python-afl (0.4.1) UNRELEASED; urgency=low
 
-  * 
+  * Enable persistent mode only if PYTHON_AFL_PERSISTENT set.
+    Let py-afl-fuzz set this variable.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Tue, 01 Sep 2015 17:35:49 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Tue, 01 Sep 2015 23:33:40 +0200
 
 python-afl (0.4) unstable; urgency=low
 

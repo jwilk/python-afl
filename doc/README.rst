@@ -57,4 +57,11 @@ The following environment variables affect *python-afl* behavior:
    You can set ``PYTHON_AFL_SIGNAL`` to another signal;
    or set it to ``0`` to disable the exception hook.
 
+``PYTHON_AFL_PERSISTENT``
+
+   Persistent mode is enabled only if this variable is set.
+
+   *py-afl-fuzz* sets this variable automatically,
+   so there should normally no need to set it manually.
+
 .. vim:ts=3 sts=3 sw=3 et

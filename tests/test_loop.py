@@ -31,15 +31,16 @@ from .tools import (
 
 import afl
 
-def test_loop():
-    _test_loop(None)
-    _test_loop(1, 1)
-    _test_loop(1, max=1)
-    _test_loop(42, 42)
-    _test_loop(42, max=42)
+def test_persistent():
+    _test_persistent(None)
+    _test_persistent(1, 1)
+    _test_persistent(1, max=1)
+    _test_persistent(42, 42)
+    _test_persistent(42, max=42)
 
 @fork_isolation
-def _test_loop(n, *args, **kwargs):
+def _test_persistent(n, *args, **kwargs):
+    os.environ['PYTHON_AFL_PERSISTENT'] = '1'
     n_max = 1000
     k = [0]
     def kill(pid, sig):
@@ -56,6 +57,21 @@ def _test_loop(n, *args, **kwargs):
         n = n_max
     assert_equal(x, n)
     assert_equal(k[0], n - 1)
+
+def test_nonpersistent():
+    _test_nonpersistent()
+    _test_nonpersistent(1)
+    _test_nonpersistent(max=1)
+    _test_nonpersistent(42)
+    _test_nonpersistent(max=42)
+
+@fork_isolation
+def _test_nonpersistent(*args, **kwargs):
+    os.environ.pop('PYTHON_AFL_PERSISTENT', None)
+    x = 0
+    while afl.loop(*args, **kwargs):
+        x += 1
+    assert_equal(x, 1)
 
 @fork_isolation
 def test_double_init():

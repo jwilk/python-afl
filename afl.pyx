@@ -167,6 +167,7 @@ def start():
     '''
     _init(persistent_mode=False)
 
+cdef bint persistent_allowed = False
 cdef unsigned long persistent_counter = 0
 
 def loop(max=None):
@@ -179,17 +180,22 @@ def loop(max=None):
 
     afl-fuzz >= 1.82b is required for this feature.
     '''
-    global persistent_counter
+    global persistent_allowed, persistent_counter
     if persistent_counter == 0:
-        _init(persistent_mode=True)
-    cont = (
+        persistent_allowed = os.getenv('PYTHON_AFL_PERSISTENT') is not None
+        _init(persistent_mode=persistent_allowed)
+        persistent_counter = 1
+        return True
+    cont = persistent_allowed and (
         max is None or
         persistent_counter < max
     )
-    if cont and persistent_counter > 0:
+    if cont:
         os.kill(os.getpid(), signal.SIGSTOP)
-    persistent_counter += 1
-    return cont
+        persistent_counter += 1
+        return True
+    else:
+        return False
 
 __all__ = [
     'init',
