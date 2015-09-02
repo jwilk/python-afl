@@ -34,13 +34,13 @@ from .tools import (
 here = os.path.dirname(__file__)
 target = here + '/target.py'
 
-def run(cmd, stdin='', env={}, xstatus=0):
+def run(cmd, stdin='', env=None, xstatus=0):
     child = ipc.Popen(
         list(cmd),
         stdin=ipc.PIPE,
         stdout=ipc.PIPE,
         stderr=ipc.PIPE,
-        env=dict(os.environ, **env),
+        env=(dict(os.environ, **env) if env else None),
     )
     (stdout, stderr) = child.communicate(stdin)
     if child.returncode != xstatus:
@@ -50,7 +50,7 @@ def run(cmd, stdin='', env={}, xstatus=0):
         raise ipc.CalledProcessError(child.returncode, cmd[0])
     return (stdout, stderr)
 
-def run_afl_showmap(stdin, env={}, xstdout=None, xstatus=0):
+def run_afl_showmap(stdin, env=None, xstdout=None, xstatus=0):
     tmpdir = tempfile.mkdtemp(prefix='python-afl.')
     outpath = tmpdir + '/out'
     try:
