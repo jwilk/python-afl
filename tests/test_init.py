@@ -20,12 +20,22 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import re
+
 from .tools import (
     assert_raises_regex,
+    assert_warns_regex,
     fork_isolation,
 )
 
 import afl
+
+@fork_isolation
+def test_deprecated_start():
+    msg = 'afl.start() is deprecated, use afl.init() instead'
+    msg_re = '^{0}$'.format(re.escape(msg))
+    with assert_warns_regex(DeprecationWarning, msg_re):
+        afl.start()
 
 @fork_isolation
 def test_double_init():

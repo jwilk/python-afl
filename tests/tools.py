@@ -26,6 +26,7 @@ import os
 import re
 import sys
 import traceback
+import warnings
 
 from nose import SkipTest
 
@@ -77,6 +78,27 @@ else:
         if not regex.search(text):
             message = "Regex didn't match: {0!r} not found in {1!r}".format(regex.pattern, text)
             assert_true(False, msg=message)
+if sys.version_info >= (3, 2):
+    from nose.tools import assert_warns_regex
+else:
+    @contextlib.contextmanager
+    def assert_warns_regex(exc_type, regex):
+        with warnings.catch_warnings(record=True) as wlog:
+            warnings.simplefilter('always', exc_type)
+            yield
+        firstw = None
+        for warning in wlog:
+            w = warning.message
+            if not isinstance(w, exc_type):
+                continue
+            if firstw is None:
+                firstw = w
+            if re.search(regex, str(w)):
+                return
+        if firstw is None:
+            assert_true(False, msg='{exc} not triggered'.format(exc=exc_type.__name__))
+        else:
+            assert_true(False, msg='{exc!r} does not match {re!r}'.format(exc=str(firstw), re=regex))
 
 class IsolatedError(Exception):
     pass

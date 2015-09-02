@@ -165,6 +165,7 @@ def start():
     '''
     deprecated alias for afl.init()
     '''
+    warnings.warn('afl.start() is deprecated, use afl.init() instead', DeprecationWarning)
     _init(persistent_mode=False)
 
 cdef bint persistent_allowed = False
