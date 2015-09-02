@@ -182,6 +182,7 @@ __all__ = [
     'assert_raises_regex',
     'assert_regex',
     'assert_true',
+    'assert_warns_regex',
     'fork_isolation',
 ]
 
