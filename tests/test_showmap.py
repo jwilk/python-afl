@@ -60,6 +60,7 @@ def run_afl_showmap(stdin, env=None, xstdout=None, xstatus=0):
             env=env,
             xstatus=xstatus,
         )
+        del stderr  # make pylint happy
         if xstdout is not None:
             assert_equal(stdout, xstdout)
         with open(outpath, 'r') as file:
