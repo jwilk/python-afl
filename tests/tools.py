@@ -28,6 +28,8 @@ import sys
 import traceback
 import warnings
 
+import nose.tools
+
 from nose import SkipTest
 
 from nose.tools import (
@@ -35,70 +37,75 @@ from nose.tools import (
     assert_not_equal,
     assert_true,
 )
-if sys.version_info >= (2, 7):
-    from nose.tools import (
-        assert_raises,
-    )
-    if sys.version_info >= (3, 2):
-        from nose.tools import assert_raises_regex
-        from nose.tools import assert_regex
-    else:
-        from nose.tools import assert_raises_regexp as assert_raises_regex
-        from nose.tools import assert_regexp_matches as assert_regex
-else:
-    class assert_raises(object):
-        def __init__(self, exc_type):
-            self._exc_type = exc_type
-            self.exception = None
-        def __enter__(self):
-            return self
-        def __exit__(self, exc_type, exc_value, tb):
-            if exc_type is None:
-                assert_true(False, '{0} not raised'.format(self._exc_type.__name__))
-            if not issubclass(exc_type, self._exc_type):
-                return False
-            if isinstance(exc_value, exc_type):
-                pass
-                # This branch is not always taken in Python 2.6:
-                # https://bugs.python.org/issue7853
-            elif isinstance(exc_value, tuple):
-                exc_value = exc_type(*exc_value)
-            else:
-                exc_value = exc_type(exc_value)
-            self.exception = exc_value
-            return True
-    @contextlib.contextmanager
-    def assert_raises_regex(exc_type, regex):
-        with assert_raises(exc_type) as ecm:
-            yield
-        assert_regex(str(ecm.exception), regex)
-    def assert_regex(text, regex):
-        if isinstance(regex, basestring):
-            regex = re.compile(regex)
-        if not regex.search(text):
-            message = "Regex didn't match: {0!r} not found in {1!r}".format(regex.pattern, text)
-            assert_true(False, msg=message)
-if sys.version_info >= (3, 2):
-    from nose.tools import assert_warns_regex
-else:
-    @contextlib.contextmanager
-    def assert_warns_regex(exc_type, regex):
-        with warnings.catch_warnings(record=True) as wlog:
-            warnings.simplefilter('always', exc_type)
-            yield
-        firstw = None
-        for warning in wlog:
-            w = warning.message
-            if not isinstance(w, exc_type):
-                continue
-            if firstw is None:
-                firstw = w
-            if re.search(regex, str(w)):
-                return
-        if firstw is None:
-            assert_true(False, msg='{exc} not triggered'.format(exc=exc_type.__name__))
+
+def noseimport(vmaj, vmin, name=None):
+    def wrapper(f):
+        if f.__module__ == 'unittest.case':
+            return f
+        if sys.version_info >= (vmaj, vmin):
+            return getattr(nose.tools, name or f.__name__)
+        return f
+    return wrapper
+
+@noseimport(2, 7)
+class assert_raises(object):
+    def __init__(self, exc_type):
+        self._exc_type = exc_type
+        self.exception = None
+    def __enter__(self):
+        return self
+    def __exit__(self, exc_type, exc_value, tb):
+        if exc_type is None:
+            assert_true(False, '{0} not raised'.format(self._exc_type.__name__))
+        if not issubclass(exc_type, self._exc_type):
+            return False
+        if isinstance(exc_value, exc_type):
+            pass
+            # This branch is not always taken in Python 2.6:
+            # https://bugs.python.org/issue7853
+        elif isinstance(exc_value, tuple):
+            exc_value = exc_type(*exc_value)
         else:
-            assert_true(False, msg='{exc!r} does not match {re!r}'.format(exc=str(firstw), re=regex))
+            exc_value = exc_type(exc_value)
+        self.exception = exc_value
+        return True
+
+@noseimport(2, 7, 'assert_raises_regexp')
+@noseimport(3, 2)
+@contextlib.contextmanager
+def assert_raises_regex(exc_type, regex):
+    with assert_raises(exc_type) as ecm:
+        yield
+    assert_regex(str(ecm.exception), regex)
+
+@noseimport(2, 7, 'assert_regexp_matches')
+@noseimport(3, 2)
+def assert_regex(text, regex):
+    if isinstance(regex, basestring):
+        regex = re.compile(regex)
+    if not regex.search(text):
+        message = "Regex didn't match: {0!r} not found in {1!r}".format(regex.pattern, text)
+        assert_true(False, msg=message)
+
+@noseimport(3, 2)
+@contextlib.contextmanager
+def assert_warns_regex(exc_type, regex):
+    with warnings.catch_warnings(record=True) as wlog:
+        warnings.simplefilter('always', exc_type)
+        yield
+    firstw = None
+    for warning in wlog:
+        w = warning.message
+        if not isinstance(w, exc_type):
+            continue
+        if firstw is None:
+            firstw = w
+        if re.search(regex, str(w)):
+            return
+    if firstw is None:
+        assert_true(False, msg='{exc} not triggered'.format(exc=exc_type.__name__))
+    else:
+        assert_true(False, msg='{exc!r} does not match {re!r}'.format(exc=str(firstw), re=regex))
 
 class IsolatedError(Exception):
     pass
