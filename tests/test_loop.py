@@ -58,15 +58,15 @@ def _test_persistent(n, *args, **kwargs):
     assert_equal(x, n)
     assert_equal(k[0], n - 1)
 
-def test_nonpersistent():
-    _test_nonpersistent()
-    _test_nonpersistent(1)
-    _test_nonpersistent(max=1)
-    _test_nonpersistent(42)
-    _test_nonpersistent(max=42)
+def test_docile():
+    _test_docile()
+    _test_docile(1)
+    _test_docile(max=1)
+    _test_docile(42)
+    _test_docile(max=42)
 
 @fork_isolation
-def _test_nonpersistent(*args, **kwargs):
+def _test_docile(*args, **kwargs):
     os.environ.pop('PYTHON_AFL_PERSISTENT', None)
     x = 0
     while afl.loop(*args, **kwargs):
