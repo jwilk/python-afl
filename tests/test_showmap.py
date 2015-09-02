@@ -35,7 +35,6 @@ here = os.path.dirname(__file__)
 target = here + '/target.py'
 
 def run(cmd, stdin='', env={}, xstatus=0):
-    print(repr(env))
     child = ipc.Popen(
         list(cmd),
         stdin=ipc.PIPE,
