@@ -1,12 +1,13 @@
 python-afl (0.5) UNRELEASED; urgency=low
 
   * Fix deprecated call to afl.start() in README.
+  * Make afl.start() emit DeprecationWarning.
   * Enable persistent mode only if PYTHON_AFL_PERSISTENT set.
     Let py-afl-fuzz set this variable.
   * Don't install the exception hook, unless enabled with PYTHON_AFL_SIGNAL.
     Let py-afl-fuzz set this variable to SIGUSR1.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Wed, 02 Sep 2015 07:52:00 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Wed, 02 Sep 2015 09:40:37 +0200
 
 python-afl (0.4) unstable; urgency=low
 
