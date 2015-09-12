@@ -42,9 +42,9 @@ DEF MAP_SIZE = 1 << MAP_SIZE_POW2
 
 from cpython.exc cimport PyErr_SetFromErrno
 from libc cimport errno
-from libc.string cimport strlen
-from libc.stdint cimport uint32_t
 from libc.stddef cimport size_t
+from libc.stdint cimport uint32_t
+from libc.string cimport strlen
 
 cdef extern from 'sys/shm.h':
     unsigned char *shmat(int shmid, void *shmaddr, int shmflg)
