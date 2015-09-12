@@ -1,3 +1,9 @@
+python-afl (0.5.1) UNRELEASED; urgency=low
+
+  * 
+
+ -- Jakub Wilk <jwilk@jwilk.net>  Sat, 12 Sep 2015 13:08:21 +0200
+
 python-afl (0.5) unstable; urgency=low
 
   * Fix deprecated call to afl.start() in README.
