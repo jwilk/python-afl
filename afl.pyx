@@ -44,6 +44,7 @@ from cpython.exc cimport PyErr_SetFromErrno
 from libc cimport errno
 from libc.stddef cimport size_t
 from libc.stdint cimport uint32_t
+from libc.stdlib cimport getenv
 from libc.string cimport strlen
 
 cdef extern from 'sys/shm.h':
@@ -140,11 +141,10 @@ cdef int _init(bint persistent_mode) except -1:
         os.close(FORKSRV_FD + 1)
     if except_signal_id != 0:
         sys.excepthook = excepthook
-    afl_shm_id = os.getenv(SHM_ENV_VAR)
-    if afl_shm_id is None:
+    cdef const char * afl_shm_id = getenv(SHM_ENV_VAR)
+    if afl_shm_id == NULL:
         return 0
-    afl_shm_id = int(afl_shm_id)
-    afl_area = shmat(afl_shm_id, NULL, 0)
+    afl_area = shmat(int(afl_shm_id), NULL, 0)
     if afl_area == <void*> -1:
         PyErr_SetFromErrno(OSError)
     sys.settrace(trace)
