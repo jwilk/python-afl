@@ -5,6 +5,7 @@ python:
 - "3.2"
 - "3.3"
 - "3.4"
+- "3.5"
 - nightly
 env:
 - CYTHON_VERSION=0.19
