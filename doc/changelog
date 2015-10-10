@@ -1,3 +1,9 @@
+python-afl (0.5.2) UNRELEASED; urgency=low
+
+  * 
+
+ -- Jakub Wilk <jwilk@jwilk.net>  Sat, 10 Oct 2015 13:55:34 +0200
+
 python-afl (0.5.1) unstable; urgency=low
 
   * Fix TypeError when built with Cython 0.23.2.
