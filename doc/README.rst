@@ -44,6 +44,8 @@ HOWTO
   so you might want to enable the dumb mode (``-n``),
   while still leveraging the fork server.
 
+  afl-fuzz ≥ 1.95b is required for this feature.
+
 Environment variables
 ---------------------
 
