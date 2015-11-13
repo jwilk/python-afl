@@ -1,6 +1,6 @@
 python-afl (0.5.2) UNRELEASED; urgency=low
 
-  * 
+  * Improve the test suite.
 
  -- Jakub Wilk <jwilk@jwilk.net>  Sat, 10 Oct 2015 13:55:34 +0200
 

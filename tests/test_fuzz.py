@@ -48,7 +48,7 @@ def check_core_pattern():
         if pattern.startswith('|'):
             raise SkipTest('/proc/sys/kernel/core_pattern = ' + pattern)
 
-def _test_fuzz(workdir, target):
+def _test_fuzz(workdir, target, dumb=False):
     input_dir = workdir + '/in'
     output_dir = workdir + '/out'
     os.mkdir(input_dir)
@@ -59,13 +59,18 @@ def _test_fuzz(workdir, target):
     queue_dir = output_dir + '/queue'
     have_crash = False
     have_paths = False
+    n_paths = 0
     def setup_env():
         os.environ['AFL_SKIP_CPUFREQ'] = '1'
         os.environ['AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES'] = '1'
     with open('/dev/null', 'wb') as devnull:
         with open(workdir + '/stdout', 'wb') as stdout:
+            cmdline = ['py-afl-fuzz', '-i', input_dir, '-o', output_dir, '--', sys.executable, target]
+            if dumb:
+                cmdline[1:1] = ['-n']
+            print(cmdline)
             afl = ipc.Popen(
-                ['py-afl-fuzz', '-i', input_dir, '-o', output_dir, '--', sys.executable, target],
+                cmdline,
                 stdout=stdout,
                 stdin=devnull,
                 preexec_fn=setup_env,
@@ -76,7 +81,8 @@ def _test_fuzz(workdir, target):
             if afl.poll() is not None:
                 break
             have_crash = len(glob.glob(crash_dir + '/id:*')) >= 1
-            have_paths = len(glob.glob(queue_dir + '/id:*')) >= 2
+            n_paths = len(glob.glob(queue_dir + '/id:*'))
+            have_paths = (n_paths == 1) if dumb else (n_paths >= 2)
             if have_crash and have_paths:
                 break
             timeout -= sleep(0.1)
@@ -94,19 +100,25 @@ def _test_fuzz(workdir, target):
     if not have_crash and '/proc/sys/kernel/core_pattern' in stdout:
         check_core_pattern()
     assert_true(have_crash, "target program didn't crash")
-    assert_true(have_paths, "target program didn't produce two distinct paths")
+    assert_true(have_paths, 'target program produced {n} distinct paths'.format(n=n_paths))
 
-def test_fuzz():
+def test_fuzz(dumb=False):
     def t(target):
         tmpdir = tempfile.mkdtemp(prefix='python-afl.')
         try:
             _test_fuzz(
                 workdir=tmpdir,
-                target=os.path.join(here, target)
+                target=os.path.join(here, target),
+                dumb=dumb,
             )
         finally:
             shutil.rmtree(tmpdir)
     yield t, 'target.py'
     yield t, 'target_persistent.py'
+
+def test_fuzz_dumb():
+    # Beware that dumb fuzzing was broken prior to AFL 1.95b
+    for t in test_fuzz(dumb=True):
+        yield t
 
 # vim:ts=4 sts=4 sw=4 et
