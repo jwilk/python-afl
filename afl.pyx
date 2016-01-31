@@ -173,7 +173,7 @@ cdef unsigned long persistent_counter = 0
 
 def loop(max=None):
     '''
-    while persistent([max]):
+    while loop([max]):
         ...
 
     Start the fork server and enable instrumentation,
