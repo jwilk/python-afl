@@ -2,12 +2,15 @@ python-afl (0.5.2) UNRELEASED; urgency=low
 
   [ Jakub Wilk ]
   * Document that afl-fuzz ≥ 1.95b is required for the -n option.
+  * Document that you might need to wrap code in a function to get it
+    instrumented correctly.
+    Thanks to Peter Dohm for the bug report.
   * Improve the test suite.
 
   [ Alex Gaynor ]
   * Fix the afl.loop() docstring.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Sun, 31 Jan 2016 12:14:44 +0100
+ -- Jakub Wilk <jwilk@jwilk.net>  Sat, 13 Feb 2016 19:44:28 +0100
 
 python-afl (0.5.1) unstable; urgency=low
 

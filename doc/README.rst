@@ -14,6 +14,14 @@ HOWTO
       import afl
       afl.init()
 
+* The instrumentation is currently implemented with a `trace function`_,
+  which is called whenever a new local scope is entered.
+  You might need to wrap the code of the main program in a function
+  to get it instrumented correctly.
+
+.. _trace function:
+   https://docs.python.org/2/library/sys.html#sys.settrace
+
 * Optionally, add this code at the end of the target program:
 
   .. code:: python
