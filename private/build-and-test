@@ -49,10 +49,10 @@ set -e
 [ $# = 0 ] && set -- python
 [ -z $opt_build ] || \
 printf '%s\n' "$@" \
-| xargs -P"$opt_jobs" -t -I{python} env {python} setup.py build --build-lib build/{python}
+| xargs -P"$opt_jobs" -t -I'{python}' env '{python}' setup.py build --build-lib 'build/{python}'
 cd tests
 nosetests=$(command -v nosetests) || { echo nosetests not found >&2; exit 1; }
 printf '%s\n' "$@" \
-| xargs -t -I{python} env PYTHONPATH="$PWD/../build/{python}" {python} "$nosetests" --verbose
+| xargs -t -I'{python}' env PYTHONPATH="$PWD/../build/{python}" '{python}' "$nosetests" --verbose
 
 # vim:ts=4 sts=4 sw=4 et
