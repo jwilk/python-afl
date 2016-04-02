@@ -63,3 +63,11 @@ dateutil__
  | https://github.com/dateutil/dateutil/issues/82
 
 .. __: https://pypi.python.org/pypi/python-dateutil/
+
+regex__
+-------
+
+ | https://bitbucket.org/mrabarnett/mrab-regex/issues/197/valueerror-in-regexcompile
+ | https://bitbucket.org/mrabarnett/mrab-regex/issues/198/valueerror-in-regexcompile
+
+.. __: https://pypi.python.org/pypi/regex/
