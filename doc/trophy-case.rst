@@ -69,5 +69,7 @@ regex__
 
  | https://bitbucket.org/mrabarnett/mrab-regex/issues/197/valueerror-in-regexcompile
  | https://bitbucket.org/mrabarnett/mrab-regex/issues/198/valueerror-in-regexcompile
+ | https://bitbucket.org/mrabarnett/mrab-regex/issues/199/segfault-in-recompile
+ | https://bitbucket.org/mrabarnett/mrab-regex/issues/200/attributeerror-in-regexcompile-with-latest
 
 .. __: https://pypi.python.org/pypi/regex/
