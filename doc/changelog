@@ -1,8 +1,8 @@
 python-afl (0.5.3) UNRELEASED; urgency=low
 
-  * 
+  * Fix compatibility with Cython 0.24.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Sun, 14 Feb 2016 12:48:45 +0100
+ -- Jakub Wilk <jwilk@jwilk.net>  Thu, 07 Apr 2016 11:58:33 +0200
 
 python-afl (0.5.2) unstable; urgency=low
 

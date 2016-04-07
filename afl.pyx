@@ -35,7 +35,7 @@ import sys
 import warnings
 
 # These constants must be kept in sync with afl-fuzz:
-DEF SHM_ENV_VAR = '__AFL_SHM_ID'
+DEF SHM_ENV_VAR = b'__AFL_SHM_ID'
 DEF FORKSRV_FD = 198
 DEF MAP_SIZE_POW2 = 16
 DEF MAP_SIZE = 1 << MAP_SIZE_POW2
