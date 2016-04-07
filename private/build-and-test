@@ -52,6 +52,7 @@ printf '%s\n' "$@" \
 | xargs -P"$opt_jobs" -t -I'{python}' env '{python}' setup.py build --build-lib 'build/{python}'
 cd tests
 nosetests=$(command -v nosetests) || { echo nosetests not found >&2; exit 1; }
+export PATH="$PWD/..:$PATH"
 printf '%s\n' "$@" \
 | xargs -t -I'{python}' env PYTHONPATH="$PWD/../build/{python}" '{python}' "$nosetests" --verbose
 
