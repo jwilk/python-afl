@@ -40,12 +40,14 @@ cython_version = distutils.version.LooseVersion(cython_version)
 if cython_version < '0.19':
     raise RuntimeError('Cython >= 0.19 is required')
 
+def uopen(path):
+    if str != bytes:
+        return open(path, 'rt', encoding='UTF-8')
+    else:
+        return open(path, 'rt')
+
 def get_version():
-    try:
-        f = open('doc/changelog', encoding='UTF-8')
-    except TypeError:
-        f = open('doc/changelog')
-    with f:
+    with uopen('doc/changelog') as f:
         return f.readline().split()[1].strip('()')
 
 class lazylist(list):
