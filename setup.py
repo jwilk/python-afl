@@ -62,7 +62,7 @@ class lazylist(list):
         return iter(self._obj)
 
 classifiers = '''
-Development Status :: 2 - Pre-Alpha
+Development Status :: 3 - Alpha
 Intended Audience :: Developers
 License :: OSI Approved :: MIT License
 Operating System :: POSIX
