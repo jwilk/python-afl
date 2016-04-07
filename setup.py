@@ -29,6 +29,7 @@
 
 import distutils.core
 import distutils.version
+
 import Cython.Build
 
 try:
