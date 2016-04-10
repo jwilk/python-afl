@@ -1,8 +1,8 @@
 python-afl (0.5.4) UNRELEASED; urgency=low
 
-  * 
+  * Skip the dumb fuzzing test for afl-fuzz < 1.95b.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Thu, 07 Apr 2016 13:22:19 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Sun, 10 Apr 2016 20:50:32 +0200
 
 python-afl (0.5.3) unstable; urgency=low
 

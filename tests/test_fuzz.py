@@ -1,6 +1,6 @@
 # encoding=UTF-8
 
-# Copyright © 2015 Jakub Wilk <jwilk@jwilk.net>
+# Copyright © 2015-2016 Jakub Wilk <jwilk@jwilk.net>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the “Software”), to deal
@@ -20,8 +20,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import distutils.version
 import glob
 import os
+import re
 import shutil
 import subprocess as ipc
 import sys
@@ -34,6 +36,16 @@ from .tools import (
 )
 
 here = os.path.dirname(__file__)
+
+def get_afl_version():
+    child = ipc.Popen(['afl-fuzz'], stdout=ipc.PIPE)
+    version = child.stdout.readline()
+    child.stdout.close()
+    child.wait()
+    version = re.sub(r'\x1b\[[^m]+m', '', version)
+    match = re.match(r'^afl-fuzz\s+([0-9.]+)b?\b', version)
+    version = match.group(1)
+    return distutils.version.StrictVersion(version)
 
 def sleep(n):
     time.sleep(n)
@@ -117,8 +129,12 @@ def test_fuzz(dumb=False):
     yield t, 'target_persistent.py'
 
 def test_fuzz_dumb():
-    # Beware that dumb fuzzing was broken prior to AFL 1.95b
+    if get_afl_version() < '1.95':
+        def skip():
+            raise SkipTest('afl-fuzz >= 1.95b is required')
+    else:
+        skip = False
     for t in test_fuzz(dumb=True):
-        yield t
+        yield skip or t
 
 # vim:ts=4 sts=4 sw=4 et
