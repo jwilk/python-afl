@@ -42,6 +42,8 @@ def get_afl_version():
     version = child.stdout.readline()
     child.stdout.close()
     child.wait()
+    if str != bytes:
+        version = version.decode('ASCII')
     version = re.sub(r'\x1b\[[^m]+m', '', version)
     match = re.match(r'^afl-fuzz\s+([0-9.]+)b?\b', version)
     version = match.group(1)
