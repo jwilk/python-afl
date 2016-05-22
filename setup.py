@@ -35,6 +35,8 @@ import Cython.Build
 try:
     cython_version = Cython.__version__
 except AttributeError:
+    # Cython prior to 0.14 didn't have __version__.
+    # Oh well. We don't support such old versions anyway.
     cython_version = '0'
 cython_version = distutils.version.LooseVersion(cython_version)
 if cython_version < '0.19':
