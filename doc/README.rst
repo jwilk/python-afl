@@ -60,7 +60,6 @@ Environment variables
 The following environment variables affect *python-afl* behavior:
 
 ``PYTHON_AFL_SIGNAL``
-
    If this variable is set, *python-afl* installs an exception hook
    that kills the current process with the selected signal.
    That way *afl-fuzz* can treat unhandled exceptions as crashes.
@@ -71,7 +70,6 @@ The following environment variables affect *python-afl* behavior:
    or set it to ``0`` to disable the exception hook.
 
 ``PYTHON_AFL_PERSISTENT``
-
    Persistent mode is enabled only if this variable is set.
 
    *py-afl-fuzz* sets this variable automatically,
