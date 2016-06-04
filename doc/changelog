@@ -64,7 +64,6 @@ python-afl (0.3) unstable; urgency=low
       afl-showmap proper can be now used for Python code.
     + Remove the AflError class. It was only used for checking PYTHONHASHSEED.
   * Improve the setup script:
-    + Run Cython only in those setup.py commands that actually build extensions.
     + Check Cython version.
   * Implement a small test suite.
 
