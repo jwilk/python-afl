@@ -1,0 +1,8 @@
+*.c
+*.o
+*.py[co]
+*.so
+MANIFEST
+build
+dist
+secret
