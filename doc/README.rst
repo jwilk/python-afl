@@ -75,4 +75,10 @@ The following environment variables affect *python-afl* behavior:
    *py-afl-fuzz* sets this variable automatically,
    so there should normally no need to set it manually.
 
+Further reading
+---------------
+
+* `Introduction to Fuzzing in Python with AFL <https://alexgaynor.net/2015/apr/13/introduction-to-fuzzing-in-python-with-afl/>`_ by Alex Gaynor
+* `AFL's README <http://lcamtuf.coredump.cx/afl/README.txt>`_
+
 .. vim:ts=3 sts=3 sw=3 et
