@@ -30,7 +30,10 @@
 import distutils.core
 import distutils.version
 
-import Cython.Build
+try:
+    import Cython
+except ImportError:
+    raise RuntimeError('Cython >= 0.19 is required')
 
 try:
     cython_version = Cython.__version__
@@ -41,6 +44,8 @@ except AttributeError:
 cython_version = distutils.version.LooseVersion(cython_version)
 if cython_version < '0.19':
     raise RuntimeError('Cython >= 0.19 is required')
+
+import Cython.Build
 
 def uopen(path):
     if str != bytes:
