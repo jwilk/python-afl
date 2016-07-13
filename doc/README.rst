@@ -81,4 +81,14 @@ Further reading
 * `Introduction to Fuzzing in Python with AFL <https://alexgaynor.net/2015/apr/13/introduction-to-fuzzing-in-python-with-afl/>`_ by Alex Gaynor
 * `AFL's README <http://lcamtuf.coredump.cx/afl/README.txt>`_
 
+Prerequisites
+-------------
+
+To build the module, you will need:
+
+* Python 2.6+ or 3.2+
+* Cython ≥ 0.19 (only at build time)
+
+*py-afl-fuzz* requires AFL proper to be installed.
+
 .. vim:ts=3 sts=3 sw=3 et
