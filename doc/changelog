@@ -1,8 +1,11 @@
 python-afl (0.5.4) UNRELEASED; urgency=low
 
-  * Skip the dumb fuzzing test for afl-fuzz < 1.95b.
-  * Fix formatting in README.
-  * Add “Further reading” links to README.
+  * Improve README:
+    + Fix formatting.
+    + Add “Further reading” links.
+    + Document runtime and build-time dependencies.
+  * Improve error handling.
+    https://github.com/jwilk/python-afl/issues/1
   * Improve the test suite.
 
  -- Jakub Wilk <jwilk@jwilk.net>  Wed, 13 Jul 2016 12:14:47 +0200
