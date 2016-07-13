@@ -77,6 +77,7 @@ def _test_fuzz(workdir, target, dumb=False):
     def setup_env():
         os.environ['AFL_SKIP_CPUFREQ'] = '1'
         os.environ['AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES'] = '1'
+        os.environ['AFL_NO_AFFINITY'] = '1'
     with open('/dev/null', 'wb') as devnull:
         with open(workdir + '/stdout', 'wb') as stdout:
             cmdline = ['py-afl-fuzz', '-i', input_dir, '-o', output_dir, '--', sys.executable, target]
