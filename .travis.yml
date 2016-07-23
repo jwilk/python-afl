@@ -12,7 +12,6 @@ env:
 - CYTHON_VERSION=
 cache:
   directories:
-  - $HOME/.cache/pip
   - $HOME/.cache
 install:
 - mkdir deps
