@@ -29,23 +29,7 @@
 
 import distutils.core
 import distutils.version
-
-try:
-    import Cython
-except ImportError:
-    raise RuntimeError('Cython >= 0.19 is required')
-
-try:
-    cython_version = Cython.__version__
-except AttributeError:
-    # Cython prior to 0.14 didn't have __version__.
-    # Oh well. We don't support such old versions anyway.
-    cython_version = '0'
-cython_version = distutils.version.LooseVersion(cython_version)
-if cython_version < '0.19':
-    raise RuntimeError('Cython >= 0.19 is required')
-
-import Cython.Build
+import sys
 
 def uopen(path):
     if str != bytes:
@@ -66,7 +50,7 @@ Topic :: Software Development :: Quality Assurance
 Topic :: Software Development :: Testing
 '''.strip().splitlines()
 
-distutils.core.setup(
+meta = dict(
     name='python-afl',
     version=get_version(),
     license='MIT',
@@ -76,8 +60,41 @@ distutils.core.setup(
     url='http://jwilk.net/software/python-afl',
     author='Jakub Wilk',
     author_email='jwilk@jwilk.net',
+)
+
+if 'setuptools' in sys.modules and sys.argv[1] == 'egg_info':
+    # We wouldn't normally want setuptools; but pip forces it upon us anyway,
+    # so let's abuse it to instruct pip to install Cython if it's missing.
+    distutils.core.setup(
+        install_requires=['Cython>=0.19'],
+        # Conceptually, “setup_requires” would make more sense than
+        # “install_requires”, but the former is not supported by pip:
+        # https://github.com/pypa/pip/issues/1820
+        **meta
+    )
+    sys.exit(0)
+
+try:
+    import Cython
+except ImportError:
+    raise RuntimeError('Cython >= 0.19 is required')
+
+try:
+    cython_version = Cython.__version__
+except AttributeError:
+    # Cython prior to 0.14 didn't have __version__.
+    # Oh well. We don't support such old versions anyway.
+    cython_version = '0'
+cython_version = distutils.version.LooseVersion(cython_version)
+if cython_version < '0.19':
+    raise RuntimeError('Cython >= 0.19 is required')
+
+import Cython.Build
+
+distutils.core.setup(
     ext_modules=Cython.Build.cythonize('afl.pyx'),
     scripts=['py-afl-fuzz'],
+    **meta
 )
 
 # vim:ts=4 sts=4 sw=4 et
