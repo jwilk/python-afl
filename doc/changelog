@@ -1,4 +1,4 @@
-python-afl (0.5.4) UNRELEASED; urgency=low
+python-afl (0.5.4) unstable; urgency=low
 
   * Improve README:
     + Fix formatting.
@@ -12,7 +12,7 @@ python-afl (0.5.4) UNRELEASED; urgency=low
     + Add “Programming Language” classifiers.
   * Improve the test suite.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Sat, 30 Jul 2016 16:40:08 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Sat, 30 Jul 2016 16:43:52 +0200
 
 python-afl (0.5.3) unstable; urgency=low
 
