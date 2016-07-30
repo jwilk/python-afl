@@ -46,6 +46,9 @@ Development Status :: 3 - Alpha
 Intended Audience :: Developers
 License :: OSI Approved :: MIT License
 Operating System :: POSIX
+Programming Language :: Cython
+Programming Language :: Python :: 2
+Programming Language :: Pyhton :: 3
 Topic :: Software Development :: Quality Assurance
 Topic :: Software Development :: Testing
 '''.strip().splitlines()
