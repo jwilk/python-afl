@@ -6,11 +6,13 @@ python-afl (0.5.4) UNRELEASED; urgency=low
     + Document runtime and build-time dependencies.
   * Improve error handling.
     https://github.com/jwilk/python-afl/issues/1
-  * Make the package installable with pip, even when Cython were missing.
-    https://github.com/jwilk/python-afl/issues/3
+  * Improve the setup script:
+    + Make the package installable with pip, even when Cython were missing.
+      https://github.com/jwilk/python-afl/issues/3
+    + Add “Programming Language” classifiers.
   * Improve the test suite.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Sat, 30 Jul 2016 16:14:22 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Sat, 30 Jul 2016 16:40:08 +0200
 
 python-afl (0.5.3) unstable; urgency=low
 
