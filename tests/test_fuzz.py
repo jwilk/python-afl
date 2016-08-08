@@ -24,15 +24,14 @@ import distutils.version
 import glob
 import os
 import re
-import shutil
 import subprocess as ipc
 import sys
-import tempfile
 import time
 
 from .tools import (
     SkipTest,
     assert_true,
+    tempdir,
 )
 
 here = os.path.dirname(__file__)
@@ -119,15 +118,12 @@ def _test_fuzz(workdir, target, dumb=False):
 
 def test_fuzz(dumb=False):
     def t(target):
-        tmpdir = tempfile.mkdtemp(prefix='python-afl.')
-        try:
+        with tempdir() as workdir:
             _test_fuzz(
-                workdir=tmpdir,
+                workdir=workdir,
                 target=os.path.join(here, target),
                 dumb=dumb,
             )
-        finally:
-            shutil.rmtree(tmpdir)
     yield t, 'target.py'
     yield t, 'target_persistent.py'
 

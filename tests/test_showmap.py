@@ -21,14 +21,13 @@
 # SOFTWARE.
 
 import os
-import shutil
 import subprocess as ipc
 import sys
-import tempfile
 
 from .tools import (
     assert_equal,
     assert_not_equal,
+    tempdir,
 )
 
 here = os.path.dirname(__file__)
@@ -51,9 +50,8 @@ def run(cmd, stdin='', env=None, xstatus=0):
     return (stdout, stderr)
 
 def run_afl_showmap(stdin, env=None, xstdout=None, xstatus=0):
-    tmpdir = tempfile.mkdtemp(prefix='python-afl.')
-    outpath = tmpdir + '/out'
-    try:
+    with tempdir() as workdir:
+        outpath = workdir + '/out'
         (stdout, stderr) = run(
             ['afl-showmap', '-o', outpath, sys.executable, target],
             stdin=stdin,
@@ -65,8 +63,6 @@ def run_afl_showmap(stdin, env=None, xstdout=None, xstatus=0):
             assert_equal(stdout, xstdout)
         with open(outpath, 'r') as file:
             return file.read()
-    finally:
-        shutil.rmtree(tmpdir)
 
 def test_diff():
     out1 = run_afl_showmap(b'0', xstdout=b'Looks like a zero to me!\n')

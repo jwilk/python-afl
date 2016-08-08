@@ -24,7 +24,9 @@ import contextlib
 import functools
 import os
 import re
+import shutil
 import sys
+import tempfile
 import traceback
 import warnings
 
@@ -174,6 +176,14 @@ def fork_isolation(f):
 
     return wrapper
 
+@contextlib.contextmanager
+def tempdir():
+    d = tempfile.mkdtemp(prefix='python-afl.')
+    try:
+        yield d
+    finally:
+        shutil.rmtree(d)
+
 __all__ = [
     'SkipTest',
     'assert_equal',
@@ -184,6 +194,7 @@ __all__ = [
     'assert_true',
     'assert_warns_regex',
     'fork_isolation',
+    'tmpdir',
 ]
 
 # vim:ts=4 sts=4 sw=4 et
