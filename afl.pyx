@@ -120,8 +120,7 @@ cdef int _init(bint persistent_mode) except -1:
     while use_forkserver:
         [child_killed] = struct.unpack('I', os.read(FORKSRV_FD, 4))
         if child_stopped and child_killed:
-            if child_killed:
-                os.waitpid(child_pid, 0)
+            os.waitpid(child_pid, 0)
             child_stopped = False
         if child_stopped:
             os.kill(child_pid, signal.SIGCONT)
