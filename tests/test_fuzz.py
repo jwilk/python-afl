@@ -42,7 +42,7 @@ def get_afl_version():
     version = child.stdout.readline()
     child.stdout.close()
     child.wait()
-    if str != bytes:
+    if str is not bytes:
         version = version.decode('ASCII')
     version = re.sub(r'\x1b\[[^m]+m', '', version)
     match = re.match(r'^afl-fuzz\s+([0-9.]+)b?\b', version)
@@ -56,7 +56,7 @@ def sleep(n):
 def check_core_pattern():
     with open('/proc/sys/kernel/core_pattern', 'rb') as file:
         pattern = file.read()
-        if str != bytes:
+        if str is not bytes:
             pattern = pattern.decode('ASCII', 'replace')
         pattern = pattern.rstrip('\n')
         if pattern.startswith('|'):
@@ -109,7 +109,7 @@ def _test_fuzz(workdir, target, dumb=False):
         raise
     with open(workdir + '/stdout', 'rb') as file:
         stdout = file.read()
-        if str != bytes:
+        if str is not bytes:
             stdout = stdout.decode('ASCII', 'replace')
         print(stdout)
     if not have_crash and '/proc/sys/kernel/core_pattern' in stdout:

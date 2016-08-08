@@ -44,7 +44,7 @@ def run(cmd, stdin='', env=None, xstatus=0):
     )
     (stdout, stderr) = child.communicate(stdin)
     if child.returncode != xstatus:
-        if str != bytes:
+        if str is not bytes:
             stderr = stderr.decode('ASCII', 'replace')
         print(stderr)
         raise ipc.CalledProcessError(child.returncode, cmd[0])

@@ -32,7 +32,7 @@ import distutils.version
 import sys
 
 def uopen(path):
-    if str != bytes:
+    if str is not bytes:
         return open(path, 'rt', encoding='UTF-8')
     else:
         return open(path, 'rt')
