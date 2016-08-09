@@ -20,6 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import base64
+import contextlib
 import distutils.version
 import glob
 import os
@@ -27,6 +29,8 @@ import re
 import subprocess as ipc
 import sys
 import time
+import signal
+import warnings
 
 from .tools import (
     SkipTest,
@@ -35,6 +39,10 @@ from .tools import (
 )
 
 here = os.path.dirname(__file__)
+
+token = base64.b64encode(os.urandom(8))
+if not isinstance(token, str):
+    token = token.decode('ASCII')
 
 def get_afl_version():
     child = ipc.Popen(['afl-fuzz'], stdout=ipc.PIPE)
@@ -79,7 +87,7 @@ def _test_fuzz(workdir, target, dumb=False):
         os.environ['AFL_NO_AFFINITY'] = '1'
     with open('/dev/null', 'wb') as devnull:
         with open(workdir + '/stdout', 'wb') as stdout:
-            cmdline = ['py-afl-fuzz', '-i', input_dir, '-o', output_dir, '--', sys.executable, target]
+            cmdline = ['py-afl-fuzz', '-i', input_dir, '-o', output_dir, '--', sys.executable, target, token]
             if dumb:
                 cmdline[1:1] = ['-n']
             print(cmdline)
@@ -116,14 +124,38 @@ def _test_fuzz(workdir, target, dumb=False):
     assert_true(have_crash, "target program didn't crash")
     assert_true(have_paths, 'target program produced {n} distinct paths'.format(n=n_paths))
 
+@contextlib.contextmanager
+def stray_process_cleanup():
+    # afl-fuzz doesn't always kill the target process:
+    # https://groups.google.com/d/topic/afl-users/E37s4YDti7o
+    try:
+        yield
+    finally:
+        ps = ipc.Popen(['ps', 'ax'], stdout=ipc.PIPE)
+        strays = []
+        for line in ps.stdout:
+            if not isinstance(line, str):
+                line = line.decode('ASCII', 'replace')
+            if token in line:
+                strays += [line]
+        if strays:
+            warnings.warn('stray process{es} left behind:\n{ps}'.format(
+                es=('' if len(strays) == 1 else 'es'),
+                ps=''.join(strays)
+            ), category=RuntimeWarning)
+            for line in strays:
+                pid = int(line.split()[0])
+                os.kill(pid, signal.SIGKILL)
+
 def test_fuzz(dumb=False):
     def t(target):
-        with tempdir() as workdir:
-            _test_fuzz(
-                workdir=workdir,
-                target=os.path.join(here, target),
-                dumb=dumb,
-            )
+        with stray_process_cleanup():
+            with tempdir() as workdir:
+                _test_fuzz(
+                    workdir=workdir,
+                    target=os.path.join(here, target),
+                    dumb=dumb,
+                )
     yield t, 'target.py'
     yield t, 'target_persistent.py'
 
