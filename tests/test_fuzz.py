@@ -153,6 +153,7 @@ def stray_process_cleanup():
             for line in strays:
                 pid = int(line.split()[0])
                 os.kill(pid, signal.SIGKILL)
+        ps.wait()
 
 def test_fuzz(dumb=False):
     def t(target):
