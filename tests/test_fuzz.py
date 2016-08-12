@@ -27,6 +27,7 @@ import contextlib
 import distutils.version
 import glob
 import os
+import pipes
 import re
 import signal
 import subprocess as ipc
@@ -71,11 +72,6 @@ def check_core_pattern():
         if pattern.startswith('|'):
             raise SkipTest('/proc/sys/kernel/core_pattern = ' + pattern)
 
-def shell_escape(s, safe=re.compile(r'\A[a-zA-Z0-9_+/=.,:%-]+\Z').match):
-    if safe(s):
-        return s
-    return "'{0}'".format(s.replace("'", r"'\''"))
-
 def _test_fuzz(workdir, target, dumb=False):
     input_dir = workdir + '/in'
     output_dir = workdir + '/out'
@@ -97,7 +93,7 @@ def _test_fuzz(workdir, target, dumb=False):
             cmdline = ['py-afl-fuzz', '-i', input_dir, '-o', output_dir, '--', sys.executable, target, token]
             if dumb:
                 cmdline[1:1] = ['-n']
-            print('$ ' + ' '.join(shell_escape(arg) for arg in cmdline))
+            print('$ ' + ' '.join(pipes.quote(arg) for arg in cmdline))
             afl = ipc.Popen(
                 cmdline,
                 stdout=stdout,
