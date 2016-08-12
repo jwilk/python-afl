@@ -28,10 +28,10 @@ import distutils.version
 import glob
 import os
 import re
+import signal
 import subprocess as ipc
 import sys
 import time
-import signal
 import warnings
 
 from .tools import (
