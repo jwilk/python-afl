@@ -27,13 +27,19 @@ import contextlib
 import distutils.version
 import glob
 import os
-import pipes
 import re
 import signal
 import subprocess as ipc
 import sys
 import time
 import warnings
+
+try:
+    # Python >= 3.3
+    from shlex import quote as shell_quote
+except ImportError:
+    # Python << 3.3
+    from pipes import quote as shell_quote
 
 from .tools import (
     SkipTest,
@@ -93,7 +99,7 @@ def _test_fuzz(workdir, target, dumb=False):
             cmdline = ['py-afl-fuzz', '-i', input_dir, '-o', output_dir, '--', sys.executable, target, token]
             if dumb:
                 cmdline[1:1] = ['-n']
-            print('$ ' + ' '.join(pipes.quote(arg) for arg in cmdline))
+            print('$ ' + ' '.join(shell_quote(arg) for arg in cmdline))
             afl = ipc.Popen(
                 cmdline,
                 stdout=stdout,
