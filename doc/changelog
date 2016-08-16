@@ -1,4 +1,4 @@
-python-afl (0.5.5) UNRELEASED; urgency=low
+python-afl (0.5.5) unstable; urgency=low
 
   * Improve the test suite:
     + Kill stray processes that afl-fuzz might have left behind.
@@ -6,7 +6,7 @@ python-afl (0.5.5) UNRELEASED; urgency=low
       https://bugs.debian.org/833675
       https://github.com/jwilk/python-afl/issues/4
 
- -- Jakub Wilk <jwilk@jwilk.net>  Wed, 10 Aug 2016 19:23:00 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Tue, 16 Aug 2016 22:08:57 +0200
 
 python-afl (0.5.4) unstable; urgency=low
 
