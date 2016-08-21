@@ -7,14 +7,14 @@ i18nspector__
 -------------
 Multiple bugs in the plural expression parser:
 
- | https://bitbucket.org/jwilk/i18nspector/commits/9bc2165dcd95
- | https://bitbucket.org/jwilk/i18nspector/commits/14ca54c29cf8
- | https://bitbucket.org/jwilk/i18nspector/commits/b724d7d744ad
- | https://bitbucket.org/jwilk/i18nspector/commits/53e0049117f1
- | https://bitbucket.org/jwilk/i18nspector/commits/2b68fb57404d
- | https://bitbucket.org/jwilk/i18nspector/commits/8e5f3709da8d
- | https://bitbucket.org/jwilk/i18nspector/commits/18f9b9e29c7a
- | https://bitbucket.org/jwilk/i18nspector/commits/0da379394722
+ | https://github.com/jwilk/i18nspector/commit/c340dc28a1fe
+ | https://github.com/jwilk/i18nspector/commit/74ac2b9e9882
+ | https://github.com/jwilk/i18nspector/commit/c9e4fd0efc13
+ | https://github.com/jwilk/i18nspector/commit/1febfc2bd612
+ | https://github.com/jwilk/i18nspector/commit/1d671f43497e
+ | https://github.com/jwilk/i18nspector/commit/0767e9924ab1
+ | https://github.com/jwilk/i18nspector/commit/1f6993b34ca5
+ | https://github.com/jwilk/i18nspector/commit/6a76c4884d0b
 
 .. __: http://jwilk.net/software/i18nspector
 
