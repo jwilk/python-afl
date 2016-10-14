@@ -194,7 +194,7 @@ __all__ = [
     'assert_true',
     'assert_warns_regex',
     'fork_isolation',
-    'tmpdir',
+    'tempdir',
 ]
 
 # vim:ts=4 sts=4 sw=4 et
