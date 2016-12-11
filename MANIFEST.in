@@ -1,5 +1,6 @@
 exclude *.c
 include *.pyx
+include LICENSE
 include MANIFEST.in
 include doc/*
 include private/*
