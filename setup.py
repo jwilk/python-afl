@@ -27,11 +27,11 @@
 .. _American fuzzy lop: http://lcamtuf.coredump.cx/afl/
 '''
 
-import distutils.core
-import distutils.version
 import os
 import sys
 
+import distutils.core
+import distutils.version
 from distutils.command.sdist import sdist as distutils_sdist
 
 def uopen(path):
