@@ -29,7 +29,10 @@
 
 import distutils.core
 import distutils.version
+import os
 import sys
+
+from distutils.command.sdist import sdist as distutils_sdist
 
 def uopen(path):
     if str is not bytes:
@@ -94,9 +97,22 @@ if cython_version < '0.19':
 
 import Cython.Build
 
+class cmd_sdist(distutils_sdist):
+
+    def maybe_move_file(self, base_dir, src, dst):
+        src = os.path.join(base_dir, src)
+        dst = os.path.join(base_dir, dst)
+        if os.path.exists(src):
+            self.move_file(src, dst)
+
+    def make_release_tree(self, base_dir, files):
+        distutils_sdist.make_release_tree(self, base_dir, files)
+        self.maybe_move_file(base_dir, 'LICENSE', 'doc/LICENSE')
+
 distutils.core.setup(
     ext_modules=Cython.Build.cythonize('afl.pyx'),
     scripts=['py-afl-fuzz'],
+    cmdclass=dict(sdist=cmd_sdist),
     **meta
 )
 
