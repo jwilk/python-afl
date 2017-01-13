@@ -62,7 +62,7 @@ dateutil__
 
  | https://github.com/dateutil/dateutil/issues/82
 
-.. __: https://pypi.python.org/pypi/python-dateutil/
+.. __: https://pypi.python.org/pypi/python-dateutil
 
 regex__
 -------
@@ -72,4 +72,4 @@ regex__
  | https://bitbucket.org/mrabarnett/mrab-regex/issues/199/segfault-in-recompile
  | https://bitbucket.org/mrabarnett/mrab-regex/issues/200/attributeerror-in-regexcompile-with-latest
 
-.. __: https://pypi.python.org/pypi/regex/
+.. __: https://pypi.python.org/pypi/regex
