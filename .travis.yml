@@ -11,9 +11,7 @@ python:
 env:
 - CYTHON_VERSION=0.19
 - CYTHON_VERSION=
-cache:
-  directories:
-  - $HOME/.cache
+cache: pip
 install:
 - mkdir deps
 - wget http://lcamtuf.coredump.cx/afl/releases/afl-latest.tgz -O deps/afl.tar.gz
