@@ -1,8 +1,13 @@
 python-afl (0.5.6) UNRELEASED; urgency=low
 
-  * 
+  * Add py-afl-cmin.
+    Thanks to @jabdoa2 for the bug report.
+    https://github.com/jwilk/python-afl/issues/6
+  * Add py-afl-showmap and py-afl-tmin.
+    Bare afl-showmap and afl-tmin were broken since 0.5.
+  * Put license into a separate file.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Tue, 16 Aug 2016 22:28:36 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Sat, 25 Mar 2017 16:56:08 +0100
 
 python-afl (0.5.5) unstable; urgency=low
 
