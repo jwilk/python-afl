@@ -27,6 +27,7 @@
 .. _American fuzzy lop: http://lcamtuf.coredump.cx/afl/
 '''
 
+import glob
 import os
 import sys
 
@@ -111,7 +112,7 @@ class cmd_sdist(distutils_sdist):
 
 distutils.core.setup(
     ext_modules=Cython.Build.cythonize('afl.pyx'),
-    scripts=['py-afl-fuzz', 'py-afl-cmin', 'py-afl-tmin', 'py-afl-showmap'],
+    scripts=glob.glob('py-afl-*'),
     cmdclass=dict(sdist=cmd_sdist),
     **meta
 )
