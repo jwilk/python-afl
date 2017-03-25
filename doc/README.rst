@@ -64,7 +64,7 @@ The following environment variables affect *python-afl* behavior:
    that kills the current process with the selected signal.
    That way *afl-fuzz* can treat unhandled exceptions as crashes.
 
-   By default, *py-afl-fuzz* set this variable to ``SIGUSR1``.
+   By default, *py-afl-fuzz* sets this variable to ``SIGUSR1``.
 
    You can set ``PYTHON_AFL_SIGNAL`` to another signal;
    or set it to ``0`` to disable the exception hook.
