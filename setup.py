@@ -111,7 +111,7 @@ class cmd_sdist(distutils_sdist):
 
 distutils.core.setup(
     ext_modules=Cython.Build.cythonize('afl.pyx'),
-    scripts=['py-afl-fuzz', 'py-afl-cmin'],
+    scripts=['py-afl-fuzz', 'py-afl-cmin', 'py-afl-tmin', 'py-afl-showmap'],
     cmdclass=dict(sdist=cmd_sdist),
     **meta
 )

@@ -1,0 +1,13 @@
+#!/bin/sh
+export PYTHON_AFL_SIGNAL=${PYTHON_AFL_SIGNAL:-SIGUSR1}
+if ! command -v afl-tmin > /dev/null
+then
+    cat >&2 <<EOF
+$0: afl-tmin not found
+Is AFL <http://lcamtuf.coredump.cx/afl/> installed?
+EOF
+    exit 127
+fi
+exec afl-tmin "$@"
+
+# vim:ts=4 sts=4 sw=4 et
