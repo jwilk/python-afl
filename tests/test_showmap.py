@@ -33,13 +33,17 @@ from .tools import (
 here = os.path.dirname(__file__)
 target = here + '/target.py'
 
-def run(cmd, stdin='', env=None, xstatus=0):
+def run(cmd, stdin='', xstatus=0):
+    def setup_env():
+        for key in list(os.environ.keys()):
+            if key.startswith('PYTHON_AFL_'):
+                del os.environ[key]
     child = ipc.Popen(
         list(cmd),
         stdin=ipc.PIPE,
         stdout=ipc.PIPE,
         stderr=ipc.PIPE,
-        env=(dict(os.environ, **env) if env else None),
+        preexec_fn=setup_env,
     )
     (stdout, stderr) = child.communicate(stdin)
     if child.returncode != xstatus:
@@ -49,13 +53,12 @@ def run(cmd, stdin='', env=None, xstatus=0):
         raise ipc.CalledProcessError(child.returncode, cmd[0])
     return (stdout, stderr)
 
-def run_afl_showmap(stdin, env=None, xstdout=None, xstatus=0):
+def run_afl_showmap(stdin, xstdout=None, xstatus=0):
     with tempdir() as workdir:
         outpath = workdir + '/out'
         (stdout, stderr) = run(
             ['py-afl-showmap', '-o', outpath, sys.executable, target],
             stdin=stdin,
-            env=env,
             xstatus=xstatus,
         )
         del stderr  # make pylint happy
@@ -71,7 +74,6 @@ def test_diff():
 
 def test_exception():
     out = run_afl_showmap(b'\xff',
-        env=dict(PYTHON_AFL_SIGNAL='SIGUSR1'),
         xstatus=2,
     )
     assert_not_equal(out, b'')
