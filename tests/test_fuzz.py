@@ -91,6 +91,9 @@ def _test_fuzz(workdir, target, dumb=False):
     have_paths = False
     n_paths = 0
     def setup_env():
+        for key in list(os.environ.keys()):
+            if key.startswith('PYTHON_AFL_'):
+                del os.environ[key]
         os.environ['AFL_SKIP_CPUFREQ'] = '1'
         os.environ['AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES'] = '1'
         os.environ['AFL_NO_AFFINITY'] = '1'
