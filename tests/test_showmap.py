@@ -53,7 +53,7 @@ def run_afl_showmap(stdin, env=None, xstdout=None, xstatus=0):
     with tempdir() as workdir:
         outpath = workdir + '/out'
         (stdout, stderr) = run(
-            ['afl-showmap', '-o', outpath, sys.executable, target],
+            ['py-afl-showmap', '-o', outpath, sys.executable, target],
             stdin=stdin,
             env=env,
             xstatus=xstatus,
