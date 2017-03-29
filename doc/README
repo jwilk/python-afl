@@ -92,4 +92,4 @@ To build the module, you will need:
 
 *py-afl-fuzz* requires AFL proper to be installed.
 
-.. vim:ts=3 sts=3 sw=3 et
+.. vim:ft=rst ts=3 sts=3 sw=3 et

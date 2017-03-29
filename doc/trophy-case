@@ -73,3 +73,5 @@ regex__
  | https://bitbucket.org/mrabarnett/mrab-regex/issues/200/attributeerror-in-regexcompile-with-latest
 
 .. __: https://pypi.python.org/pypi/regex
+
+.. vim:ft=rst ts=3 sts=3 sw=3 et
