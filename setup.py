@@ -39,8 +39,9 @@ from distutils.command.sdist import sdist as distutils_sdist
 int(*['0'], base=0)  # Python >= 2.6 is required
 
 def get_version():
-    with io.open('doc/changelog', encoding='UTF-8') as f:
-        return f.readline().split()[1].strip('()')
+    with io.open('doc/changelog', encoding='UTF-8') as file:
+        line = file.readline()
+    return line.split()[1].strip('()')
 
 classifiers = '''
 Development Status :: 3 - Alpha
