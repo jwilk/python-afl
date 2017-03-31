@@ -28,6 +28,7 @@
 '''
 
 import glob
+import io
 import os
 import sys
 
@@ -35,14 +36,8 @@ import distutils.core
 import distutils.version
 from distutils.command.sdist import sdist as distutils_sdist
 
-def uopen(path):
-    if str is not bytes:
-        return open(path, 'rt', encoding='UTF-8')
-    else:
-        return open(path, 'rt')
-
 def get_version():
-    with uopen('doc/changelog') as f:
+    with io.open('doc/changelog', encoding='UTF-8') as f:
         return f.readline().split()[1].strip('()')
 
 classifiers = '''
