@@ -44,6 +44,7 @@ except ImportError:
 from .tools import (
     SkipTest,
     assert_true,
+    clean_environ,
     tempdir,
 )
 
@@ -90,13 +91,6 @@ def _test_fuzz(workdir, target, dumb=False):
     have_crash = False
     have_paths = False
     n_paths = 0
-    def setup_env():
-        for key in list(os.environ.keys()):
-            if key.startswith('PYTHON_AFL_'):
-                del os.environ[key]
-        os.environ['AFL_SKIP_CPUFREQ'] = '1'
-        os.environ['AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES'] = '1'
-        os.environ['AFL_NO_AFFINITY'] = '1'
     with open('/dev/null', 'wb') as devnull:
         with open(workdir + '/stdout', 'wb') as stdout:
             cmdline = ['py-afl-fuzz', '-i', input_dir, '-o', output_dir, '--', sys.executable, target, token]
@@ -107,7 +101,7 @@ def _test_fuzz(workdir, target, dumb=False):
                 cmdline,
                 stdout=stdout,
                 stdin=devnull,
-                preexec_fn=setup_env,
+                preexec_fn=clean_environ,
             )
     try:
         timeout = 10

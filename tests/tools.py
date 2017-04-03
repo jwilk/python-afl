@@ -119,6 +119,14 @@ def _n_relevant_tb_levels(tb):
         tb = tb.tb_next
     return n
 
+def clean_environ():
+    for key in list(os.environ.keys()):
+        if key.startswith('PYTHON_AFL_'):
+            del os.environ[key]
+    os.environ['AFL_SKIP_CPUFREQ'] = '1'
+    os.environ['AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES'] = '1'
+    os.environ['AFL_NO_AFFINITY'] = '1'
+
 def fork_isolation(f):
 
     EXIT_EXCEPTION = 101

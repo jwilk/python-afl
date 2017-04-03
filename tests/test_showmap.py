@@ -27,6 +27,7 @@ import sys
 from .tools import (
     assert_equal,
     assert_not_equal,
+    clean_environ,
     tempdir,
 )
 
@@ -34,16 +35,12 @@ here = os.path.dirname(__file__)
 target = here + '/target.py'
 
 def run(cmd, stdin='', xstatus=0):
-    def setup_env():
-        for key in list(os.environ.keys()):
-            if key.startswith('PYTHON_AFL_'):
-                del os.environ[key]
     child = ipc.Popen(
         list(cmd),
         stdin=ipc.PIPE,
         stdout=ipc.PIPE,
         stderr=ipc.PIPE,
-        preexec_fn=setup_env,
+        preexec_fn=clean_environ,
     )
     (stdout, stderr) = child.communicate(stdin)
     if child.returncode != xstatus:
