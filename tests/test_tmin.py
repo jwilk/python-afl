@@ -21,33 +21,16 @@
 # SOFTWARE.
 
 import os
-import subprocess as ipc
 import sys
 
 from .tools import (
     assert_equal,
-    clean_environ,
+    run,
     tempdir,
 )
 
 here = os.path.dirname(__file__)
 target = here + '/target.py'
-
-def run(cmd, stdin='', xstatus=0):
-    child = ipc.Popen(
-        list(cmd),
-        stdin=ipc.PIPE,
-        stdout=ipc.PIPE,
-        stderr=ipc.PIPE,
-        preexec_fn=clean_environ,
-    )
-    (stdout, stderr) = child.communicate(stdin)
-    if child.returncode != xstatus:
-        if str is not bytes:
-            stderr = stderr.decode('ASCII', 'replace')
-        print(stderr)
-        raise ipc.CalledProcessError(child.returncode, cmd[0])
-    return (stdout, stderr)
 
 def run_afl_tmin(input, xoutput, xstatus=0):
     with tempdir() as workdir:

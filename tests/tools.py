@@ -25,6 +25,7 @@ import functools
 import os
 import re
 import shutil
+import subprocess as ipc
 import sys
 import tempfile
 import traceback
@@ -127,6 +128,22 @@ def clean_environ():
     os.environ['AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES'] = '1'
     os.environ['AFL_NO_AFFINITY'] = '1'
 
+def run(cmd, stdin='', xstatus=0):
+    child = ipc.Popen(
+        list(cmd),
+        stdin=ipc.PIPE,
+        stdout=ipc.PIPE,
+        stderr=ipc.PIPE,
+        preexec_fn=clean_environ,
+    )
+    (stdout, stderr) = child.communicate(stdin)
+    if child.returncode != xstatus:
+        if str is not bytes:
+            stderr = stderr.decode('ASCII', 'replace')
+        print(stderr)
+        raise ipc.CalledProcessError(child.returncode, cmd[0])
+    return (stdout, stderr)
+
 def fork_isolation(f):
 
     EXIT_EXCEPTION = 101
@@ -202,6 +219,7 @@ __all__ = [
     'assert_true',
     'assert_warns_regex',
     'fork_isolation',
+    'run',
     'tempdir',
 ]
 
