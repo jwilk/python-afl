@@ -47,7 +47,7 @@ done
 
 set -e
 [ $# = 0 ] && set -- python
-[ -z $opt_build ] || \
+[ -z $opt_build ] ||
 printf '%s\n' "$@" \
 | xargs -P"$opt_jobs" -t -I'{python}' env '{python}' setup.py build --build-lib 'build/{python}'
 cd tests
