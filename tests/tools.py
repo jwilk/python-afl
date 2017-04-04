@@ -121,7 +121,7 @@ def _n_relevant_tb_levels(tb):
     return n
 
 def clean_environ():
-    for key in list(os.environ.keys()):
+    for key in list(os.environ):
         if key.startswith('PYTHON_AFL_'):
             del os.environ[key]
     os.environ['AFL_SKIP_CPUFREQ'] = '1'
