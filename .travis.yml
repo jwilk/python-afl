@@ -19,6 +19,7 @@ install:
 - make -C deps/afl-*/ install PREFIX="$PWD/deps"
 - \[ "$TRAVIS_PYTHON_VERSION" = "3.2" ] || pip install --upgrade pip
 - pip install --verbose cython${CYTHON_VERSION:+==$CYTHON_VERSION}
+- pip install pydiatra
 - pip install pyflakes
 - pip install docutils
 - pip install pygments
@@ -26,6 +27,7 @@ script:
 - python setup.py install
 - export PATH="$PWD/deps/bin:$PATH"
 - nosetests --verbose
+- \[ "$TRAVIS_PYTHON_VERSION" = "2.6" ] || private/run-pydiatra
 - private/run-pyflakes
 - \[ "$TRAVIS_PYTHON_VERSION" = "3.2" ] || private/check-rst
 
