@@ -1,0 +1,24 @@
+[MASTER]
+extension-pkg-whitelist = afl
+
+[MESSAGES CONTROL]
+disable =
+    bad-continuation,
+    duplicate-code,
+    exec-used,
+    invalid-name,
+    locally-disabled,
+    missing-docstring,
+    redefined-variable-type,
+    too-few-public-methods,
+    too-many-locals,
+
+[REPORTS]
+reports = no
+msg-template = {C}: {path}:{line}: {symbol} [{obj}] {msg}
+
+[FORMAT]
+max-line-length = 120
+expected-line-ending-format = LF
+
+# vim:ft=dosini ts=4 sts=4 sw=4 et
