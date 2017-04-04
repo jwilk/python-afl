@@ -22,13 +22,13 @@
 
 import re
 
+import afl
+
 from .tools import (
     assert_raises_regex,
     assert_warns_regex,
     fork_isolation,
 )
-
-import afl
 
 @fork_isolation
 def test_deprecated_start():

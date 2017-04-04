@@ -22,11 +22,11 @@
 
 import os
 
+import afl
+
 from .tools import (
     assert_equal
 )
-
-import afl
 
 here = os.path.dirname(__file__)
 docdir = here + '/../doc'

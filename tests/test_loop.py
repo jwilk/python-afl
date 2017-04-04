@@ -23,13 +23,13 @@
 import os
 import signal
 
+import afl
+
 from .tools import (
     assert_equal,
     assert_raises_regex,
     fork_isolation,
 )
-
-import afl
 
 def test_persistent():
     _test_persistent(None)
