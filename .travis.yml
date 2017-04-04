@@ -6,12 +6,18 @@ python:
 - "3.3"
 - "3.4"
 - "3.5"
-- "3.6"
+- "3.6-dev"
 - "3.7-dev"
 env:
 - CYTHON_VERSION=0.19
 - CYTHON_VERSION=
 cache: pip
+before_install:
+- no_pylint=true
+- \[ "$TRAVIS_PYTHON_VERSION" = 2.6 ] ||
+  \[ "$TRAVIS_PYTHON_VERSION" = 3.2 ] ||
+  [[ "$TRAVIS_PYTHON_VERSION" =~ dev ]] ||
+  no_pylint=false
 install:
 - mkdir deps
 - wget http://lcamtuf.coredump.cx/afl/releases/afl-latest.tgz -O deps/afl.tar.gz
@@ -21,6 +27,7 @@ install:
 - pip install --verbose cython${CYTHON_VERSION:+==$CYTHON_VERSION}
 - pip install pydiatra
 - pip install pyflakes
+- $no_pylint || pip install pylint
 - pip install docutils
 - pip install pygments
 script:
@@ -29,6 +36,7 @@ script:
 - nosetests --verbose
 - \[ "$TRAVIS_PYTHON_VERSION" = "2.6" ] || private/run-pydiatra
 - private/run-pyflakes
+- $no_pylint || private/run-pylint
 - \[ "$TRAVIS_PYTHON_VERSION" = "3.2" ] || private/check-rst
 
 # vim:ts=2 sts=2 sw=2 et
