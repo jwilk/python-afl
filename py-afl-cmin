@@ -1,5 +1,6 @@
 #!/bin/sh
 export AFL_SKIP_BIN_CHECK=1
+export PYTHON_AFL_SIGNAL=${PYTHON_AFL_SIGNAL:-SIGUSR1}
 if ! command -v afl-cmin > /dev/null
 then
     cat >&2 <<EOF
