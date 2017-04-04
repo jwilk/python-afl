@@ -94,7 +94,7 @@ cython_version = distutils.version.LooseVersion(cython_version)
 if cython_version < '0.19':
     raise RuntimeError('Cython >= 0.19 is required')
 
-import Cython.Build
+import Cython.Build  # pylint: disable=wrong-import-position
 
 class cmd_sdist(distutils_sdist):
 

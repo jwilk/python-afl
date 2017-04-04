@@ -149,7 +149,7 @@ def fork_isolation(f):
     EXIT_EXCEPTION = 101
     EXIT_SKIP_TEST = 102
 
-    exit = os._exit
+    exit = os._exit  # pylint: disable=redefined-builtin,protected-access
     # sys.exit() can't be used here, because nose catches all exceptions,
     # including SystemExit
 
@@ -169,7 +169,7 @@ def fork_isolation(f):
                 with os.fdopen(writefd, 'wb') as fp:
                     fp.write(s)
                 exit(EXIT_SKIP_TEST)
-            except Exception:
+            except Exception:  # pylint: disable=broad-except
                 exctp, exc, tb = sys.exc_info()
                 s = traceback.format_exception(exctp, exc, tb, _n_relevant_tb_levels(tb))
                 s = ''.join(s)

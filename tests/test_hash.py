@@ -27,7 +27,7 @@ from .tools import (
 )
 
 def test_hash():
-    h = afl._hash
+    h = afl._hash  # pylint: disable=protected-access
     assert_equal(h('', 0), 2166136261)
     assert_equal(h('', 42), 789356349)
     assert_equal(h('moo', 23), 3934561083)
