@@ -19,12 +19,14 @@ install:
 - make -C deps/afl-*/ install PREFIX="$PWD/deps"
 - \[ "$TRAVIS_PYTHON_VERSION" = "3.2" ] || pip install --upgrade pip
 - pip install --verbose cython${CYTHON_VERSION:+==$CYTHON_VERSION}
+- pip install pyflakes
 - pip install docutils
 - pip install pygments
 script:
 - python setup.py install
 - export PATH="$PWD/deps/bin:$PATH"
 - nosetests --verbose
+- private/run-pyflakes
 - \[ "$TRAVIS_PYTHON_VERSION" = "3.2" ] || private/check-rst
 
 # vim:ts=2 sts=2 sw=2 et
