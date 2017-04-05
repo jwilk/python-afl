@@ -1,4 +1,4 @@
-python-afl (0.6) UNRELEASED; urgency=low
+python-afl (0.6) unstable; urgency=low
 
   * Add py-afl-cmin.
     Thanks to @jabdoa2 for the bug report.
@@ -9,7 +9,7 @@ python-afl (0.6) UNRELEASED; urgency=low
   * Improve the test suite.
   * Update URLs in trophy-case.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Wed, 05 Apr 2017 12:50:39 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Wed, 05 Apr 2017 13:28:37 +0200
 
 python-afl (0.5.5) unstable; urgency=low
 
