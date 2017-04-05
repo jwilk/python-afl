@@ -1,4 +1,5 @@
 exclude *.c
+exclude README
 include *.pyx
 include LICENSE
 include MANIFEST.in
