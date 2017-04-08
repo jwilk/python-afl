@@ -1,3 +1,9 @@
+python-afl (0.6.1) UNRELEASED; urgency=low
+
+  * 
+
+ -- Jakub Wilk <jwilk@jwilk.net>  Sat, 08 Apr 2017 21:26:24 +0200
+
 python-afl (0.6) unstable; urgency=low
 
   * Add py-afl-cmin.
