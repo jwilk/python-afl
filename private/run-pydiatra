@@ -21,7 +21,6 @@
 # SOFTWARE.
 
 PYTHON=${PYTHON:-python}
-"$PYTHON" -m pydiatra --version > /dev/null || exit 1
 if [ $# -eq 0 ]
 then
     set -- $(find . -name '*.py')
