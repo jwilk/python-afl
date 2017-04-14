@@ -9,6 +9,7 @@ disable =
     invalid-name,
     locally-disabled,
     missing-docstring,
+    no-else-return,
     redefined-variable-type,
     too-few-public-methods,
     too-many-locals,
