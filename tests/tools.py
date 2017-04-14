@@ -201,7 +201,7 @@ def fork_isolation(f):
             elif status == 0 and msg == '':
                 pass
             else:
-                raise RuntimeError('unexpected isolated process status {}'.format(status))
+                raise RuntimeError('unexpected isolated process status {0}'.format(status))
 
     return wrapper
 
