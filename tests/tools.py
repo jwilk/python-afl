@@ -131,6 +131,7 @@ def clean_environ():
     os.environ['AFL_SKIP_CPUFREQ'] = '1'
     os.environ['AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES'] = '1'
     os.environ['AFL_NO_AFFINITY'] = '1'
+    os.environ['PWD'] = '//' + os.getcwd()
 
 def run(cmd, stdin='', xstatus=0):
     child = ipc.Popen(
