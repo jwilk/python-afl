@@ -22,7 +22,7 @@
 #cython: c_string_encoding=default
 
 '''
-American fuzzy lop fork server and instrumentation for pure-Python code
+American Fuzzy Lop fork server and instrumentation for pure-Python code
 '''
 
 __version__ = '0.6.2'

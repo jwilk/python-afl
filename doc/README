@@ -1,7 +1,7 @@
 This is experimental module that enables
-`American fuzzy lop`_ fork server and instrumentation for pure-Python code.
+`American Fuzzy Lop`_ fork server and instrumentation for pure-Python code.
 
-.. _American fuzzy lop: http://lcamtuf.coredump.cx/afl/
+.. _American Fuzzy Lop: http://lcamtuf.coredump.cx/afl/
 
 HOWTO
 -----
