@@ -1,8 +1,9 @@
 python-afl (0.6.1) UNRELEASED; urgency=low
 
   * Improve the test suite.
+    + Make the py-afl-cmin test pass when run in a subdirectory of /tmp.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Thu, 06 Jul 2017 22:40:46 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Fri, 28 Jul 2017 16:37:33 +0200
 
 python-afl (0.6) unstable; urgency=low
 
