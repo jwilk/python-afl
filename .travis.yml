@@ -25,7 +25,6 @@ install:
 - wget http://lcamtuf.coredump.cx/afl/releases/afl-latest.tgz -O deps/afl.tar.gz
 - tar -xvzf deps/afl.tar.gz -C deps/
 - make -C deps/afl-*/ install PREFIX="$PWD/deps"
-- \[ "$TRAVIS_PYTHON_VERSION" = "3.2" ] || pip install --upgrade pip
 - if [ "$TRAVIS_PYTHON_VERSION" = 3.2 ] && [ -z "$CYTHON_VERSION" ]; then CYTHON_VERSION=0.26.1; fi
 - pip install --verbose cython${CYTHON_VERSION:+==$CYTHON_VERSION}
 - pip install pydiatra
