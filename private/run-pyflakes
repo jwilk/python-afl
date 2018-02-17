@@ -24,7 +24,7 @@ PYTHON=${PYTHON:-python}
 pyflakes=$(command -v pyflakes) || { echo pyflakes not found >&2; exit 1; }
 if [ $# -eq 0 ]
 then
-    set -- $(find . -name '*.py')
+    set -- "${0%/*}/.."
 fi
 # It would be tempting to use "python -m pyflakes" here,
 # but that doesn't work in Python 2.6.
