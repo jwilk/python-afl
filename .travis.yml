@@ -44,5 +44,6 @@ script:
 - private/run-pyflakes
 - $no_pylint || private/run-pylint
 - \[ "$TRAVIS_PYTHON_VERSION" = "3.2" ] || private/check-rst
+- curl -fsS https://pypi.python.org/simple/afl/; [ $? -eq 22 ]
 
 # vim:ts=2 sts=2 sw=2 et
