@@ -40,7 +40,7 @@ script:
 - python setup.py install
 - export PATH="$PWD/deps/bin:$PATH"
 - nosetests --verbose
-- private/run-pydiatra
+- python -m pydiatra .
 - private/run-pyflakes
 - $no_pylint || private/run-pylint
 - \[ "$TRAVIS_PYTHON_VERSION" = "3.2" ] || private/check-rst
