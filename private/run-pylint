@@ -28,7 +28,7 @@ if [ $# -eq 0 ]
 then
     set -- setup.py tests/*.py
 fi
-if [ -n "${TRAVIS_PYTHON_VERSION:-}" ]
+if [ -n "${VIRTUAL_ENV:-}" ]
 then
     # https://github.com/PyCQA/pylint/issues/73
     set -- --ignored-modules=distutils "$@"
