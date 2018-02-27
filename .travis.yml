@@ -41,7 +41,7 @@ script:
 - export PATH="$PWD/deps/bin:$PATH"
 - nosetests --verbose
 - python -m pydiatra .
-- private/run-pyflakes
+- pyflakes .
 - $no_pylint || private/run-pylint
 - \[ "$TRAVIS_PYTHON_VERSION" = "3.2" ] || private/check-rst
 - curl -fsS https://pypi.python.org/simple/afl/; [ $? -eq 22 ]
