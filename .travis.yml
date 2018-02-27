@@ -33,7 +33,7 @@ install:
 - pip install --verbose cython${CYTHON_VERSION:+==$CYTHON_VERSION}
 - pip install pydiatra pyflakes
 - $no_pylint || pip install pylint
-- pip install docutils pygments
+- \[ "$TRAVIS_PYTHON_VERSION" = "3.2" ] || pip install docutils pygments
 script:
 - python setup.py install
 - export PATH="$PWD/deps/bin:$PATH"
