@@ -31,8 +31,7 @@ install:
 - make -C deps/afl-*/ install PREFIX="$PWD/deps"
 - if [ "$TRAVIS_PYTHON_VERSION" = 3.2 ] && [ -z "$CYTHON_VERSION" ]; then CYTHON_VERSION=0.26.1; fi
 - pip install --verbose cython${CYTHON_VERSION:+==$CYTHON_VERSION}
-- pip install pydiatra
-- pip install pyflakes
+- pip install pydiatra pyflakes
 - $no_pylint || pip install pylint
 - pip install docutils
 - pip install pygments
