@@ -45,6 +45,7 @@ from .tools import (
     SkipTest,
     assert_true,
     clean_environ,
+    require_commands,
     tempdir,
 )
 
@@ -55,6 +56,7 @@ if not isinstance(token, str):
     token = token.decode('ASCII')
 
 def get_afl_version():
+    require_commands('afl-fuzz')
     child = ipc.Popen(['afl-fuzz'], stdout=ipc.PIPE)
     version = child.stdout.readline()
     child.stdout.close()
@@ -80,6 +82,7 @@ def check_core_pattern():
             raise SkipTest('/proc/sys/kernel/core_pattern = ' + pattern)
 
 def _test_fuzz(workdir, target, dumb=False):
+    require_commands('py-afl-fuzz', 'afl-fuzz')
     input_dir = workdir + '/in'
     output_dir = workdir + '/out'
     os.mkdir(input_dir)

@@ -25,6 +25,7 @@ import sys
 
 from .tools import (
     assert_equal,
+    require_commands,
     run,
     tempdir,
 )
@@ -33,6 +34,7 @@ here = os.path.dirname(__file__)
 target = here + '/target.py'
 
 def run_afl_cmin(input, xoutput, crashes_only=False):
+    require_commands('py-afl-cmin', 'afl-cmin')
     input = sorted(input)
     xoutput = sorted(xoutput)
     with tempdir() as workdir:

@@ -25,6 +25,7 @@ import sys
 
 from .tools import (
     assert_equal,
+    require_commands,
     run,
     tempdir,
 )
@@ -33,6 +34,7 @@ here = os.path.dirname(__file__)
 target = here + '/target.py'
 
 def run_afl_tmin(input, xoutput, xstatus=0):
+    require_commands('py-afl-tmin', 'afl-tmin')
     with tempdir() as workdir:
         inpath = workdir + '/in'
         with open(inpath, 'wb') as file:

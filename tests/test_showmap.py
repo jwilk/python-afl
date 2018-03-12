@@ -26,6 +26,7 @@ import sys
 from .tools import (
     assert_equal,
     assert_not_equal,
+    require_commands,
     run,
     tempdir,
 )
@@ -34,6 +35,7 @@ here = os.path.dirname(__file__)
 target = here + '/target.py'
 
 def run_afl_showmap(stdin, xstdout=None, xstatus=0):
+    require_commands('py-afl-showmap', 'afl-showmap')
     with tempdir() as workdir:
         outpath = workdir + '/out'
         (stdout, stderr) = run(

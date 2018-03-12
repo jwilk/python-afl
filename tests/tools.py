@@ -134,6 +134,17 @@ def clean_environ():
     os.environ['AFL_ALLOW_TMP'] = '1'  # AFL >= 2.48b
     os.environ['PWD'] = '//' + os.getcwd()  # poor man's AFL_ALLOW_TMP for AFL << 2.48b
 
+def require_commands(*cmds):
+    PATH = os.environ.get('PATH', os.defpath)
+    PATH = PATH.split(os.pathsep)
+    for cmd in cmds:
+        for dir in PATH:
+            path = os.path.join(dir, cmd)
+            if os.access(path, os.X_OK):
+                break
+        else:
+            raise RuntimeError('{cmd} not found; is PATH set correctly?'.format(cmd=cmd))
+
 def run(cmd, stdin='', xstatus=0):
     child = ipc.Popen(
         list(cmd),
@@ -225,6 +236,7 @@ __all__ = [
     'assert_true',
     'assert_warns_regex',
     'fork_isolation',
+    'require_commands',
     'run',
     'tempdir',
 ]
