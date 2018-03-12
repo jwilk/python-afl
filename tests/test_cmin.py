@@ -62,7 +62,7 @@ def test():
     run_afl_cmin([
         b'0' * 6, b'0',
         b'X' * 7, b'1',
-        b'\xcf\x87',
+        b'\xCF\x87',
     ], [
         b'0',
         b'1',
@@ -72,9 +72,9 @@ def test_crashes_only():
     run_afl_cmin([
         b'0' * 6, b'0',
         b'X' * 7, b'1',
-        b'\xcf\x87',
+        b'\xCF\x87',
     ], [
-        b'\xcf\x87',
+        b'\xCF\x87',
     ], crashes_only=True)
 
 # vim:ts=4 sts=4 sw=4 et

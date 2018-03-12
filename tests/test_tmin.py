@@ -51,6 +51,6 @@ def test():
     run_afl_tmin(b'X' * 7, b'X')
 
 def test_exc():
-    run_afl_tmin(b'\xcf\x87', b'\x87')
+    run_afl_tmin(b'\xCF\x87', b'\x87')
 
 # vim:ts=4 sts=4 sw=4 et

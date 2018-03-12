@@ -53,7 +53,7 @@ def test_diff():
     assert_not_equal(out1, out2)
 
 def test_exception():
-    out = run_afl_showmap(b'\xff',
+    out = run_afl_showmap(b'\xFF',
         xstatus=2,
     )
     assert_not_equal(out, b'')
