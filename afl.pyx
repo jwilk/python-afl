@@ -58,12 +58,12 @@ cdef inline unsigned int lhash(const char *key, size_t offset):
     cdef size_t len = strlen(key)
     cdef uint32_t h = 0x811C9DC5
     while len > 0:
-        h ^= <unsigned char> key[0];
+        h ^= <unsigned char> key[0]
         h *= 0x01000193
         len -= 1
         key += 1
     while offset > 0:
-        h ^= <unsigned char> offset;
+        h ^= <unsigned char> offset
         h *= 0x01000193
         offset >>= 8
     return h
