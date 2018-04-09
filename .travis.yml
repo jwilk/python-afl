@@ -19,28 +19,28 @@ matrix:
     env: CYTHON_VERSION=0.19
 cache: pip
 before_install:
-- no_pylint=true
-- \[ "$TRAVIS_PYTHON_VERSION" = 2.6 ] ||
-  \[ "$TRAVIS_PYTHON_VERSION" = 3.2 ] ||
-  [[ "$TRAVIS_PYTHON_VERSION" =~ dev ]] ||
-  no_pylint=false
+- if [[ $TRAVIS_PYTHON_VERSION = 3.2 ]]; then if_pygments=:; fi
+- if [[ $TRAVIS_PYTHON_VERSION = 2.6 ]]; then if_pylint=:; fi
+- if [[ $TRAVIS_PYTHON_VERSION = 3.2 ]]; then if_pylint=:; fi
+- if [[ $TRAVIS_PYTHON_VERSION = *-dev ]]; then if_pylint=:; fi
+- if [[ $TRAVIS_PYTHON_VERSION = 3.2 ]] && [[ -z $CYTHON_VERSION ]]; then CYTHON_VERSION=0.26.1; fi
+- cython_suffix=${CYTHON_VERSION:+==$CYTHON_VERSION}
 install:
 - mkdir deps
 - wget http://lcamtuf.coredump.cx/afl/releases/afl-latest.tgz -O deps/afl.tar.gz
 - tar -xvzf deps/afl.tar.gz -C deps/
 - make -C deps/afl-*/ install PREFIX=~/.local
-- if [ "$TRAVIS_PYTHON_VERSION" = 3.2 ] && [ -z "$CYTHON_VERSION" ]; then CYTHON_VERSION=0.26.1; fi
-- pip install --verbose cython${CYTHON_VERSION:+==$CYTHON_VERSION}
+- pip install --verbose cython${cython_suffix}
 - pip install pydiatra pyflakes
-- $no_pylint || pip install pylint
-- \[ "$TRAVIS_PYTHON_VERSION" = "3.2" ] || pip install docutils pygments
+- $if_pylint pip install pylint
+- $if_pygments pip install docutils pygments
 script:
 - python setup.py install
 - nosetests --verbose
 - python -m pydiatra .
 - pyflakes .
-- $no_pylint || private/run-pylint
-- \[ "$TRAVIS_PYTHON_VERSION" = "3.2" ] || private/check-rst
+- $if_pylint private/run-pylint
+- $if_pygments private/check-rst
 - curl -fsS https://pypi.org/simple/afl/; [ $? -eq 22 ]
 
 # vim:ts=2 sts=2 sw=2 et
