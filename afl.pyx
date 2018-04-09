@@ -77,8 +77,8 @@ cdef object trace
 def trace(frame, event, arg):
     global prev_location, tstl_mode
     cdef unsigned int location, offset
-    if tstl_mode and (frame.f_code.co_filename.find("sut.py") != -1):    
-       return trace
+    if tstl_mode and (os.path.basename(frame.f_code.co_filename).find("sut.py") == 0):
+        return None
     location = (
         lhash(frame.f_code.co_filename, frame.f_lineno)
         % MAP_SIZE
@@ -103,6 +103,7 @@ def excepthook(tp, value, traceback):
     os.kill(os.getpid(), except_signal_id)
 
 cdef bint init_done = False
+cdef bint tstl_mode = False
 
 cdef int _init(bint persistent_mode) except -1:
     global afl_area, init_done, tstl_mode
