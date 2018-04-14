@@ -77,10 +77,11 @@ cdef object trace
 def trace(frame, event, arg):
     global prev_location, tstl_mode
     cdef unsigned int location, offset
-    if tstl_mode and (os.path.basename(frame.f_code.co_filename).find("sut.py") == 0):
+    cdef object filename = frame.f_code.co_filename
+    if tstl_mode and (filename[-6:] == "sut.py"):
         return None
     location = (
-        lhash(frame.f_code.co_filename, frame.f_lineno)
+        lhash(filename, frame.f_lineno)
         % MAP_SIZE
     )
     offset = location ^ prev_location
