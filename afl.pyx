@@ -78,7 +78,7 @@ def trace(frame, event, arg):
     global prev_location, tstl_mode
     cdef unsigned int location, offset
     cdef object filename = frame.f_code.co_filename
-    if tstl_mode and (filename[-7:] in ['sut.py','/sut.py'):
+    if tstl_mode and (filename[-7:] in ['sut.py','/sut.py']):
         return None
     location = (
         lhash(filename, frame.f_lineno)
