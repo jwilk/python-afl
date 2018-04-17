@@ -75,10 +75,13 @@ def _hash(key, offset):
 
 cdef object trace
 def trace(frame, event, arg):
-    global prev_location
+    global prev_location, tstl_mode
     cdef unsigned int location, offset
+    cdef object filename = frame.f_code.co_filename
+    if tstl_mode and (filename[-7:] in ['sut.py', '/sut.py']):
+        return None
     location = (
-        lhash(frame.f_code.co_filename, frame.f_lineno)
+        lhash(filename, frame.f_lineno)
         % MAP_SIZE
     )
     offset = location ^ prev_location
@@ -101,9 +104,11 @@ def excepthook(tp, value, traceback):
     os.kill(os.getpid(), except_signal_id)
 
 cdef bint init_done = False
+cdef bint tstl_mode = False
 
 cdef int _init(bint persistent_mode) except -1:
-    global afl_area, init_done
+    global afl_area, init_done, tstl_mode
+    tstl_mode = os.getenv('PYTHON_AFL_TSTL') is not None
     use_forkserver = True
     try:
         os.write(FORKSRV_FD + 1, b'\0\0\0\0')

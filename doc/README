@@ -76,6 +76,12 @@ The following environment variables affect *python-afl* behavior:
    *py-afl-fuzz* sets this variable automatically,
    so there should normally no need to set it manually.
 
+``PYTHON_AFL_TSTL``
+   `TSTL`_ test harness code is ignored if this variable is set;
+   relevant only to users of TSTL interface to python-afl.
+
+.. _TSTL: https://github.com/agroce/tstl
+
 Further reading
 ---------------
 
