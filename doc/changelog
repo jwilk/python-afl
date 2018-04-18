@@ -1,8 +1,13 @@
 python-afl (0.7) UNRELEASED; urgency=low
 
-  * 
+  [ Jakub Wilk ]
+  * Capitalize “American Fuzzy Lop” in documentation.
+  * Improve the test suite.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Wed, 18 Apr 2018 11:53:22 +0200
+  [ Alex Groce ]
+  * Add the PYTHON_AFL_TSTL environment variable.
+
+ -- Jakub Wilk <jwilk@jwilk.net>  Wed, 18 Apr 2018 11:54:21 +0200
 
 python-afl (0.6.1) unstable; urgency=low
 
