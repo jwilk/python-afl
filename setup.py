@@ -74,21 +74,19 @@ meta = dict(
     author_email='jwilk@jwilk.net',
 )
 
-if 'setuptools' in sys.modules and sys.argv[1] == 'egg_info':
-    # We wouldn't normally want setuptools; but pip forces it upon us anyway,
-    # so let's abuse it to instruct pip to install Cython if it's missing.
-    distutils.core.setup(
-        install_requires=['Cython>=0.19'],
-        # Conceptually, “setup_requires” would make more sense than
-        # “install_requires”, but the former is not supported by pip:
-        # https://github.com/pypa/pip/issues/1820
-        **meta
-    )
-    sys.exit(0)
-
 try:
     import Cython
 except ImportError:
+    # This shouldn't happen with pip >= 10, thanks to PEP-518 support.
+    # For older versions, we use this hack to trick it into installing Cython:
+    if 'setuptools' in sys.modules and sys.argv[1] == 'egg_info':
+        distutils.core.setup(
+            install_requires=['Cython>=0.19'],
+            # Conceptually, “setup_requires” would make more sense than
+            # “install_requires”, but the former is not supported by pip.
+            **meta
+        )
+        sys.exit(0)
     raise RuntimeError('Cython >= 0.19 is required')
 
 try:
