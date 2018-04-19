@@ -37,6 +37,11 @@ import distutils.version
 from distutils.command.sdist import sdist as distutils_sdist
 
 try:
+    from wheel.bdist_wheel import bdist_wheel
+except ImportError:
+    bdist_wheel = None
+
+try:
     import distutils644
 except ImportError:
     pass
@@ -113,10 +118,16 @@ class cmd_sdist(distutils_sdist):
         distutils_sdist.make_release_tree(self, base_dir, files)
         self.maybe_move_file(base_dir, 'LICENSE', 'doc/LICENSE')
 
+cmdclass = dict(
+    sdist=cmd_sdist,
+)
+if bdist_wheel is not None:
+    cmdclass.update(bdist_wheel=bdist_wheel)
+
 distutils.core.setup(
     ext_modules=Cython.Build.cythonize('afl.pyx'),
     scripts=glob.glob('py-afl-*'),
-    cmdclass=dict(sdist=cmd_sdist),
+    cmdclass=cmdclass,
     **meta
 )
 
