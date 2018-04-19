@@ -20,6 +20,7 @@
 
 #cython: autotestdict=False
 #cython: c_string_encoding=default
+#cython: cdivision=True
 
 '''
 American Fuzzy Lop fork server and instrumentation for pure-Python code
