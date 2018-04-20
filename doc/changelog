@@ -3,13 +3,18 @@ python-afl (0.7) UNRELEASED; urgency=low
   [ Jakub Wilk ]
   * Capitalize “American Fuzzy Lop” in documentation.
   * Speed up integer division and modulo operators.
+  * Improve the build system:
+    + Declare build-dependencies (as per PEP-518).
+    + Add the bdist_wheel command.
   * Improve the test suite.
-  * Add another “Further reading” link to README.
+  * Improve documentation:
+    + Add another “Further reading” link to README.
+    + Update PyPI URLs.
 
   [ Alex Groce ]
   * Add the PYTHON_AFL_TSTL environment variable.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Thu, 19 Apr 2018 17:13:25 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Fri, 20 Apr 2018 18:16:16 +0200
 
 python-afl (0.6.1) unstable; urgency=low
 
