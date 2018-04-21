@@ -1,6 +1,7 @@
 python-afl (0.7) UNRELEASED; urgency=low
 
   [ Jakub Wilk ]
+  * Fix stability issues in persistent mode.
   * Capitalize “American Fuzzy Lop” in documentation.
   * Speed up integer division and modulo operators.
   * Improve the build system:
@@ -14,7 +15,7 @@ python-afl (0.7) UNRELEASED; urgency=low
   [ Alex Groce ]
   * Add the PYTHON_AFL_TSTL environment variable.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Fri, 20 Apr 2018 18:16:16 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Sat, 21 Apr 2018 22:59:46 +0200
 
 python-afl (0.6.1) unstable; urgency=low
 
