@@ -14,6 +14,7 @@ def main():
         print('A non-zero value? How quaint!')
 
 if __name__ == '__main__':
+    ''.encode('ASCII')  # make sure the codec module is loaded before the loop
     while afl.loop():
         main()
 
