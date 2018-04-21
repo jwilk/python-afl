@@ -186,7 +186,8 @@ def loop(max=None):
 
     afl-fuzz >= 1.82b is required for this feature.
     '''
-    global persistent_allowed, persistent_counter
+    global persistent_allowed, persistent_counter, prev_location
+    prev_location = 0
     if persistent_counter == 0:
         persistent_allowed = os.getenv('PYTHON_AFL_PERSISTENT') is not None
         _init(persistent_mode=persistent_allowed)
