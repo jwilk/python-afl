@@ -202,6 +202,7 @@ def loop(max=None):
         persistent_counter += 1
         return True
     else:
+        sys.settrace(None)
         return False
 
 __all__ = [
