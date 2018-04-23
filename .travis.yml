@@ -23,7 +23,7 @@ before_install:
 - if [[ $TRAVIS_PYTHON_VERSION = 2.6 ]]; then if_pylint=:; fi
 - if [[ $TRAVIS_PYTHON_VERSION = 3.2 ]]; then if_pylint=:; fi
 - if [[ $TRAVIS_PYTHON_VERSION = *-dev ]]; then if_pylint=:; fi
-- if [[ $TRAVIS_PYTHON_VERSION = 3.2 ]] && [[ -z $CYTHON_VERSION ]]; then CYTHON_VERSION=0.26.1; fi
+- if [[ $TRAVIS_PYTHON_VERSION = 3.2 ]]; then true ${CYTHON_VERSION:=0.26.1}; fi
 - cython_suffix=${CYTHON_VERSION:+==$CYTHON_VERSION}
 install:
 - mkdir deps
