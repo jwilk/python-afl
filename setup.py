@@ -118,10 +118,16 @@ class cmd_sdist(distutils_sdist):
         distutils_sdist.make_release_tree(self, base_dir, files)
         self.maybe_move_file(base_dir, 'LICENSE', 'doc/LICENSE')
 
+def d(**kwargs):
+    return dict(
+        (k, v) for k, v in kwargs.items()
+        if v is not None
+    )
+
 distutils.core.setup(
     ext_modules=Cython.Build.cythonize('afl.pyx'),
     scripts=glob.glob('py-afl-*'),
-    cmdclass=dict(
+    cmdclass=d(
         bdist_wheel=bdist_wheel,
         sdist=cmd_sdist,
     ),
