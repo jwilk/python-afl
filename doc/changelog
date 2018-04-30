@@ -8,6 +8,11 @@ python-afl (0.7) UNRELEASED; urgency=low
     + Declare build-dependencies (as per PEP-518).
     + Add the bdist_wheel command.
   * Improve the test suite.
+    + Print helpful error message when the required command-line tools are
+      missing.
+    + Fix stability of the persistent target.
+    + Rewind stdin in the persistent target.
+      Thanks to Alex Groce for the bug report.
   * Improve documentation:
     + Add another “Further reading” link to README.
     + Update PyPI URLs.
@@ -15,7 +20,7 @@ python-afl (0.7) UNRELEASED; urgency=low
   [ Alex Groce ]
   * Add the PYTHON_AFL_TSTL environment variable.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Sat, 21 Apr 2018 22:59:46 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Mon, 30 Apr 2018 10:38:39 +0200
 
 python-afl (0.6.1) unstable; urgency=low
 
