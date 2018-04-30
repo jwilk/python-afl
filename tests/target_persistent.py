@@ -3,6 +3,7 @@ import sys
 import afl
 
 def main():
+    sys.stdin.seek(0)  # work-around for C stdio caching EOF status
     s = sys.stdin.read()
     if len(s) < 1:
         print('Hum?')
