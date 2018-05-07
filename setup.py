@@ -79,6 +79,7 @@ meta = dict(
     author_email='jwilk@jwilk.net',
 )
 
+min_cython_version = '0.19'
 try:
     import Cython
 except ImportError:
@@ -86,13 +87,13 @@ except ImportError:
     # For older versions, we use this hack to trick it into installing Cython:
     if 'setuptools' in sys.modules and sys.argv[1] == 'egg_info':
         distutils.core.setup(
-            install_requires=['Cython>=0.19'],
+            install_requires=['Cython>={v}'.format(v=min_cython_version)],
             # Conceptually, “setup_requires” would make more sense than
             # “install_requires”, but the former is not supported by pip.
             **meta
         )
         sys.exit(0)
-    raise RuntimeError('Cython >= 0.19 is required')
+    raise RuntimeError('Cython >= {v} is required'.format(v=min_cython_version))
 
 try:
     cython_version = Cython.__version__
@@ -101,8 +102,8 @@ except AttributeError:
     # Oh well. We don't support such old versions anyway.
     cython_version = '0'
 cython_version = distutils.version.LooseVersion(cython_version)
-if cython_version < '0.19':
-    raise RuntimeError('Cython >= 0.19 is required')
+if cython_version < min_cython_version:
+    raise RuntimeError('Cython >= {v} is required'.format(v=min_cython_version))
 
 import Cython.Build  # pylint: disable=wrong-import-position
 
