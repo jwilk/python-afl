@@ -43,10 +43,12 @@ DEF MAP_SIZE = 1 << MAP_SIZE_POW2
 
 from cpython.exc cimport PyErr_SetFromErrno
 from libc cimport errno
+from libc.signal cimport SIG_DFL
 from libc.stddef cimport size_t
 from libc.stdint cimport uint32_t
 from libc.stdlib cimport getenv
 from libc.string cimport strlen
+from posix.signal cimport sigaction, sigaction_t, sigemptyset
 
 cdef extern from 'sys/shm.h':
     unsigned char *shmat(int shmid, void *shmaddr, int shmflg)
@@ -123,6 +125,16 @@ cdef int _init(bint persistent_mode) except -1:
     init_done = True
     child_stopped = False
     child_pid = 0
+    cdef sigaction_t old_sigchld
+    cdef sigaction_t dfl_sigchld
+    dfl_sigchld.sa_handler = SIG_DFL
+    dfl_sigchld.sa_sigaction = NULL
+    dfl_sigchld.sa_flags = 0
+    sigemptyset(&dfl_sigchld.sa_mask)
+    if use_forkserver:
+        rc = sigaction(signal.SIGCHLD, &dfl_sigchld, &old_sigchld)
+        if rc:
+            PyErr_SetFromErrno(OSError)
     while use_forkserver:
         [child_killed] = struct.unpack('I', os.read(FORKSRV_FD, 4))
         if child_stopped and child_killed:
@@ -142,6 +154,9 @@ cdef int _init(bint persistent_mode) except -1:
         child_stopped = os.WIFSTOPPED(status)
         os.write(FORKSRV_FD + 1, struct.pack('I', status))
     if use_forkserver:
+        rc = sigaction(signal.SIGCHLD, &old_sigchld, NULL)
+        if rc:
+            PyErr_SetFromErrno(OSError)
         os.close(FORKSRV_FD)
         os.close(FORKSRV_FD + 1)
     if except_signal_id != 0:

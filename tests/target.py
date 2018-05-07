@@ -1,3 +1,4 @@
+import signal
 import sys
 
 import afl
@@ -14,6 +15,7 @@ def main():
         print('A non-zero value? How quaint!')
 
 if __name__ == '__main__':
+    signal.signal(signal.SIGCHLD, signal.SIG_IGN)  # this should have no effect on the forkserver
     afl.init()
     main()
 
