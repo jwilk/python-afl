@@ -143,7 +143,12 @@ def require_commands(*cmds):
             if os.access(path, os.X_OK):
                 break
         else:
-            raise RuntimeError('{cmd} not found; is PATH set correctly?'.format(cmd=cmd))
+            if cmd == 'ps':
+                cmd = 'ps(1)'
+                reason = 'procps installed'
+            else:
+                reason = 'PATH set correctly'
+            raise RuntimeError('{cmd} not found; is {reason}?'.format(cmd=cmd, reason=reason))
 
 def run(cmd, stdin='', xstatus=0):
     child = ipc.Popen(

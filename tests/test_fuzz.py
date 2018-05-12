@@ -137,6 +137,7 @@ def _test_fuzz(workdir, target, dumb=False):
 def stray_process_cleanup():
     # afl-fuzz doesn't always kill the target process:
     # https://groups.google.com/d/topic/afl-users/E37s4YDti7o
+    require_commands('ps')
     try:
         yield
     finally:
