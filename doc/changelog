@@ -2,8 +2,10 @@ python-afl (0.7.1) UNRELEASED; urgency=low
 
   * Reset the SIGCHLD signal handler in the forkserver.
     Thanks to Kuang-che Wu for the bug report.
+  * Improve the test suite.
+    + Improve error messages for missing command-line tools.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Mon, 07 May 2018 12:18:49 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Sat, 12 May 2018 22:41:45 +0200
 
 python-afl (0.7) unstable; urgency=low
 
