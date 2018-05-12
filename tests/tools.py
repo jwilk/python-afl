@@ -146,6 +146,8 @@ def require_commands(*cmds):
             if cmd == 'ps':
                 cmd = 'ps(1)'
                 reason = 'procps installed'
+            elif cmd.startswith('afl-'):
+                reason = 'AFL installed'
             else:
                 reason = 'PATH set correctly'
             raise RuntimeError('{cmd} not found; is {reason}?'.format(cmd=cmd, reason=reason))
