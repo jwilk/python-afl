@@ -35,6 +35,8 @@ python-afl (0.6.1) unstable; urgency=low
 
   * Improve the test suite.
     + Make the py-afl-cmin test pass when run in a subdirectory of /tmp.
+  * Improve the build system:
+    + Use distutils644 to normalize source tarball permissions etc.
 
  -- Jakub Wilk <jwilk@jwilk.net>  Fri, 28 Jul 2017 16:43:06 +0200
 
