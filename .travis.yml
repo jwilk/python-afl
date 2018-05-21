@@ -20,6 +20,9 @@ matrix:
 cache: pip
 before_install:
 - if [[ $TRAVIS_PYTHON_VERSION = 3.2 ]]; then if_pygments=:; fi
+- pyflakes=pyflakes
+- if [[ $TRAVIS_PYTHON_VERSION = 2.6 ]]; then pyflakes='pyflakes<2'; fi
+- if [[ $TRAVIS_PYTHON_VERSION = 3.[23] ]]; then pyflakes='pyflakes<2'; fi
 - if [[ $TRAVIS_PYTHON_VERSION = 2.6 ]]; then if_pylint=:; fi
 - if [[ $TRAVIS_PYTHON_VERSION = 3.2 ]]; then if_pylint=:; fi
 - if [[ $TRAVIS_PYTHON_VERSION = *-dev ]]; then if_pylint=:; fi
@@ -31,7 +34,8 @@ install:
 - tar -xvzf deps/afl.tar.gz -C deps/
 - make -C deps/afl-*/ install PREFIX=~/.local
 - pip install --verbose cython${cython_suffix}
-- pip install pycodestyle pydiatra pyflakes
+- pip install $pyflakes
+- pip install pycodestyle pydiatra
 - $if_pylint pip install pylint
 - $if_pygments pip install docutils pygments
 script:
