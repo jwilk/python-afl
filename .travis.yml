@@ -1,22 +1,18 @@
 dist: trusty
 sudo: false
 language: python
-python:
-- "2.6"
-- "2.7"
-- "3.2"
-- "3.3"
-- "3.4"
-- "3.5"
-- "3.6"
-- "3.7-dev"
-env:
-- CYTHON_VERSION=0.19
-- CYTHON_VERSION=
 matrix:
-  exclude:
+  include:
+  - python: "2.6"
+    env: CYTHON=0.19
+  - python: "2.7"
+  - python: "3.2"
+    env: CYTHON=0.19
+  - python: "3.3"
+  - python: "3.4"
+  - python: "3.5"
+  - python: "3.6"
   - python: "3.7-dev"
-    env: CYTHON_VERSION=0.19
 cache: pip
 before_install:
 - if [[ $TRAVIS_PYTHON_VERSION = 3.2 ]]; then if_pygments=:; fi
@@ -26,14 +22,13 @@ before_install:
 - if [[ $TRAVIS_PYTHON_VERSION = 2.6 ]]; then if_pylint=:; fi
 - if [[ $TRAVIS_PYTHON_VERSION = 3.2 ]]; then if_pylint=:; fi
 - if [[ $TRAVIS_PYTHON_VERSION = *-dev ]]; then if_pylint=:; fi
-- if [[ $TRAVIS_PYTHON_VERSION = 3.2 ]]; then true ${CYTHON_VERSION:=0.26.1}; fi
-- cython_suffix=${CYTHON_VERSION:+==$CYTHON_VERSION}
+- cython=cython${CYTHON:+==$CYTHON}
 install:
 - mkdir deps
 - wget http://lcamtuf.coredump.cx/afl/releases/afl-latest.tgz -O deps/afl.tar.gz
 - tar -xvzf deps/afl.tar.gz -C deps/
 - make -C deps/afl-*/ install PREFIX=~/.local
-- pip install --verbose cython${cython_suffix}
+- pip install --verbose $cython
 - pip install $pyflakes
 - pip install pycodestyle pydiatra
 - $if_pylint pip install pylint
