@@ -33,7 +33,6 @@ then
     # https://github.com/PyCQA/pylint/issues/73
     set -- --ignored-modules=distutils "$@"
 fi
-set -- --load-plugins=pylint.extensions.check_elif "$@"
 log=$(mktemp -t pylint.XXXXXX)
 "$PYTHON" -m pylint "$@" > "$log" || [ $? != 1 ]
 ! grep '^\w:' "$log" \
