@@ -25,8 +25,7 @@ usage()
     printf 'Usage: %s [--no-build] [pythonX.Y...]\n' "$0"
 }
 
-args=$(getopt -n "$0" -o 'hj:' --long 'help,jobs:,no-build' -- "$@")
-if [ $? -ne 0 ]
+if ! args=$(getopt -n "$0" -o 'hj:' --long 'help,jobs:,no-build' -- "$@")
 then
     usage >&2
     exit 1
