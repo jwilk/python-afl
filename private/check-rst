@@ -28,6 +28,7 @@ root=${root#private/../}
 rst2xml=$(command -v rst2xml) \
 || rst2xml=$(command -v rst2xml.py) \
 || { printf 'rst2xml not found\n' >&2; exit 1; }
+rst2xml=${rst2xml##*/}
 options='--input-encoding=UTF-8 --strict'
 if [ $# -eq 0 ]
 then
