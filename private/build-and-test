@@ -20,6 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+set -e -u
+
 usage()
 {
     printf 'Usage: %s [--no-build] [pythonX.Y...]\n' "$0"
@@ -44,7 +46,6 @@ do
     esac
 done
 
-set -e
 [ $# = 0 ] && set -- python
 [ -z $opt_build ] ||
 printf '%s\n' "$@" \
