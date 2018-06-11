@@ -28,7 +28,7 @@ root=${root:-.}
 rst2xml=$(command -v rst2xml) \
 || rst2xml=$(command -v rst2xml.py) \
 || { printf 'rst2xml not found\n' >&2; exit 1; }
-options='--input-encoding=UTF-8 --output-encoding=UTF-8 --strict'
+options='--input-encoding=UTF-8 --strict'
 if [ $# -eq 0 ]
 then
     grep -rwl 'ft[=]rst' "$root"
