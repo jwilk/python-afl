@@ -32,6 +32,12 @@ rst2xml=${rst2xml##*/}
 options='--input-encoding=UTF-8 --strict'
 if [ $# -eq 0 ]
 then
+    print_desc='python setup.py --long-description'
+    echo "(cd ${root:-.} && $print_desc) | $rst2xml $options - /dev/null" >&2
+    (cd "${root:-.}" && $print_desc) | "$rst2xml" $options - /dev/null || exit 1
+fi
+if [ $# -eq 0 ]
+then
     grep -rwl ft=rst "${root}doc/"
 else
     printf '%s\n' "$@"
