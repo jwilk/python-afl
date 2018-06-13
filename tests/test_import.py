@@ -29,6 +29,9 @@ from .tools import (
 exports = [
     'init',
     'loop',
+    'hash32',
+    'trace_offset',
+    'install_default_trace',
 ]
 
 deprecated = [

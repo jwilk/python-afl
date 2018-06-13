@@ -108,6 +108,17 @@ def trace(frame, event, arg):
     # TODO: make it configurable which modules are instrumented, and which are not
     return trace
 
+
+cdef object _trace_offset
+def _trace_offset(offset, ignore_prev, preserve_prev):
+    global prev_location, tstl_mode
+    location = (offset % MAP_SIZE)
+    offset = location ^ prev_location if not ignore_prev else location
+    if not preserve_prev:
+        prev_location = location // 2
+    afl_area[offset] += 1
+
+
 cdef int except_signal_id = 0
 cdef object except_signal_name = os.getenv('PYTHON_AFL_SIGNAL') or '0'
 if except_signal_name.isdigit():
@@ -235,9 +246,25 @@ def loop(max=None):
         sys.settrace(None)
         return False
 
+
+def hash32(buff, offset=0):
+    return lhash(buff, offset)
+
+
+def trace_offset(offset, ignore_prev=False, preserve_prev=False):
+    _trace_offset(offset, ignore_prev, preserve_prev)
+
+
+def install_default_trace():
+    sys.settrace(trace)
+
+
 __all__ = [
     'init',
     'loop',
+    'hash32',
+    'trace_offset',
+    'install_default_trace',
 ]
 
 # vim:ts=4 sts=4 sw=4 et
