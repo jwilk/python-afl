@@ -38,7 +38,7 @@ then
 fi
 if [ $# -eq 0 ]
 then
-    grep -rwl 'ft=rst' "${root}doc/"
+    grep -rwl 'ft=rst' "${root}doc"
 else
     printf '%s\n' "$@"
 fi |
