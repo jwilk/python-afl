@@ -34,6 +34,7 @@ install:
 - $if_pylint pip install pylint
 - $if_pygments pip install docutils pygments
 script:
+- dpkg-parsechangelog -ldoc/changelog --all 2>&1 >/dev/null | { ! grep .; }
 - python setup.py install
 - nosetests --verbose
 - pycodestyle .
