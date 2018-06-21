@@ -1,4 +1,4 @@
-python-afl (0.7.1) UNRELEASED; urgency=low
+python-afl (0.7.1) unstable; urgency=low
 
   * Reset the SIGCHLD signal handler in the forkserver.
     Thanks to Kuang-che Wu for the bug report.
@@ -8,7 +8,7 @@ python-afl (0.7.1) UNRELEASED; urgency=low
   * Explicitly set Cython's Python language level to 2.
     This might fix build failures with future versions of Cython.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Tue, 29 May 2018 23:40:05 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Thu, 21 Jun 2018 23:17:56 +0200
 
 python-afl (0.7) unstable; urgency=low
 
