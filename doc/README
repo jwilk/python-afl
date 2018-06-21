@@ -43,7 +43,7 @@ HOWTO
   You shouldn't call ``afl.init()`` in this case.
 
   If you read input from ``sys.stdin``,
-  you must rewind it before each loop iteration:
+  you must rewind it in every loop iteration:
 
   .. code:: python
 
