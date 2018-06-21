@@ -2,6 +2,7 @@ python-afl (0.7.1) UNRELEASED; urgency=low
 
   * Reset the SIGCHLD signal handler in the forkserver.
     Thanks to Kuang-che Wu for the bug report.
+  * Document that sys.stdin rewinding is necessary in persistent mode.
   * Improve the test suite.
     + Improve error messages for missing command-line tools.
   * Explicitly set Cython's Python language level to 2.
