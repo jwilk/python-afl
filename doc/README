@@ -42,6 +42,13 @@ HOWTO
 
   You shouldn't call ``afl.init()`` in this case.
 
+  If you read input from ``sys.stdin``,
+  you must rewind it before each loop iteration:
+
+  .. code:: python
+
+     sys.stdin.seek(0)
+
   afl-fuzz ≥ 1.82b is required for this feature.
 
 * Use *py-afl-fuzz* instead of *afl-fuzz*::
