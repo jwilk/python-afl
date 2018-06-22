@@ -79,7 +79,7 @@ meta = dict(
     author_email='jwilk@jwilk.net',
 )
 
-min_cython_version = '0.19'
+min_cython_version = '0.19.1'
 try:
     import Cython
 except ImportError:
