@@ -1,6 +1,6 @@
 # encoding=UTF-8
 
-# Copyright © 2015-2017 Jakub Wilk <jwilk@jwilk.net>
+# Copyright © 2018 Jakub Wilk <jwilk@jwilk.net>
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the “Software”), to deal
@@ -20,38 +20,20 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import sys
+
 import afl
 
-from .tools import (
-    assert_equal,
-)
+# pylint: disable=unsupported-assignment-operation
 
-exports = [
-    'init',
-    'loop',
-    'trace_map',
-]
+def main():
+    s = sys.stdin.read()
+    s.encode('ASCII')
+    for c in s:
+        afl.trace_map[ord(c)] += 1
 
-deprecated = [
-    'start',
-]
-
-def wildcard_import(mod):
-    ns = {}
-    exec('from {mod} import *'.format(mod=mod), {}, ns)
-    return ns
-
-def test_wildcard_import():
-    ns = wildcard_import('afl')
-    assert_equal(
-        sorted(ns.keys()),
-        sorted(exports)
-    )
-
-def test_dir():
-    assert_equal(
-        sorted(o for o in dir(afl) if not o.startswith('_')),
-        sorted(exports + deprecated)
-    )
+if __name__ == '__main__':
+    afl.init()
+    main()
 
 # vim:ts=4 sts=4 sw=4 et
