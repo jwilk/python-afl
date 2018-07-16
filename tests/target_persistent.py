@@ -28,7 +28,7 @@ import afl
 def main():
     sys.stdin.seek(0)  # work-around for C stdio caching EOF status
     s = sys.stdin.read()
-    if len(s) < 1:
+    if not s:
         print('Hum?')
         sys.exit(1)
     s.encode('ASCII')

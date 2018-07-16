@@ -27,7 +27,7 @@ import afl
 
 def main():
     s = sys.stdin.read()
-    if len(s) < 1:
+    if not s:
         print('Hum?')
         sys.exit(1)
     s.encode('ASCII')
