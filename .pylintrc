@@ -15,6 +15,7 @@ disable =
     subprocess-popen-preexec-fn,
     too-few-public-methods,
     too-many-locals,
+    useless-object-inheritance,
 
 [REPORTS]
 reports = no
