@@ -12,6 +12,7 @@ disable =
     missing-docstring,
     no-else-return,
     redefined-variable-type,
+    subprocess-popen-preexec-fn,
     too-few-public-methods,
     too-many-locals,
 
