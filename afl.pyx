@@ -191,8 +191,8 @@ def init():
 
     Start the fork server and enable instrumentation.
 
-    This function should be called as late as possible, but before the input is
-    read, and before any threads are started.
+    This function should be called as late as possible,
+    but before the input is read.
     '''
     _init(persistent_mode=False)
 
