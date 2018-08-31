@@ -55,7 +55,7 @@ gunicorn__
 
  | https://github.com/benoitc/gunicorn/issues/1023
 
-.. __: http://gunicorn.org/
+.. __: https://gunicorn.org/
 
 dateutil__
 ----------
