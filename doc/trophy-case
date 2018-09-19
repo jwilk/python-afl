@@ -48,7 +48,7 @@ PyASN.1__
 
  | https://github.com/pyca/cryptography/issues/1838
 
-.. __: http://pyasn1.sourceforge.net/
+.. __: http://snmplabs.com/pyasn1
 
 gunicorn__
 ----------
