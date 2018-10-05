@@ -19,6 +19,7 @@ disable =
 
 [REPORTS]
 reports = no
+score = no
 msg-template = {C}: {path}:{line}: {symbol} [{obj}] {msg}
 
 [FORMAT]
