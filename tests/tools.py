@@ -41,6 +41,9 @@ from nose.tools import (
     assert_true,
 )
 
+def assert_fail(msg):
+    assert_true(False, msg=msg)  # pylint: disable=redundant-unittest-assert
+
 def noseimport(vmaj, vmin, name=None):
     def wrapper(f):
         if f.__module__ == 'unittest.case':
@@ -59,7 +62,7 @@ class assert_raises(object):
         return self
     def __exit__(self, exc_type, exc_value, tb):
         if exc_type is None:
-            assert_true(False, '{0} not raised'.format(self._exc_type.__name__))
+            assert_fail('{0} not raised'.format(self._exc_type.__name__))
         if not issubclass(exc_type, self._exc_type):
             return False
         if isinstance(exc_value, exc_type):
@@ -92,7 +95,7 @@ def assert_regex(text, regex):
         regex = re.compile(regex)
     if not regex.search(text):
         message = "Regex didn't match: {0!r} not found in {1!r}".format(regex.pattern, text)
-        assert_true(False, msg=message)
+        assert_fail(msg=message)
 
 @noseimport(3, 2)
 @contextlib.contextmanager
@@ -110,9 +113,9 @@ def assert_warns_regex(exc_type, regex):
         if re.search(regex, str(w)):
             return
     if firstw is None:
-        assert_true(False, msg='{exc} not triggered'.format(exc=exc_type.__name__))
+        assert_fail(msg='{exc} not triggered'.format(exc=exc_type.__name__))
     else:
-        assert_true(False, msg='{exc!r} does not match {re!r}'.format(exc=str(firstw), re=regex))
+        assert_fail(msg='{exc!r} does not match {re!r}'.format(exc=str(firstw), re=regex))
 
 class IsolatedError(Exception):
     pass
