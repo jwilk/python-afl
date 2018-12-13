@@ -37,7 +37,6 @@ log=$(mktemp -t pylint.XXXXXX)
 "$PYTHON" -m pylint "$@" > "$log" || [ $? != 1 ]
 ! grep -P '^\S+:' "$log" \
 | grep -v -P ": redefined-builtin \\[.*\\] Redefining built-in '(file|dir|input)'$" \
-| grep -v -P ": redundant-unittest-assert \\[.*\\] Redundant use of assertTrue with constant value False$" \
 | grep -v -P ": superfluous-parens \\[.*\\] Unnecessary parens after u?'print' keyword$" \
 | LC_ALL=C sort -k2 \
 | grep '.' || exit 1
