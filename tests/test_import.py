@@ -35,6 +35,8 @@ deprecated = [
     'start',
 ]
 
+# pylint: disable=exec-used
+
 def wildcard_import(mod):
     ns = {}
     exec('from {mod} import *'.format(mod=mod), {}, ns)
