@@ -89,6 +89,11 @@ The following environment variables affect *python-afl* behavior:
 
 .. _TSTL: https://github.com/agroce/tstl
 
+Bugs
+----
+
+Multi-threaded code is not supported.
+
 Further reading
 ---------------
 
