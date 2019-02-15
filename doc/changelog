@@ -1,8 +1,9 @@
 python-afl (0.7.2) UNRELEASED; urgency=low
 
-  * 
+  * Document that multi-threaded code is not supported.
+  * Update URLs in the trophy-case.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Thu, 21 Jun 2018 23:25:36 +0200
+ -- Jakub Wilk <jwilk@jwilk.net>  Fri, 15 Feb 2019 15:28:26 +0100
 
 python-afl (0.7.1) unstable; urgency=low
 
@@ -58,7 +59,7 @@ python-afl (0.6) unstable; urgency=low
     Bare afl-showmap and afl-tmin were broken since 0.5.
   * Put license into a separate file.
   * Improve the test suite.
-  * Update URLs in trophy-case.
+  * Update URLs in the trophy-case.
 
  -- Jakub Wilk <jwilk@jwilk.net>  Wed, 05 Apr 2017 13:28:37 +0200
 
