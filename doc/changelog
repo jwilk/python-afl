@@ -1,9 +1,9 @@
-python-afl (0.7.2) UNRELEASED; urgency=low
+python-afl (0.7.2) unstable; urgency=low
 
   * Document that multi-threaded code is not supported.
   * Update URLs in the trophy-case.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Fri, 15 Feb 2019 15:28:26 +0100
+ -- Jakub Wilk <jwilk@jwilk.net>  Fri, 15 Feb 2019 15:31:23 +0100
 
 python-afl (0.7.1) unstable; urgency=low
 
