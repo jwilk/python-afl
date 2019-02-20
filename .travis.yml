@@ -1,6 +1,6 @@
 dist: trusty
 language: python
-matrix:
+jobs:
   include:
   - python: "2.6"
     env: CYTHON=0.19
