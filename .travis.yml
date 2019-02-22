@@ -32,9 +32,6 @@ install:
 - make -C deps/afl-*/ install PREFIX=~/.local
 - pip install --verbose $cython
 - pip install $pyflakes
-- if [[ $TRAVIS_PYTHON_VERSION = *-dev ]]; then
-    printf '\n\n    CONSTANT = ignore\n' >> $VIRTUAL_ENV/lib/python*/site-packages/pyflakes/checker.py;
-  fi
 - pip install pycodestyle pydiatra
 - $if_pylint pip install pylint
 - $if_pygments pip install docutils pygments
