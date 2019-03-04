@@ -9,6 +9,7 @@ disable =
     invalid-name,
     locally-disabled,
     missing-docstring,
+    no-else-raise,
     no-else-return,
     redefined-variable-type,
     subprocess-popen-preexec-fn,
