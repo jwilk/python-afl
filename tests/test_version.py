@@ -20,6 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import io
 import os
 
 import afl
@@ -31,15 +32,9 @@ from .tools import (
 here = os.path.dirname(__file__)
 docdir = here + '/../doc'
 
-def uopen(path):
-    if str is not bytes:
-        return open(path, 'rt', encoding='UTF-8')
-    else:
-        return open(path, 'rt')
-
 def test_changelog():
     path = docdir + '/changelog'
-    with uopen(path) as file:
+    with io.open(path, 'rt', encoding='UTF-8') as file:
         line = file.readline()
     changelog_version = line.split()[1].strip('()')
     assert_equal(changelog_version, afl.__version__)
