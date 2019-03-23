@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 # Copyright © 2016-2019 Jakub Wilk <jwilk@jwilk.net>
 #
@@ -21,6 +21,7 @@
 # SOFTWARE.
 
 set -e -u
+set -o pipefail
 here=${0%/*}
 here=${here#./}
 root="$here/../"
