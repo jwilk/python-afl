@@ -34,7 +34,7 @@ if [ $# -eq 0 ]
 then
     print_desc='python setup.py --long-description'
     echo "(cd ${root:-.} && $print_desc) | $rst2xml $options - /dev/null" >&2
-    (cd "${root:-.}" && $print_desc) | "$rst2xml" $options - /dev/null || exit 1
+    (cd "${root:-.}" && $print_desc) | "$rst2xml" $options - /dev/null
 fi
 if [ $# -eq 0 ]
 then
