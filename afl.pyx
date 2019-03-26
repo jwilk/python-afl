@@ -68,6 +68,7 @@ cdef extern from 'signal.h':
 cdef extern from 'sys/shm.h':
     unsigned char *shmat(int shmid, void *shmaddr, int shmflg)
 
+trace_map = None
 cdef unsigned char *afl_area = NULL
 cdef unsigned int prev_location = 0
 
@@ -125,7 +126,7 @@ cdef bint init_done = False
 cdef bint tstl_mode = False
 
 cdef int _init(bint persistent_mode) except -1:
-    global afl_area, init_done, tstl_mode
+    global afl_area, trace_map, init_done, tstl_mode
     tstl_mode = os.getenv('PYTHON_AFL_TSTL') is not None
     use_forkserver = True
     try:
@@ -182,6 +183,8 @@ cdef int _init(bint persistent_mode) except -1:
     afl_area = shmat(int(afl_shm_id), NULL, 0)
     if afl_area == <void*> -1:
         PyErr_SetFromErrno(OSError)
+    cdef unsigned char[:] cy_trace_map = <unsigned char[:MAP_SIZE]> afl_area
+    trace_map = cy_trace_map
     sys.settrace(trace)
     return 0
 
@@ -238,6 +241,7 @@ def loop(max=None):
 __all__ = [
     'init',
     'loop',
+    'trace_map',
 ]
 
 # vim:ts=4 sts=4 sw=4 et

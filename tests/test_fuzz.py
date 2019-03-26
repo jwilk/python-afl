@@ -169,6 +169,8 @@ def test_fuzz(dumb=False):
                 )
     yield t, 'target.py'
     yield t, 'target_persistent.py'
+    if not dumb:
+        yield t, 'target_trace_map.py'
 
 def test_fuzz_dumb():
     if get_afl_version() < '1.95':
