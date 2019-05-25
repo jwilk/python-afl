@@ -1,20 +1,21 @@
-dist: trusty
+dist: xenial
 language: python
 jobs:
   include:
   - python: "2.6"
     env: CYTHON=0.19
+    dist: trusty
   - python: "2.7"
   - python: "3.2"
     env: CYTHON=0.19
+    dist: trusty
   - python: "3.3"
+    dist: trusty
   - python: "3.4"
   - python: "3.5"
   - python: "3.6"
   - python: "3.7"
-    dist: xenial
   - python: "3.8-dev"
-    dist: xenial
 cache: pip
 before_install:
 - if [[ $TRAVIS_PYTHON_VERSION = 3.2 ]]; then if_pygments=:; fi
