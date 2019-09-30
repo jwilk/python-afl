@@ -5,6 +5,7 @@ load-plugins = pylint.extensions.check_elif
 [MESSAGES CONTROL]
 disable =
     bad-continuation,
+    bad-option-value,
     duplicate-code,
     invalid-name,
     locally-disabled,
