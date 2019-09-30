@@ -212,7 +212,6 @@ def fork_isolation(f):
             os.close(writefd)
             with os.fdopen(readfd, 'rb') as fp:
                 msg = fp.read()
-            msg = msg
             if not isinstance(msg, str):
                 msg = msg.decode('UTF-8')
             msg = msg.rstrip('\n')
