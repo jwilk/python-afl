@@ -53,7 +53,7 @@ HOWTO
 
 * Use *py-afl-fuzz* instead of *afl-fuzz*::
 
-      $ py-afl-fuzz [options] -- /path/to/fuzzed/python/script [...]
+     $ py-afl-fuzz [options] -- /path/to/fuzzed/python/script [...]
 
 * The instrumentation is a bit slow at the moment,
   so you might want to enable the dumb mode (``-n``),
