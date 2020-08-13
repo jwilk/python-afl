@@ -65,6 +65,8 @@ def get_afl_version():
         version = version.decode('ASCII')
     version = re.sub(r'\x1B\[[^m]+m', '', version)
     match = re.match(r'^afl-fuzz\s+([0-9.]+)b?\b', version)
+    if match is None:
+        raise RuntimeError('could not parse AFL version')
     version = match.group(1)
     return distutils.version.StrictVersion(version)
 
