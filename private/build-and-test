@@ -50,7 +50,7 @@ done
 [ -z $opt_build ] ||
 printf '%s\n' "$@" \
 | xargs -P"$opt_jobs" -t -I'{python}' env '{python}' setup.py build --build-lib 'build/{python}'
-cd tests
+cd ./tests
 export PATH="$PWD/..:$PATH"
 printf '%s\n' "$@" \
 | xargs -t -I'{python}' env PYTHONPATH="$PWD/../build/{python}" '{python}' -c 'import nose; nose.main()' --verbose
