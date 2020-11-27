@@ -30,6 +30,7 @@ American Fuzzy Lop fork server and instrumentation for pure-Python code
 __version__ = '0.7.3'
 
 cdef object os, signal, struct, sys, warnings
+import dis
 import os
 import signal
 import struct
@@ -95,11 +96,20 @@ cdef object trace
 def trace(frame, event, arg):
     global prev_location, tstl_mode
     cdef unsigned int location, offset
-    cdef object filename = frame.f_code.co_filename
+    frame.f_trace_lines = True
+    frame.f_trace_opcodes = True
+    code = frame.f_code
+    filename = code.co_filename
     if tstl_mode and (filename[-7:] in ['sut.py', '/sut.py']):
         return None
+    sa = [filename, event]
+    if event == "opcode":
+        sa.append(dis.opname[code.co_code[frame.f_lasti]])
+    s = " ".join(sa)
+    cdef char *cs
+    cs = s
     location = (
-        lhash(filename, frame.f_lineno)
+        lhash(cs, frame.f_lineno)
         % MAP_SIZE
     )
     offset = location ^ prev_location
