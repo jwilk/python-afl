@@ -30,7 +30,6 @@ American Fuzzy Lop fork server and instrumentation for pure-Python code
 __version__ = '0.7.3'
 
 cdef object os, signal, struct, sys, warnings
-import dis
 import os
 import signal
 import struct
@@ -47,6 +46,7 @@ from cpython.exc cimport PyErr_SetFromErrno
 from libc cimport errno
 from libc.signal cimport SIG_DFL
 from libc.stddef cimport size_t
+from libc.stdint cimport uint8_t
 from libc.stdint cimport uint32_t
 from libc.stdlib cimport getenv
 from libc.string cimport strlen
@@ -70,7 +70,8 @@ cdef extern from 'sys/shm.h':
     unsigned char *shmat(int shmid, void *shmaddr, int shmflg)
 
 cdef unsigned char *afl_area = NULL
-cdef unsigned int prev_location = 0
+cdef uint32_t prev_location = 0
+cdef uint32_t prev_h = 0
 
 cdef inline unsigned int lhash(const char *key, size_t offset):
     # 32-bit Fowler–Noll–Vo hash function
@@ -87,6 +88,18 @@ cdef inline unsigned int lhash(const char *key, size_t offset):
         offset >>= 8
     return h
 
+cdef inline uint32_t lhash_init():
+    return 0x811C9DC5
+
+cdef inline uint32_t lhash_raw(uint32_t h, const uint8_t *key, size_t len):
+    # 32-bit Fowler–Noll–Vo hash function
+    while len > 0:
+        h ^= <uint8_t> key[0]
+        h *= 0x01000193
+        len -= 1
+        key += 1
+    return h
+
 def _hash(key, offset):
     # This function is not a part of public API.
     # It is provided only to facilitate testing.
@@ -94,23 +107,47 @@ def _hash(key, offset):
 
 cdef object trace
 def trace(frame, event, arg):
-    global prev_location, tstl_mode
-    cdef unsigned int location, offset
+    global prev_location, prev_h, tstl_mode
+
     frame.f_trace_lines = True
     frame.f_trace_opcodes = True
     code = frame.f_code
     filename = code.co_filename
+
     if tstl_mode and (filename[-7:] in ['sut.py', '/sut.py']):
         return None
-    sa = [filename, event]
+
+    # If opcode, add codes to hash
+    if prev_h == 0:
+        prev_h = lhash_init()
+
+    cdef uint8_t c_opcode
     if event == "opcode":
-        sa.append(dis.opname[code.co_code[frame.f_lasti]])
-    s = " ".join(sa)
-    cdef char *cs
-    cs = s
+        c_opcode = code.co_code[frame.f_lasti]
+        prev_h = lhash_raw(prev_h, <uint8_t*>&c_opcode, 1)
+        return trace
+
+    # Other, line/return/call, use accumulated opcodes
+    cdef uint32_t h
+    h = prev_h
+    prev_h = 0
+
+    strings = [filename]
+
+    cdef char *c_str
+    cdef ssize_t c_str_len
+    for s in strings:
+        c_str = s
+        c_str_len = len(s)
+        h = lhash_raw(h, <uint8_t*>c_str, c_str_len)
+
+    cdef uint32_t c_lineno
+    c_lineno = frame.f_lineno
+    h = lhash_raw(h, <uint8_t *>&c_lineno, 4)
+
+    cdef uint32_t location, offset
     location = (
-        lhash(cs, frame.f_lineno)
-        % MAP_SIZE
+        h % MAP_SIZE
     )
     offset = location ^ prev_location
     prev_location = location // 2
