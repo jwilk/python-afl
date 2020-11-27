@@ -21,11 +21,12 @@
 # SOFTWARE.
 
 import os
+import re
 import sys
 
 from .tools import (
-    assert_equal,
     assert_not_equal,
+    assert_regex,
     require_commands,
     run,
     tempdir,
@@ -45,7 +46,7 @@ def run_afl_showmap(stdin, xstdout=None, xstatus=0):
         )
         del stderr  # make pylint happy
         if xstdout is not None:
-            assert_equal(stdout, xstdout)
+            assert_regex(stdout, re.escape(xstdout))
         with open(outpath, 'r') as file:
             return file.read()
 
