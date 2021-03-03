@@ -32,7 +32,6 @@ python-afl (0.7) unstable; urgency=low
   * Capitalize “American Fuzzy Lop” in documentation.
   * Speed up integer division and modulo operators.
   * Improve the build system:
-    + Declare build-dependencies (as per PEP-518).
     + Add the bdist_wheel command.
   * Improve the test suite.
     + Print helpful error message when the required command-line tools are
