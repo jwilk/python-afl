@@ -28,6 +28,7 @@ before_install:
 - if [[ $TRAVIS_PYTHON_VERSION = 3.[23] ]]; then if_pylint=:; fi
 - if [[ $TRAVIS_PYTHON_VERSION = *-dev ]]; then if_pylint=:; fi
 - cython=cython${CYTHON:+==$CYTHON}
+- if [[ $TRAVIS_PYTHON_VERSION = 3.10-* ]]; then pip install --upgrade --no-deps --force-reinstall --no-binary ':all:' nose; fi
 install:
 - mkdir deps
 - wget http://lcamtuf.coredump.cx/afl/releases/afl-latest.tgz -O deps/afl.tar.gz
