@@ -17,6 +17,7 @@ jobs:
   - python: "3.7"
   - python: "3.8"
   - python: "3.9"
+  - python: "3.10-dev"
 cache: pip
 before_install:
 - if [[ $TRAVIS_PYTHON_VERSION = 3.[234] ]]; then if_pygments=:; fi
