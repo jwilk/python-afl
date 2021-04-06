@@ -19,7 +19,7 @@ jobs:
   - python: "3.9-dev"
 cache: pip
 before_install:
-- if [[ $TRAVIS_PYTHON_VERSION = 3.2 ]]; then if_pygments=:; fi
+- if [[ $TRAVIS_PYTHON_VERSION = 3.[234] ]]; then if_pygments=:; fi
 - pyflakes=pyflakes
 - if [[ $TRAVIS_PYTHON_VERSION = 2.6 ]]; then pyflakes='pyflakes<2'; fi
 - if [[ $TRAVIS_PYTHON_VERSION = 3.[23] ]]; then pyflakes='pyflakes<2'; fi
