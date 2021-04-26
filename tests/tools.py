@@ -156,7 +156,7 @@ def require_commands(*cmds):
             raise RuntimeError('{cmd} not found; is {reason}?'.format(cmd=cmd, reason=reason))
 
 def run(cmd, stdin='', xstatus=0):
-    child = ipc.Popen(
+    child = ipc.Popen(  # pylint: disable=consider-using-with
         list(cmd),
         stdin=ipc.PIPE,
         stdout=ipc.PIPE,

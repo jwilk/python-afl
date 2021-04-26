@@ -57,7 +57,7 @@ if not isinstance(token, str):
 
 def get_afl_version():
     require_commands('afl-fuzz')
-    child = ipc.Popen(['afl-fuzz'], stdout=ipc.PIPE)
+    child = ipc.Popen(['afl-fuzz'], stdout=ipc.PIPE)  # pylint: disable=consider-using-with
     version = child.stdout.readline()
     child.stdout.close()
     child.wait()
@@ -102,7 +102,7 @@ def _test_fuzz(workdir, target, dumb=False):
             if dumb:
                 cmdline[1:1] = ['-n']
             print('$ ' + ' '.join(shell_quote(arg) for arg in cmdline))
-            afl = ipc.Popen(
+            afl = ipc.Popen(  # pylint: disable=consider-using-with
                 cmdline,
                 stdout=stdout,
                 stdin=devnull,
@@ -143,7 +143,7 @@ def stray_process_cleanup():
     try:
         yield
     finally:
-        ps = ipc.Popen(['ps', 'ax'], stdout=ipc.PIPE)
+        ps = ipc.Popen(['ps', 'ax'], stdout=ipc.PIPE)  # pylint: disable=consider-using-with
         strays = []
         for line in ps.stdout:
             if not isinstance(line, str):
