@@ -83,7 +83,7 @@ def check_core_pattern():
         if pattern.startswith('|'):
             raise SkipTest('/proc/sys/kernel/core_pattern = ' + pattern)
 
-def _test_fuzz(workdir, target, dumb=False):
+def __test_fuzz(workdir, target, dumb=False):
     require_commands('py-afl-fuzz', 'afl-fuzz')
     input_dir = workdir + '/in'
     output_dir = workdir + '/out'
@@ -160,25 +160,31 @@ def stray_process_cleanup():
                 os.kill(pid, signal.SIGKILL)
         ps.wait()
 
-def test_fuzz(dumb=False):
-    def t(target):
-        with stray_process_cleanup():
-            with tempdir() as workdir:
-                _test_fuzz(
-                    workdir=workdir,
-                    target=os.path.join(here, target),
-                    dumb=dumb,
-                )
-    yield t, 'target.py'
-    yield t, 'target_persistent.py'
+def _test_fuzz(target, dumb=False):
+    with stray_process_cleanup():
+        with tempdir() as workdir:
+            __test_fuzz(
+                workdir=workdir,
+                target=os.path.join(here, target),
+                dumb=dumb,
+            )
 
-def test_fuzz_dumb():
+def test_fuzz_nonpresistent():
+    _test_fuzz('target.py')
+
+def test_fuzz_presistent():
+    _test_fuzz('target_persistent.py')
+
+def _maybe_skip_fuzz_dumb():
     if get_afl_version() < '1.95':
-        def skip():
-            raise SkipTest('afl-fuzz >= 1.95b is required')
-    else:
-        skip = False
-    for t in test_fuzz(dumb=True):
-        yield skip or t
+        raise SkipTest('afl-fuzz >= 1.95b is required')
+
+def test_fuzz_dumb_nonpersistent():
+    _maybe_skip_fuzz_dumb()
+    _test_fuzz('target.py', dumb=True)
+
+def test_fuzz_dumb_persistent():
+    _maybe_skip_fuzz_dumb()
+    _test_fuzz('target_persistent.py', dumb=True)
 
 # vim:ts=4 sts=4 sw=4 et
