@@ -46,7 +46,7 @@ def run_afl_showmap(stdin, xstdout=None, xstatus=0):
         del stderr  # make pylint happy
         if xstdout is not None:
             assert_equal(stdout, xstdout)
-        with open(outpath, 'r') as file:
+        with open(outpath, 'rb') as file:
             return file.read()
 
 def test_diff():
