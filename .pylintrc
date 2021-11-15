@@ -6,6 +6,7 @@ load-plugins = pylint.extensions.check_elif
 disable =
     bad-continuation,
     bad-option-value,
+    consider-using-f-string,
     duplicate-code,
     invalid-name,
     locally-disabled,
