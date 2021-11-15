@@ -89,8 +89,8 @@ def _test_fuzz(workdir, target, dumb=False):
     output_dir = workdir + '/out'
     os.mkdir(input_dir)
     os.mkdir(output_dir)
-    with open(input_dir + '/in', 'w') as file:
-        file.write('0')
+    with open(input_dir + '/in', 'wb') as file:
+        file.write(b'0')
     crash_dir = output_dir + '/crashes'
     queue_dir = output_dir + '/queue'
     have_crash = False
