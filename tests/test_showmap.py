@@ -24,7 +24,7 @@ import os
 import sys
 
 from .tools import (
-    assert_equal,
+    assert_in,
     assert_not_equal,
     require_commands,
     run,
@@ -45,7 +45,9 @@ def run_afl_showmap(stdin, xstdout=None, xstatus=0):
         )
         del stderr  # make pylint happy
         if xstdout is not None:
-            assert_equal(stdout, xstdout)
+            # FIXME! This works in AFL, but not in AFL++:
+            # assert_equal(stdout, xstdout)
+            assert_in(xstdout, stdout)
         with open(outpath, 'rb') as file:
             return file.read()
 

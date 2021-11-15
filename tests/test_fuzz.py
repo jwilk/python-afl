@@ -64,7 +64,7 @@ def get_afl_version():
     if str is not bytes:
         version = version.decode('ASCII')
     version = re.sub(r'\x1B\[[^m]+m', '', version)
-    match = re.match(r'^afl-fuzz\s+([0-9.]+)b?\b', version)
+    match = re.match(r'^afl-fuzz[+\s]+([0-9.]+)[a-z]?\b', version)
     if match is None:
         raise RuntimeError('could not parse AFL version')
     version = match.group(1)
@@ -91,8 +91,6 @@ def __test_fuzz(workdir, target, dumb=False):
     os.mkdir(output_dir)
     with open(input_dir + '/in', 'wb') as file:
         file.write(b'0')
-    crash_dir = output_dir + '/crashes'
-    queue_dir = output_dir + '/queue'
     have_crash = False
     have_paths = False
     n_paths = 0
@@ -113,6 +111,12 @@ def __test_fuzz(workdir, target, dumb=False):
         while timeout > 0:
             if afl.poll() is not None:
                 break
+            for ident in '', 'default':
+                inst_out_dir = output_dir + '/' + ident
+                crash_dir = inst_out_dir + '/crashes'
+                queue_dir = inst_out_dir + '/queue'
+                if os.path.isdir(queue_dir):
+                    break
             have_crash = len(glob.glob(crash_dir + '/id:*')) >= 1
             n_paths = len(glob.glob(queue_dir + '/id:*'))
             have_paths = (n_paths == 1) if dumb else (n_paths >= 2)

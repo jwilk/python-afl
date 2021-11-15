@@ -41,6 +41,8 @@ tc = unittest.TestCase('__hash__')
 
 assert_equal = tc.assertEqual
 
+assert_in = tc.assertIn
+
 assert_not_equal = tc.assertNotEqual
 
 assert_true = tc.assertTrue
@@ -208,6 +210,7 @@ def tempdir():
 __all__ = [
     'SkipTest',
     'assert_equal',
+    'assert_in',
     'assert_not_equal',
     'assert_raises',
     'assert_raises_regex',
