@@ -1,0 +1,111 @@
+name: CI
+on:
+- push
+- pull_request
+jobs:
+  main:
+    strategy:
+      matrix:
+        include:
+        - python: '2.7'
+          os: ubuntu-18.04
+          cython: cython==0.19
+        - python: '2.7'
+          os: ubuntu-20.04
+        - python: '3.3'
+          os: ubuntu-18.04
+          cython: cython==0.19
+        - python: '3.4'
+          os: ubuntu-18.04
+        - python: '3.5'
+          os: ubuntu-18.04
+        - python: '3.6'
+          os: ubuntu-20.04
+        - python: '3.7'
+          os: ubuntu-20.04
+        - python: '3.8'
+          os: ubuntu-20.04
+        - python: '3.9'
+          os: ubuntu-20.04
+        - python: '3.10'
+          os: ubuntu-20.04
+        - python: '3.11-dev'
+          os: ubuntu-20.04
+          broken: broken
+    runs-on: ${{matrix.os}}
+    continue-on-error: ${{(matrix.broken && true) || false}}
+    steps:
+    - uses: actions/checkout@v2
+    - name: set up Python ${{matrix.python}}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{matrix.python}}
+    - name: set up pip cache
+      uses: actions/cache@v2
+      with:
+        path: ~/.cache/pip
+        key: pip-${{matrix.os}}-python${{matrix.python}}-${{matrix.cython || 'cython'}}
+    - name: build and install AFL
+      run: |
+        mkdir deps
+        wget http://lcamtuf.coredump.cx/afl/releases/afl-latest.tgz -O deps/afl.tar.gz
+        tar -xvzf deps/afl.tar.gz -C deps/
+        make -C deps/afl-*/ install PREFIX=~/.local
+    - name: install Cython
+      run:
+        python -m pip install --verbose ${{matrix.cython || 'cython'}}
+    - name: setup.py build
+      run:
+        PYTHONWARNINGS=error::FutureWarning python setup.py build
+    - name: setup.py install
+      run:
+        python setup.py install
+    - name: run tests
+      run: |
+        python -m pip install pytest
+        python -m pytest --verbose
+      if:
+        matrix.python != '3.3' &&
+        matrix.python != '3.4'
+    - name: run tests
+      run: |
+        python -m pip install nose
+        python -m nose --verbose
+      if:
+        matrix.python == '3.3' ||
+        matrix.python == '3.4'
+    - name: run pycodestyle
+      run: |
+        pip install pycodestyle
+        pycodestyle .
+    - name: run pydiatra
+      run: |
+        python -m pip install pydiatra
+        python -m pydiatra .
+    - name: run pyflakes
+      run: |
+        pyflakes=pyflakes
+        if [[ ${{matrix.python}} = 3.3 ]]; then pyflakes+='<2'; fi
+        python -m pip install $pyflakes
+        python -m pyflakes .
+    - name: run pylint
+      run: |
+        pip install pylint
+        private/run-pylint
+      if:
+        matrix.python != '3.3' &&
+        matrix.python != '3.4' &&
+        matrix.python != '3.11-dev'
+    - name: check changelog syntax
+      run:
+        dpkg-parsechangelog -ldoc/changelog --all 2>&1 >/dev/null | { ! grep .; }
+    - name: check reST syntax
+      run: |
+        pip install docutils pygments
+        private/check-rst
+    - name: check for namesquatting
+      run: |
+        set +e
+        curl -fsS https://pypi.org/simple/afl/; [ $? -eq 22 ] || exit 1
+
+# vim:ts=2 sts=2 sw=2 et
