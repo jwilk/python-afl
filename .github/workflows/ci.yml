@@ -103,6 +103,9 @@ jobs:
       run: |
         pip install docutils pygments
         private/check-rst
+  PyPI:
+    runs-on: ubuntu-latest
+    steps:
     - name: check for namesquatting
       run: |
         set +e
