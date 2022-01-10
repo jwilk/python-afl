@@ -1,9 +1,10 @@
 #!/bin/sh
 export PYTHON_AFL_SIGNAL=${PYTHON_AFL_SIGNAL:-SIGUSR1}
+prog="${0##*/}"
 if ! command -v afl-showmap > /dev/null
 then
     cat >&2 <<EOF
-$0: afl-showmap not found
+$prog: afl-showmap not found
 Is AFL <http://lcamtuf.coredump.cx/afl/> installed?
 EOF
     exit 127

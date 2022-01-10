@@ -2,10 +2,11 @@
 export AFL_SKIP_CHECKS=1 # AFL << 1.20b
 export AFL_SKIP_BIN_CHECK=1 # AFL >= 1.20b
 export AFL_DUMB_FORKSRV=1
+prog="${0##*/}"
 if [ -n "$PYTHON_AFL_DUMB" ]
 then
     # shellcheck disable=SC2016
-    printf '%s: $PYTHON_AFL_DUMB is deprecated; use -n instead\n' "$(basename "$0")" >&2
+    printf '%s: $PYTHON_AFL_DUMB is deprecated; use -n instead\n' "$prog" >&2
     set -- -n "$@"
 fi
 export PYTHON_AFL_SIGNAL=${PYTHON_AFL_SIGNAL:-SIGUSR1}
@@ -13,7 +14,7 @@ export PYTHON_AFL_PERSISTENT=1
 if ! command -v afl-fuzz > /dev/null
 then
     cat >&2 <<EOF
-$0: afl-fuzz not found
+$prog: afl-fuzz not found
 Is AFL <http://lcamtuf.coredump.cx/afl/> installed?
 EOF
     exit 127

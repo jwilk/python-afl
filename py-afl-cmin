@@ -1,10 +1,11 @@
 #!/bin/sh
 export AFL_SKIP_BIN_CHECK=1
 export PYTHON_AFL_SIGNAL=${PYTHON_AFL_SIGNAL:-SIGUSR1}
+prog="${0##*/}"
 if ! command -v afl-cmin > /dev/null
 then
     cat >&2 <<EOF
-$0: afl-cmin not found
+$prog: afl-cmin not found
 Is AFL <http://lcamtuf.coredump.cx/afl/> installed?
 EOF
     exit 127
