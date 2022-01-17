@@ -22,7 +22,6 @@
 
 set -e -u
 PYTHON=${PYTHON:-python}
-[ -n "${TRAVIS_PYTHON_VERSION:-}" ] && PYTHON=python
 "$PYTHON" -m pylint --version >/dev/null || exit 1
 if [ $# -eq 0 ]
 then
