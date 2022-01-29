@@ -1,5 +1,5 @@
 #!/bin/sh
-export PYTHON_AFL_SIGNAL=${PYTHON_AFL_SIGNAL:-SIGUSR1}
+export PYTHON_AFL_SIGNAL="${PYTHON_AFL_SIGNAL:-SIGUSR1}"
 prog="${0##*/}"
 if ! command -v afl-showmap > /dev/null
 then

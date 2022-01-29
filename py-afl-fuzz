@@ -9,7 +9,7 @@ then
     printf '%s: $PYTHON_AFL_DUMB is deprecated; use -n instead\n' "$prog" >&2
     set -- -n "$@"
 fi
-export PYTHON_AFL_SIGNAL=${PYTHON_AFL_SIGNAL:-SIGUSR1}
+export PYTHON_AFL_SIGNAL="${PYTHON_AFL_SIGNAL:-SIGUSR1}"
 export PYTHON_AFL_PERSISTENT=1
 if ! command -v afl-fuzz > /dev/null
 then
