@@ -49,7 +49,6 @@ def run_afl_cmin(input, xoutput, crashes_only=False):
         cmdline = ['py-afl-cmin', '-i', indir, '-o', outdir, '--', sys.executable, target]
         if crashes_only:
             cmdline[1:1] = ['-C']
-        print(cmdline)
         run(cmdline)
         output = []
         for n in os.listdir(outdir):

@@ -20,6 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+from __future__ import print_function
+
 import contextlib
 import functools
 import os
@@ -31,6 +33,11 @@ import tempfile
 import traceback
 import unittest
 import warnings
+
+try:
+    from shlex import quote as sh_quote
+except ImportError:
+    from pipes import quote as sh_quote
 
 SkipTest = unittest.SkipTest
 
@@ -124,8 +131,9 @@ def require_commands(*cmds):
             raise RuntimeError('{cmd} not found; is {reason}?'.format(cmd=cmd, reason=reason))
 
 def run(cmd, stdin='', xstatus=0):
+    cmd = list(cmd)
     child = ipc.Popen(  # pylint: disable=consider-using-with
-        list(cmd),
+        cmd,
         stdin=ipc.PIPE,
         stdout=ipc.PIPE,
         stderr=ipc.PIPE,
@@ -133,9 +141,19 @@ def run(cmd, stdin='', xstatus=0):
     )
     (stdout, stderr) = child.communicate(stdin)
     if child.returncode != xstatus:
-        if str is not bytes:
-            stderr = stderr.decode('ASCII', 'replace')
-        print(stderr)
+        print('command:', '\n ', *map(sh_quote, cmd))
+        def xprint(**kwargs):
+            [(name, out)] = kwargs.items()  # pylint: disable=unbalanced-tuple-unpacking
+            if not out:
+                return
+            print()
+            print(name, ':', sep='')
+            if str is not bytes:
+                out = out.decode('ASCII', 'replace')
+            for line in out.splitlines():
+                print(' ', line)
+        xprint(stdout=stdout)
+        xprint(stderr=stderr)
         raise ipc.CalledProcessError(child.returncode, cmd[0])
     return (stdout, stderr)
 
