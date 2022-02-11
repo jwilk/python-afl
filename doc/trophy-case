@@ -16,7 +16,7 @@ Multiple bugs in the plural expression parser:
  | https://github.com/jwilk/i18nspector/commit/1f6993b34ca5
  | https://github.com/jwilk/i18nspector/commit/6a76c4884d0b
 
-.. __: http://jwilk.net/software/i18nspector
+.. __: https://jwilk.net/software/i18nspector
 
 PyPDF2__
 --------

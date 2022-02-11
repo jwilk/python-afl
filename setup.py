@@ -74,7 +74,7 @@ meta = dict(
     description='American Fuzzy Lop fork server and instrumentation for pure-Python code',
     long_description=__doc__.strip(),
     classifiers=classifiers,
-    url='http://jwilk.net/software/python-afl',
+    url='https://jwilk.net/software/python-afl',
     author='Jakub Wilk',
     author_email='jwilk@jwilk.net',
 )
