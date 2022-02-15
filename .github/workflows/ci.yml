@@ -81,7 +81,7 @@ jobs:
     - name: run pydiatra
       run: |
         python -m pip install pydiatra
-        python -m pydiatra .
+        python -m pydiatra -v .
     - name: run pyflakes
       run: |
         pyflakes=pyflakes
