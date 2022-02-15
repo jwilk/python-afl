@@ -15,7 +15,7 @@ if ! command -v afl-fuzz > /dev/null
 then
     cat >&2 <<EOF
 $prog: afl-fuzz not found
-Is AFL <http://lcamtuf.coredump.cx/afl/> installed?
+Is AFL <https:://lcamtuf.coredump.cx/afl/> installed?
 EOF
     exit 127
 fi

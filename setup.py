@@ -24,7 +24,7 @@
 *python-afl* is an experimental module that enables
 `American Fuzzy Lop`_ fork server and instrumentation for pure-Python code.
 
-.. _American Fuzzy Lop: http://lcamtuf.coredump.cx/afl/
+.. _American Fuzzy Lop: https://lcamtuf.coredump.cx/afl/
 '''
 
 import glob

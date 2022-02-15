@@ -5,7 +5,7 @@ if ! command -v afl-showmap > /dev/null
 then
     cat >&2 <<EOF
 $prog: afl-showmap not found
-Is AFL <http://lcamtuf.coredump.cx/afl/> installed?
+Is AFL <https://lcamtuf.coredump.cx/afl/> installed?
 EOF
     exit 127
 fi

@@ -6,7 +6,7 @@ if ! command -v afl-cmin > /dev/null
 then
     cat >&2 <<EOF
 $prog: afl-cmin not found
-Is AFL <http://lcamtuf.coredump.cx/afl/> installed?
+Is AFL <https://lcamtuf.coredump.cx/afl/> installed?
 EOF
     exit 127
 fi
