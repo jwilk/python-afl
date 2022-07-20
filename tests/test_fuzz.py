@@ -24,7 +24,6 @@ from __future__ import print_function
 
 import base64
 import contextlib
-import distutils.version
 import glob
 import os
 import re
@@ -41,6 +40,13 @@ except ImportError:
     # Python << 3.3
     from pipes import quote as shell_quote
 
+try:
+    # Python 3
+    from itertools import izip_longest as zip_longest
+except ImportError:
+    # Pyhton 2
+    from itertools import zip_longest
+
 from .tools import (
     SkipTest,
     assert_true,
@@ -55,6 +61,22 @@ token = base64.b64encode(os.urandom(8))
 if not isinstance(token, str):
     token = token.decode('ASCII')
 
+
+def vcmp(v1, v2):
+    '''
+    cmp()-style version comparison
+    '''
+    v1 = v1.split('.')
+    v2 = v2.split('.')
+    for c1, c2 in zip_longest(v1, v2, fillvalue=0):
+        c1 = int(c1)
+        c2 = int(c2)
+        if c1 > c2:
+            return 1
+        elif c1 < c2:
+            return -1
+    return 0
+
 def get_afl_version():
     require_commands('afl-fuzz')
     child = ipc.Popen(['afl-fuzz'], stdout=ipc.PIPE)  # pylint: disable=consider-using-with
@@ -67,8 +89,7 @@ def get_afl_version():
     match = re.match(r'^afl-fuzz[+\s]+([0-9.]+)[a-z]?\b', version)
     if match is None:
         raise RuntimeError('could not parse AFL version')
-    version = match.group(1)
-    return distutils.version.StrictVersion(version)
+    return match.group(1)
 
 def sleep(n):
     time.sleep(n)
@@ -180,7 +201,7 @@ def test_fuzz_presistent():
     _test_fuzz('target_persistent.py')
 
 def _maybe_skip_fuzz_dumb():
-    if get_afl_version() < '1.95':
+    if vcmp(get_afl_version(), '1.95') < 0:
         raise SkipTest('afl-fuzz >= 1.95b is required')
 
 def test_fuzz_dumb_nonpersistent():
