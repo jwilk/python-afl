@@ -120,7 +120,7 @@ def __test_fuzz(workdir, target, dumb=False):
             cmdline = ['py-afl-fuzz', '-i', input_dir, '-o', output_dir, '--', sys.executable, target, token]
             if dumb:
                 cmdline[1:1] = ['-n']
-            print('$ ' + ' '.join(shell_quote(arg) for arg in cmdline))
+            print('$ ' + str.join(' ', map(shell_quote, cmdline)))
             afl = ipc.Popen(  # pylint: disable=consider-using-with
                 cmdline,
                 stdout=stdout,
@@ -178,7 +178,7 @@ def stray_process_cleanup():
         if strays:
             warnings.warn('stray process{es} left behind:\n{ps}'.format(
                 es=('' if len(strays) == 1 else 'es'),
-                ps=''.join(strays)
+                ps=str.join('', strays)
             ), category=RuntimeWarning)
             for line in strays:
                 pid = int(line.split()[0])

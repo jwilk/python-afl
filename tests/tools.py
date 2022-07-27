@@ -187,7 +187,7 @@ def fork_isolation(f):
             except Exception:  # pylint: disable=broad-except
                 exctp, exc, tb = sys.exc_info()
                 s = traceback.format_exception(exctp, exc, tb, _n_relevant_tb_levels(tb))
-                s = ''.join(s)
+                s = str.join('', s)
                 if not isinstance(s, bytes):
                     s = s.encode('UTF-8')
                 del tb
