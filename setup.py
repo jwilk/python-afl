@@ -81,6 +81,9 @@ meta = dict(
     author_email='jwilk@jwilk.net',
 )
 
+if os.name != 'posix':
+    raise RuntimeError('non-POSIX systems are not supported')
+
 min_cython_version = '0.19'
 try:
     import Cython
