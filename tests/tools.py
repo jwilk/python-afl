@@ -37,7 +37,7 @@ import warnings
 try:
     from shlex import quote as sh_quote
 except ImportError:
-    from pipes import quote as sh_quote
+    from pipes import quote as sh_quote  # pylint: disable=deprecated-module
 
 SkipTest = unittest.SkipTest
 

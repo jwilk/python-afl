@@ -38,7 +38,7 @@ try:
     from shlex import quote as shell_quote
 except ImportError:
     # Python << 3.3
-    from pipes import quote as shell_quote
+    from pipes import quote as shell_quote  # pylint: disable=deprecated-module
 
 try:
     # Python 3
