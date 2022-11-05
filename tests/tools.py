@@ -35,8 +35,10 @@ import unittest
 import warnings
 
 try:
+    # Python >= 3.3
     from shlex import quote as sh_quote
 except ImportError:
+    # Python << 3.3
     from pipes import quote as sh_quote  # pylint: disable=deprecated-module
 
 SkipTest = unittest.SkipTest
