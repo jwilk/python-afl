@@ -92,8 +92,7 @@ jobs:
         private/run-pylint
       if:
         matrix.python != '3.3' &&
-        matrix.python != '3.4' &&
-        matrix.python != '3.11-dev'
+        matrix.python != '3.4'
     - name: check changelog syntax
       run:
         dpkg-parsechangelog -ldoc/changelog --all 2>&1 >/dev/null | { ! grep .; }
