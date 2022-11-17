@@ -39,7 +39,7 @@ jobs:
       with:
         python-version: ${{matrix.python}}
     - name: set up pip cache
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: ~/.cache/pip
         key: pip-${{matrix.os}}-python${{matrix.python}}-${{matrix.cython || 'cython'}}
