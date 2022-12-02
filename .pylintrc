@@ -21,6 +21,13 @@ disable =
     too-many-locals,
     useless-object-inheritance,
 
+[TYPECHECK]
+# FIXME: Pylint doesn't grok setuptools' distutils.
+ignored-modules =
+    distutils.command.sdist,
+    distutils.core,
+    distutils.version,
+
 [REPORTS]
 reports = no
 score = no
