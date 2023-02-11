@@ -19,6 +19,7 @@ disable =
     subprocess-popen-preexec-fn,
     too-few-public-methods,
     too-many-locals,
+    use-dict-literal,
     useless-object-inheritance,
 
 [TYPECHECK]
