@@ -61,7 +61,6 @@ token = base64.b64encode(os.urandom(8))
 if not isinstance(token, str):
     token = token.decode('ASCII')
 
-
 def vcmp(v1, v2):
     '''
     cmp()-style version comparison
