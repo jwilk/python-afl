@@ -145,7 +145,7 @@ def run(cmd, stdin='', xstatus=0):
     if child.returncode != xstatus:
         print('command:', '\n ', *map(sh_quote, cmd))
         def xprint(**kwargs):
-            [(name, out)] = kwargs.items()  # pylint: disable=unbalanced-tuple-unpacking
+            [(name, out)] = kwargs.items()  # pylint: disable=unbalanced-tuple-unpacking,unbalanced-dict-unpacking
             if not out:
                 return
             print()
