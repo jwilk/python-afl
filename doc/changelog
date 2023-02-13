@@ -1,8 +1,19 @@
 python-afl (0.7.4) UNRELEASED; urgency=low
 
-  * 
+  * Improve the test suite:
+    + Stop using nose.
+    + Stop using deprecated distutils.version.
+    + Fix an unsound comparison between bytes and string.
+    + Add support for AFL++.
+      Thanks to Markus Linnala for the initial patch.
+    + Print debugging info when a called program fails.
+  * Fail build early non-POSIX systems.
+    https://github.com/jwilk/python-afl/issues/26
+  * Don't print full executable path in py-afl-* error messages.
+  * Use HTTPS for lcamtuf.coredump.cx.
+  * Use HTTPS for jwilk.net.
 
- -- Jakub Wilk <jwilk@jwilk.net>  Thu, 04 Mar 2021 16:00:06 +0100
+ -- Jakub Wilk <jwilk@jwilk.net>  Mon, 13 Feb 2023 15:06:55 +0100
 
 python-afl (0.7.3) unstable; urgency=low
 
