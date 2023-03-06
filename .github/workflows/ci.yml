@@ -108,12 +108,5 @@ jobs:
     - name: run shellcheck
       run: |
         shellcheck py-afl-*
-  PyPI:
-    runs-on: ubuntu-latest
-    steps:
-    - name: check for namesquatting
-      run: |
-        set +e
-        curl -fsS https://pypi.org/simple/afl/; [ $? -eq 22 ] || exit 1
 
 # vim:ts=2 sts=2 sw=2 et
