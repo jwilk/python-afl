@@ -107,7 +107,7 @@ Prerequisites
 To build the module, you will need:
 
 * Python 2.6+ or 3.2+
-* Cython ≥ 0.24 (only at build time)
+* Cython ≥ 0.28 (only at build time)
 
 *py-afl-fuzz* requires AFL proper to be installed.
 
