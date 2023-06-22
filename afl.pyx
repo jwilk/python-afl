@@ -49,21 +49,7 @@ from libc.stddef cimport size_t
 from libc.stdint cimport uint32_t
 from libc.stdlib cimport getenv
 from libc.string cimport strlen
-
-cdef extern from 'signal.h':
-    # We could use definitions from posix/signal.pxd,
-    # but these were broken before Cython 0.24.
-    ctypedef struct siginfo_t:
-        pass
-    ctypedef struct sigset_t:
-        pass
-    cdef struct sigaction_t 'sigaction':
-        void sa_handler(int)
-        void sa_sigaction(int, siginfo_t *, void *)
-        sigset_t sa_mask
-        int sa_flags
-    int sigaction(int, const sigaction_t *, sigaction_t *)
-    int sigemptyset(sigset_t *)
+from posix.signal cimport sigaction, sigaction_t, sigemptyset
 
 cdef extern from 'sys/shm.h':
     unsigned char *shmat(int shmid, void *shmaddr, int shmflg)
