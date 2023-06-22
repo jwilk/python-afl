@@ -8,10 +8,8 @@ jobs:
       matrix:
         include:
         - python: '2.7'
-          os: ubuntu-20.04
           cython: cython==0.24
         - python: '2.7'
-          os: ubuntu-20.04
         - python: '3.5'
           os: ubuntu-20.04
           cython: cython==0.24
@@ -29,13 +27,31 @@ jobs:
           os: ubuntu-22.04
         - python: '3.12-dev'
           os: ubuntu-22.04
-    runs-on: ${{matrix.os}}
+    runs-on: ${{matrix.os || 'ubuntu-latest'}}
+    container: ${{ (startsWith(matrix.python, '2.') && 'python:2.7') || null }}
+    defaults:
+      run:
+        shell: bash
     steps:
     - uses: actions/checkout@v3
+    - name: set up PATH
+      run: |
+        PATH+=:~/.local/bin
+        echo "$PATH" >> $GITHUB_PATH
     - name: set up Python ${{matrix.python}}
+      if: ${{ ! startsWith(matrix.python, '2.') }}
       uses: actions/setup-python@v4
       with:
         python-version: ${{matrix.python}}
+    - name: set up APT
+      if: ${{ startsWith(matrix.python, '2.') }}
+      run: |
+        printf 'Apt::Install-Recommends "false";\n' | tee -a /etc/apt/apt.conf
+        apt-get update
+    - name: upgrade TLS stack
+      if: ${{ startsWith(matrix.python, '2.') }}
+      run: |
+        apt-get install --only-upgrade -y ca-certificates libgnutls30
     - name: install setuptools (if distutils is missing)
       run: |
         if ! [ -d ${{env.pythonLocation}}/lib/python*/distutils/ ]; then
@@ -96,6 +112,7 @@ jobs:
         pip install docutils pygments
         private/check-rst
     - name: run shellcheck
+      if: ${{ ! startsWith(matrix.python, '2.') }}
       run: |
         shellcheck py-afl-*
 
