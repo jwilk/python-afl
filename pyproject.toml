@@ -1,7 +1,7 @@
 [build-system]
 requires = [
     'setuptools', 'wheel',  # needed only to make pip happy
-    'Cython>=0.19',
+    'Cython>=0.24',
 ]
 
 # vim:ts=4 sts=4 sw=4 et
