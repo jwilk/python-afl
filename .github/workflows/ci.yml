@@ -28,7 +28,7 @@ jobs:
         - python: '3.12-dev'
           os: ubuntu-22.04
     runs-on: ${{matrix.os || 'ubuntu-latest'}}
-    container: ${{ (startsWith(matrix.python, '2.') && 'python:2.7') || null }}
+    container: ${{ ((matrix.python == '2.7') && 'python:2.7') || null }}
     defaults:
       run:
         shell: bash
