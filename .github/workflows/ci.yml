@@ -101,9 +101,6 @@ jobs:
       run: |
         pip install pylint
         private/run-pylint
-      continue-on-error:
-        ${{ endsWith(matrix.python, '-dev') }}
-        # FIXME: tests/__init__.py:1: C: trailing-newlines [] Trailing newlines
     - name: check changelog syntax
       run:
         dpkg-parsechangelog -ldoc/changelog --all 2>&1 >/dev/null | { ! grep .; }
