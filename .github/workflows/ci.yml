@@ -39,17 +39,17 @@ jobs:
         PATH+=:~/.local/bin
         echo "$PATH" >> $GITHUB_PATH
     - name: set up Python ${{matrix.python}}
-      if: ${{ ! startsWith(matrix.python, '2.') }}
+      if: matrix.python != '2.7'
       uses: actions/setup-python@v4
       with:
         python-version: ${{matrix.python}}
     - name: set up APT
-      if: ${{ startsWith(matrix.python, '2.') }}
+      if: matrix.python == '2.7'
       run: |
         printf 'Apt::Install-Recommends "false";\n' | tee -a /etc/apt/apt.conf
         apt-get update
     - name: upgrade TLS stack
-      if: ${{ startsWith(matrix.python, '2.') }}
+      if: matrix.python == '2.7'
       run: |
         apt-get install --only-upgrade -y ca-certificates libgnutls30
     - name: install setuptools (if distutils is missing)
@@ -109,7 +109,7 @@ jobs:
         pip install docutils pygments
         private/check-rst
     - name: run shellcheck
-      if: ${{ ! startsWith(matrix.python, '2.') }}
+      if: matrix.python != '2.7'
       run: |
         shellcheck py-afl-*
 
