@@ -53,6 +53,7 @@ jobs:
       run: |
         apt-get install --only-upgrade -y ca-certificates libgnutls30
     - name: install setuptools (if distutils is missing)
+      if: env.pythonLocation
       run: |
         if ! [ -d ${{env.pythonLocation}}/lib/python*/distutils/ ]; then
           python -m pip install setuptools
