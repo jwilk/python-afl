@@ -8,8 +8,10 @@ jobs:
       matrix:
         include:
         - python: '2.7'
+          os: ubuntu-20.04
           cython: cython==0.28
         - python: '2.7'
+          os: ubuntu-20.04
         - python: '3.5'
           os: ubuntu-20.04
           cython: cython==0.28
@@ -27,11 +29,7 @@ jobs:
           os: ubuntu-22.04
         - python: '3.12-dev'
           os: ubuntu-22.04
-    runs-on: ${{matrix.os || 'ubuntu-latest'}}
-    container: ${{ ((matrix.python == '2.7') && 'python:2.7') || null }}
-    defaults:
-      run:
-        shell: bash
+    runs-on: ${{matrix.os}}
     steps:
     - uses: actions/checkout@v3
     - name: set up PATH
@@ -46,12 +44,19 @@ jobs:
     - name: set up APT
       if: matrix.python == '2.7'
       run: |
-        printf 'Apt::Install-Recommends "false";\n' | tee -a /etc/apt/apt.conf
-        apt-get update
+        printf 'Apt::Install-Recommends "false";\n' | sudo tee -a /etc/apt/apt.conf
+        sudo apt-get update
+    - name: set up Python 2.7 (with APT + get-pip)
+      if: matrix.python == '2.7'
+      run: |
+        sudo apt-get install -y python-is-python2 python2-dev
+        wget https://bootstrap.pypa.io/pip/2.7/get-pip.py -O get-pip.py
+        sudo python get-pip.py
+        rm get-pip.py
     - name: upgrade TLS stack
       if: matrix.python == '2.7'
       run: |
-        apt-get install --only-upgrade -y ca-certificates libgnutls30
+        sudo apt-get install --only-upgrade -y ca-certificates libgnutls30
     - name: install setuptools (if distutils is missing)
       if: env.pythonLocation
       run: |
@@ -77,7 +82,7 @@ jobs:
         PYTHONWARNINGS=error::FutureWarning python setup.py build
     - name: setup.py install
       run:
-        python setup.py install
+        python setup.py install --user
     - name: run tests
       run: |
         python -m pip install pytest
