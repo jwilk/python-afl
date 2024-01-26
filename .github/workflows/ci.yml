@@ -27,7 +27,7 @@ jobs:
           os: ubuntu-22.04
         - python: '3.11'
           os: ubuntu-22.04
-        - python: '3.12-dev'
+        - python: '3.12'
           os: ubuntu-22.04
     runs-on: ${{matrix.os}}
     steps:
@@ -91,10 +91,6 @@ jobs:
       run: |
         pip install pycodestyle
         pycodestyle .
-      continue-on-error:
-        ${{ endsWith(matrix.python, '-dev') }}
-        # FIXME: ./afl.pyx:196:121: E501 line too long (172 > 120 characters)
-        # https://github.com/PyCQA/pycodestyle/issues/1142
     - name: run pydiatra
       run: |
         python -m pip install pydiatra
