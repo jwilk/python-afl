@@ -64,7 +64,7 @@ jobs:
           python -m pip install setuptools
         fi
     - name: set up pip cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ~/.cache/pip
         key: pip-${{matrix.os}}-python${{matrix.python}}-${{matrix.cython || 'cython'}}
