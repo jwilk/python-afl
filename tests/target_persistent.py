@@ -32,7 +32,7 @@ def main():
         print('Hum?')
         sys.exit(1)
     s.encode('ASCII')
-    if s[0] == '0':
+    if s[0] == '0' or s[0] == '\0' or s == 'zero' or s == "zero\n":
         print('Looks like a zero to me!')
     else:
         print('A non-zero value? How quaint!')
