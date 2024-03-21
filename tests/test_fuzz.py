@@ -44,7 +44,7 @@ try:
     # Python 3
     from itertools import izip_longest as zip_longest
 except ImportError:
-    # Pyhton 2
+    # Python 2
     from itertools import zip_longest
 
 from .tools import (
@@ -193,10 +193,10 @@ def _test_fuzz(target, dumb=False):
                 dumb=dumb,
             )
 
-def test_fuzz_nonpresistent():
+def test_fuzz_nonpersistent():
     _test_fuzz('target.py')
 
-def test_fuzz_presistent():
+def test_fuzz_persistent():
     _test_fuzz('target_persistent.py')
 
 def _maybe_skip_fuzz_dumb():
