@@ -91,7 +91,7 @@ except ImportError:
     # This shouldn't happen with pip >= 10, thanks to PEP-518 support.
     # For older versions, we use this hack to trick it into installing Cython:
     if 'setuptools' in sys.modules and sys.argv[1] == 'egg_info':
-        distutils.core.setup(
+        distutils.core.setup(  # pylint: disable=no-member
             install_requires=['Cython>={v}'.format(v=min_cython_version)],
             # Conceptually, “setup_requires” would make more sense than
             # “install_requires”, but the former is not supported by pip.
@@ -106,7 +106,7 @@ except AttributeError:
     # Cython prior to 0.14 didn't have __version__.
     # Oh well. We don't support such old versions anyway.
     cython_version = '0'
-cython_version = distutils.version.LooseVersion(cython_version)
+cython_version = distutils.version.LooseVersion(cython_version)  # pylint: disable=no-member
 if cython_version < min_cython_version:
     raise RuntimeError('Cython >= {v} is required'.format(v=min_cython_version))
 
@@ -130,7 +130,7 @@ def d(**kwargs):
         if v is not None
     )
 
-distutils.core.setup(
+distutils.core.setup(  # pylint: disable=no-member
     ext_modules=Cython.Build.cythonize('afl.pyx'),
     scripts=glob.glob('py-afl-*'),
     cmdclass=d(
