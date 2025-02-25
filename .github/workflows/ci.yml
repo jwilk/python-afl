@@ -8,17 +8,13 @@ jobs:
       matrix:
         include:
         - python: '2.7'
-          os: ubuntu-20.04
+          os: ubuntu-22.04
           cython: cython==0.28
         - python: '2.7'
-          os: ubuntu-20.04
-        - python: '3.6'
-          os: ubuntu-20.04
-          cython: cython==0.28
-        - python: '3.7'
-          os: ubuntu-20.04
+          os: ubuntu-22.04
         - python: '3.8'
           os: ubuntu-22.04
+          cython: cython==0.28
         - python: '3.9'
           os: ubuntu-22.04
         - python: '3.10'
@@ -49,7 +45,8 @@ jobs:
     - name: set up Python 2.7 (with APT + get-pip)
       if: matrix.python == '2.7'
       run: |
-        sudo apt-get install -y python-is-python2 python2-dev
+        sudo apt-get install -y python2-dev
+        sudo ln -sf python2 /usr/bin/python
         wget https://bootstrap.pypa.io/pip/2.7/get-pip.py
         sudo python get-pip.py
         rm get-pip.py
