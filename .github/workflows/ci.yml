@@ -27,7 +27,7 @@ jobs:
         - python: '3.13'
           os: ubuntu-24.04
         - python: '3.14'
-          os: ubuntu-24.04
+          os: ubuntu-26.04
     runs-on: ${{matrix.os}}
     steps:
     - uses: actions/checkout@v4
